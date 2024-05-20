@@ -88,57 +88,57 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(83, 66, 54));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Room Selection");
+        jButton2.setBackground(new java.awt.Color(83, 66, 54));
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(83, 66, 54));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Room Availability");
+        jButton3.setBackground(new java.awt.Color(83, 66, 54));
         jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(83, 66, 54));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Check - In");
+        jButton4.setBackground(new java.awt.Color(83, 66, 54));
         jButton4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(83, 66, 54));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Payment");
+        jButton5.setBackground(new java.awt.Color(83, 66, 54));
         jButton5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(83, 66, 54));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Check Out");
+        jButton6.setBackground(new java.awt.Color(83, 66, 54));
         jButton6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton6.setBorderPainted(false);
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -475,11 +475,11 @@ public class dashboard extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
