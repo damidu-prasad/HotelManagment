@@ -5,6 +5,8 @@
 package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import javax.swing.JOptionPane;
+import model.MYSQL;
 
 /**
  *
@@ -323,6 +325,11 @@ public class dashboard extends javax.swing.JFrame {
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         jTextField3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 10));
         jTextField3.setPreferredSize(new java.awt.Dimension(64, 46));
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel7.setText("NIC");
@@ -499,7 +506,7 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-      
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -542,10 +549,82 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        new RoomSelection().setVisible(true);
+        String name = jTextField2.getText();
+        String mobile = jTextField1.getText();
+        String nic = jTextField3.getText();
+        String email = jTextField4.getText();
+        String country = jComboBox2.getSelectedItem().toString();
+        String region = jComboBox1.getSelectedItem().toString();
+        String address = jTextArea1.getText();
+        String description = jTextArea2.getText();
+
+        // Validate name
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Name cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate mobile
+        if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mobile number cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (!mobile.matches("^07[0-8][1-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Invalid mobile number format!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate NIC
+        if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NIC cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate email
+        if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Email cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+            JOptionPane.showMessageDialog(this, "Invalid email format!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate country
+        if (country.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Country cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate region
+        if (region.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Region cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate address
+        if (address.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Address cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Validate description
+        if (description.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Description cannot be empty!", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         
+        try {
+            MYSQL.iud("");
+        } catch (Exception e) {
+        }
+        
+        new RoomSelection().setVisible(true);
+        this.setVisible(false);
+
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
