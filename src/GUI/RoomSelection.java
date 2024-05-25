@@ -238,6 +238,11 @@ public class RoomSelection extends javax.swing.JFrame {
         jLabel6.setText("Room 1");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Twin", "Family", "Couple", "Bussiness", " " }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Standed", "Signature", "Luxury", "Romantic ", "Pet-Friendly" }));
 
@@ -449,6 +454,10 @@ public class RoomSelection extends javax.swing.JFrame {
         this.setVisible(false);
         new RoomAvailability().setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
      * @param args the command line arguments
