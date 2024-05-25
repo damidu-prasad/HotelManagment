@@ -52,38 +52,38 @@ public class Budget_planning extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hp1)nnnn 2.png"))); // NOI18N
 
-        jLabel2.setText("Accountant");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Accountant");
 
-        jButton1.setText("Financial Transaction ");
         jButton1.setBackground(new java.awt.Color(83, 66, 54));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Financial Transaction ");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Revenue Report");
         jButton2.setBackground(new java.awt.Color(83, 66, 54));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Revenue Report");
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText(" Expense Tracking");
         jButton3.setBackground(new java.awt.Color(83, 66, 54));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText(" Expense Tracking");
         jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -99,23 +99,23 @@ public class Budget_planning extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Payroll Management");
         jButton5.setBackground(new java.awt.Color(83, 66, 54));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Payroll Management");
         jButton5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Log  Out");
         jButton6.setBackground(new java.awt.Color(83, 66, 54));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Log  Out");
         jButton6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton6.setBorderPainted(false);
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -163,9 +163,9 @@ public class Budget_planning extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
-        jButton8.setText("ADD");
         jButton8.setBackground(new java.awt.Color(83, 66, 54));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("ADD");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -196,9 +196,9 @@ public class Budget_planning extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(199, 189, 177));
 
-        jLabel4.setText("Revenue");
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel4.setText("Revenue");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -219,9 +219,9 @@ public class Budget_planning extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(199, 189, 177));
 
-        jLabel7.setText("Goals");
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel7.setText("Goals");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -281,18 +281,21 @@ public class Budget_planning extends javax.swing.JFrame {
         // TODO add your handling code here:
         Financial_Transaction ft = new Financial_Transaction();
         ft.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
          Revenue_Report rreport = new Revenue_Report();
         rreport.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Expense_Tracking et = new Expense_Tracking();
         et.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -303,6 +306,7 @@ public class Budget_planning extends javax.swing.JFrame {
         // TODO add your handling code here:
         Payroll_Management pm = new Payroll_Management();
         pm.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

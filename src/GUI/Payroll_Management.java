@@ -57,45 +57,45 @@ public class Payroll_Management extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(83, 66, 54));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Financial Transaction ");
+        jButton1.setBackground(new java.awt.Color(83, 66, 54));
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(83, 66, 54));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Revenue Report");
+        jButton2.setBackground(new java.awt.Color(83, 66, 54));
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(83, 66, 54));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText(" Expense Tracking");
+        jButton3.setBackground(new java.awt.Color(83, 66, 54));
         jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(83, 66, 54));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Budget Planning");
+        jButton4.setBackground(new java.awt.Color(83, 66, 54));
         jButton4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -111,12 +111,12 @@ public class Payroll_Management extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(83, 66, 54));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Log  Out");
+        jButton6.setBackground(new java.awt.Color(83, 66, 54));
         jButton6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton6.setBorderPainted(false);
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -185,11 +185,11 @@ public class Payroll_Management extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Month", "Persional Details", "Hours worked", "Benefits", "Salary"
+                "Month", "Persional Details", "Hours worked", "Benefits", "Salary", "Total salary"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -206,6 +206,7 @@ public class Payroll_Management extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
         datePicker1.setBackground(new java.awt.Color(199, 189, 177));
@@ -269,24 +270,28 @@ public class Payroll_Management extends javax.swing.JFrame {
         // TODO add your handling code here:
         Financial_Transaction ft = new Financial_Transaction();
         ft.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Revenue_Report rreport = new Revenue_Report();
         rreport.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         Expense_Tracking et = new Expense_Tracking();
         et.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         Budget_planning bp = new Budget_planning();
         bp.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
