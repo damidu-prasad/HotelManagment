@@ -4,6 +4,13 @@
  */
 package GUI;
 
+import javax.swing.table.DefaultTableModel;
+import java.sql.ResultSet;
+import java.util.Date;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import model.MYSQL;
+
 /**
  *
  * @author mlahi
@@ -15,6 +22,60 @@ public class Payroll_Management extends javax.swing.JFrame {
      */
     public Payroll_Management() {
         initComponents();
+        payrolldataload();
+        loadMonth();
+    }
+
+    private void loadMonth() {
+        Vector<String> vector = new Vector<>(); // Use generic type for better type safety
+
+        try (ResultSet resultset = MYSQL.execute("SELECT `name` FROM `month`")) {
+            while (resultset.next()) {
+                String month = resultset.getString("name");
+                vector.add(month);
+            }
+
+            DefaultComboBoxModel<String> comboboxModel = new DefaultComboBoxModel<>(vector);
+            jComboBox1.setModel(comboboxModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //JOptionPane.showMessageDialog(null, "Error loading months: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void payrolldataload() {
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll` INNER JOIN "
+                    + "`user` ON  `user_payroll`.user_id = `user`.user_id  INNER JOIN "
+                    + "`month` ON `user_payroll`.month_id = `month`.month_id");
+
+//            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll`");
+            while (resultset.next()) {
+                String month = resultset.getString("month.name");
+                String employee = resultset.getString("user.name");
+                //String hours = resultset.getString("workingHours");
+                String benifit = resultset.getString("benifits");
+                String salary = resultset.getString("salary");
+                String totalsalery = resultset.getString("total_salary");
+
+                Vector vector = new Vector();
+                vector.add(month);
+                vector.add(employee);
+                //vector.add(hours);
+                vector.add(benifit);
+                vector.add(salary);
+                vector.add(totalsalery);
+
+                model.addRow(vector);
+
+            }
+        } catch (Exception e) {
+        }
+
     }
 
     /**
@@ -26,6 +87,7 @@ public class Payroll_Management extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dateComponentFormatter1 = new org.jdatepicker.impl.DateComponentFormatter();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -37,13 +99,11 @@ public class Payroll_Management extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        datePicker1 = new com.github.lgooddatepicker.components.DatePicker();
-        datePicker2 = new com.github.lgooddatepicker.components.DatePicker();
         jButton9 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(816, 539));
@@ -53,49 +113,49 @@ public class Payroll_Management extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hp1)nnnn 2.png"))); // NOI18N
 
-        jLabel2.setText("Accountant");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Accountant");
 
-        jButton1.setText("Financial Transaction ");
         jButton1.setBackground(new java.awt.Color(83, 66, 54));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Financial Transaction ");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Revenue Report");
         jButton2.setBackground(new java.awt.Color(83, 66, 54));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Revenue Report");
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText(" Expense Tracking");
         jButton3.setBackground(new java.awt.Color(83, 66, 54));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText(" Expense Tracking");
         jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Budget Planning");
         jButton4.setBackground(new java.awt.Color(83, 66, 54));
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("Budget Planning");
         jButton4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -111,12 +171,12 @@ public class Payroll_Management extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Log  Out");
         jButton6.setBackground(new java.awt.Color(83, 66, 54));
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Log  Out");
         jButton6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton6.setBorderPainted(false);
         jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
@@ -132,7 +192,7 @@ public class Payroll_Management extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -159,45 +219,47 @@ public class Payroll_Management extends javax.swing.JFrame {
                 .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton6)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
-        jButton7.setText("SEARCH");
         jButton7.setBackground(new java.awt.Color(83, 66, 54));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("SEARCH");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setText("To");
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        jButton8.setText("ADD");
         jButton8.setBackground(new java.awt.Color(83, 66, 54));
         jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("ADD");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
             }
         });
 
+        jTable1.setBackground(new java.awt.Color(199, 189, 177));
+        jTable1.setForeground(new java.awt.Color(255, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Month", "Persional Details", "Hours worked", "Benefits", "Salary", "Total salary"
+                "Month", "Persional Details", "Benefits", "Salary", "Total salary"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setBackground(new java.awt.Color(199, 189, 177));
-        jTable1.setForeground(new java.awt.Color(199, 189, 177));
         jTable1.setSelectionForeground(new java.awt.Color(199, 189, 177));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
@@ -206,16 +268,13 @@ public class Payroll_Management extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        datePicker1.setBackground(new java.awt.Color(199, 189, 177));
-
-        datePicker2.setBackground(new java.awt.Color(199, 189, 177));
-
-        jButton9.setText("Export Report");
         jButton9.setBackground(new java.awt.Color(83, 66, 54));
         jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("Export Report");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -224,7 +283,7 @@ public class Payroll_Management extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -233,31 +292,25 @@ public class Payroll_Management extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
                 .addComponent(jButton7)
                 .addGap(71, 71, 71))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(72, 72, 72)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
-                    .addComponent(datePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(datePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jButton8)
                 .addGap(26, 26, 26)
                 .addComponent(jButton9)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -308,6 +361,43 @@ public class Payroll_Management extends javax.swing.JFrame {
         addp.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        try {
+            String choosemonth = jComboBox1.getSelectedItem().toString();
+
+//            System.out.println(choosemonth);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setNumRows(0);
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll` INNER JOIN "
+                    + "`user` ON  `user_payroll`.user_id = `user`.user_id  INNER JOIN "
+                    + "`month` ON `user_payroll`.month_id = `month`.month_id WHERE month.name = '" + choosemonth + "'");
+
+//            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll`");
+            while (resultset.next()) {
+                
+                String month = resultset.getString("month.name");
+                String employee = resultset.getString("user.name");
+                //String hours = resultset.getString("workingHours");
+                String benifit = resultset.getString("benifits");
+                String salary = resultset.getString("salary");
+                String totalsalery = resultset.getString("total_salary");
+
+                Vector vector = new Vector();
+                vector.add(month);
+                vector.add(employee);
+                //vector.add(hours);
+                vector.add(benifit);
+                vector.add(salary);
+                vector.add(totalsalery);
+
+                model.addRow(vector);
+
+            }
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -347,8 +437,7 @@ public class Payroll_Management extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.github.lgooddatepicker.components.DatePicker datePicker1;
-    private com.github.lgooddatepicker.components.DatePicker datePicker2;
+    private org.jdatepicker.impl.DateComponentFormatter dateComponentFormatter1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -358,9 +447,9 @@ public class Payroll_Management extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

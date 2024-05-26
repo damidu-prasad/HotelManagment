@@ -4,6 +4,11 @@
  */
 package GUI;
 
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
 /**
  *
  * @author mlahi
@@ -15,8 +20,39 @@ public class Budget_planning extends javax.swing.JFrame {
      */
     public Budget_planning() {
         initComponents();
+        budgetdataload();
     }
 
+    
+    private void budgetdataload() {
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll`");
+
+            while (resultset.next()) {
+                String month = resultset.getString("month");
+                String employee = resultset.getString("employee_id");
+                String hours = resultset.getString("workingHours");
+                String benifit = resultset.getString("benifit");
+                String salary = resultset.getString("salery");
+                String totalsalery = resultset.getString("totalsalery");
+
+                Vector vector = new Vector();
+                vector.add(month);
+                vector.add(employee);
+                vector.add(hours);
+                vector.add(benifit);
+                vector.add(salary);
+                vector.add(totalsalery);
+
+                model.addRow(vector);
+
+            }
+        } catch (Exception e) {
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
