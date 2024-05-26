@@ -5,8 +5,6 @@
 package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamPanel;
 import java.io.File;
 import java.math.BigInteger;
 import java.nio.file.Files;
@@ -19,7 +17,6 @@ import model.MYSQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import model.Customer;
 
 /**
@@ -721,7 +718,7 @@ public class dashboard extends javax.swing.JFrame {
             
 
             try {
-                MYSQL.execute("")
+//                MYSQL.execute("")
             } catch (Exception e) {
             }
 
@@ -772,11 +769,7 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
-        JFrame frame = new JFrame("JavaCv Capture Driver Demo");
-        frame.add(new WebcamPanel(Webcam.getDefault()));
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
