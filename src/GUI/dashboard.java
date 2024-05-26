@@ -714,8 +714,6 @@ public class dashboard extends javax.swing.JFrame {
             SecureRandom random = new SecureRandom();
             String reservationNo = new BigInteger(130, random).toString(32);
             Customer.setReservationNo(reservationNo);
-            
-            
 
             try {
 //                MYSQL.execute("")
