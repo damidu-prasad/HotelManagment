@@ -7,6 +7,7 @@ package GUI;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import model.MYSQL;
 
 /**
@@ -26,6 +27,7 @@ public class Add_payroll extends javax.swing.JFrame {
         Vector<String> vector = new Vector<>(); // Use generic type for better type safety
 
         try (ResultSet resultset = MYSQL.execute("SELECT `name` FROM `month`")) {
+            vector.add("Select month");
             while (resultset.next()) {
                 String month = resultset.getString("name");
                 vector.add(month);
@@ -43,6 +45,7 @@ public class Add_payroll extends javax.swing.JFrame {
         Vector<String> vector = new Vector<>(); // Use generic type for better type safety
 
         try (ResultSet resultset = MYSQL.execute("SELECT `name` FROM `user`")) {
+            vector.add("Select User");
             while (resultset.next()) {
                 String month = resultset.getString("name");
                 vector.add(month);
@@ -127,7 +130,6 @@ public class Add_payroll extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(199, 189, 177));
         jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel7.setText("Total Sallary");
@@ -224,19 +226,44 @@ public class Add_payroll extends javax.swing.JFrame {
         // TODO add your handling code here:
         String month = (String) jComboBox1.getSelectedItem();
         String user = (String) jComboBox2.getSelectedItem();
-        Double benefit = Double.parseDouble(jTextField1.getText());
-        Double salery = Double.parseDouble(jTextField2.getText());
-        Double totalSalary = Double.parseDouble(jTextField3.getText());
+        String benefit = jTextField1.getText();
+        String salery = jTextField2.getText();
+        String totalSalary = jTextField3.getText();
         
-        
-//        System.out.println(month);
-//        System.out.println(user);
-//        System.out.println(benefit);
-//        System.out.println(salery);
-//        System.out.println(totalSalary);
+        if (jComboBox1.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(this, "Please Select Month","validation Error",JOptionPane.WARNING_MESSAGE);
+            
+            return;
+        }
+        if (jComboBox2.getSelectedIndex()==0){
+            JOptionPane.showMessageDialog(this, "Please Select User","validation Error",JOptionPane.WARNING_MESSAGE);
+            
+            return;
+        }
+        if (benefit.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please Enter Benifit","validation Error",JOptionPane.WARNING_MESSAGE);
+           
+            return;
+        }
+        if (salery.isEmpty()){
+            JOptionPane.showMessageDialog(this, "please Enter Salery","validation Error",JOptionPane.WARNING_MESSAGE);
+           
+            return;
+        }
+        if (totalSalary.isEmpty()){
+            JOptionPane.showMessageDialog(this, "please Enter Total Salery","validation Error",JOptionPane.WARNING_MESSAGE);
+            
+            return;
+        }
+
+         double benifit = Double.parseDouble(benefit);
+         double salery1 = Double.parseDouble(salery);
+         double salery2 = Double.parseDouble(totalSalary);
         try {
             MYSQL.execute("INSERT INTO `user_payroll`(`month_id`,`user_id`,`benifits`,`salary`,`total_salary`) "
-                    + "VALUES ( (SELECT  `month_id` FROM `month` WHERE month.name = '" +month+ "' ),(SELECT  `user_id` FROM `user` WHERE user.name = '" +user+ "' ),'"+benefit+"','"+salery+"','"+totalSalary+"')");
+                    + "VALUES ( (SELECT  `month_id` FROM `month` WHERE month.name = '" +month+ "' ),"
+                            + "(SELECT  `user_id` FROM `user` WHERE user.name = '" +user+ "'"
+                                    + " ),'"+benefit+"','"+salery+"','"+totalSalary+"')");
             
             this.dispose();
             Payroll_Management pmanage = new Payroll_Management();
