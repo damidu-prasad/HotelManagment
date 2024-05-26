@@ -16,55 +16,45 @@ import model.MYSQL;
 public class MaintainanceManage extends javax.swing.JFrame {
 
     /**
-     * Creates new form Maintainance
+     *
      */
-    public MaintainanceManage() {
+    public MaintainanceManage() { 
         initComponents();
+        MaintainDataLoad();
+
     }
 
-    private void  MaintainDataLoad(){
-         try {
+    private void MaintainDataLoad() {
+
+        try {
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-            ResultSet resultset = MYSQL.execute("SELECT * FROM `supplier` INNER JOIN  `supplier_in` ON `supplier`.supplier_id = `supplier_in`.supplier_id INNER JOIN  `supplier_in_has_item`  ON `supplier_in`.supplier_in_id = `supplier_in_has_item`.supplier_in_id INNER JOIN  `item`  ON `supplier_in_has_item`.item_id = item.item_id");
-
-            while (resultset.next()) {
-                String sid = resultset.getString("supplier_id");
-                String sname = resultset.getString("name");
-                String item = resultset.getString("item_name");
-                String qty = resultset.getString("qty");
-                String uPrice = resultset.getString("unit_price");
-                String oderstatus = resultset.getString("status");
-                String date = resultset.getString("in_date");
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `room_maintenance` INNER JOIN `room_maintenance_type` ON `room_maintenance`.room_maintenance_type_id = `room_maintenance_type`.room_maintenance_type_id INNER JOIN `priority` ON `priority`.priority_id = `room_maintenance`.priority_id INNER JOIN `room` ON `room`.room_id = `room_maintenance`.room_id ");
+            
+            while (resultSet.next()) {
+                String rmno = resultSet.getString("room_maintenance_type_id");
+                String status = resultSet.getString("room_maintenance.status");
+                String rno = resultSet.getString("room_id");
+                String name = resultSet.getString("type_name");
                 
                 
-               
-//
-                Vector vector = new Vector();//Row
-                vector.add(sid);
-                vector.add(sname);
-                vector.add(item);
-                vector.add(qty);
-                vector.add(uPrice);
-                vector.add(oderstatus);
-                vector.add(date);
+                Vector vector = new Vector();
+                vector.add(rmno);
+                vector.add(status);
+                vector.add(rno);
+                vector.add(name);
                 
-
+                
                 model.addRow(vector);
-
             }
-            
-            ResultSet rs = MYSQL.execute("SELECT COUNT(supplier_id) AS row_count FROM `supplier`");
-            
-             if (rs.next()) {
-                int rowCount = rs.getInt("row_count");
-                jLabel6.setText("" + rowCount);
-            }
-           
         } catch (Exception e) {
+
+            
+
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -109,6 +99,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jButton31.setForeground(new java.awt.Color(255, 255, 255));
         jButton31.setText("Supplier Dashboard");
         jButton31.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton31.setBorderPainted(false);
         jButton31.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,6 +125,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jButton33.setForeground(new java.awt.Color(255, 255, 255));
         jButton33.setText("Repair Log");
         jButton33.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton33.setBorderPainted(false);
         jButton33.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +138,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jButton34.setForeground(new java.awt.Color(255, 255, 255));
         jButton34.setText(" Equipment Inventory");
         jButton34.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton34.setBorderPainted(false);
         jButton34.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -157,6 +150,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jButton35.setForeground(new java.awt.Color(83, 66, 54));
         jButton35.setText("Maintenance Request");
         jButton35.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton35.setBorderPainted(false);
         jButton35.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton35.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,14 +301,10 @@ public class MaintainanceManage extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "No", "Status", "Room No", "Name", "Edit"
+                "No", "Status", "Room No", "Maintain type", "Edit"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -359,7 +349,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -368,8 +358,8 @@ public class MaintainanceManage extends javax.swing.JFrame {
 
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
         // TODO add your handling code here:
-         new SupplierDashboard().setVisible(true);
-         
+        new SupplierDashboard().setVisible(true);
+
     }//GEN-LAST:event_jButton31ActionPerformed
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
@@ -390,7 +380,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
 
     private void jButton35ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton35ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButton35ActionPerformed
 
     /**

@@ -23,7 +23,7 @@ public class SupplierDashboard extends javax.swing.JFrame {
         initComponents();
         supplierDataLoad();
     }
-    
+                           
     private void  supplierDataLoad(){
          try {
 
@@ -136,6 +136,7 @@ public class SupplierDashboard extends javax.swing.JFrame {
         jButton36.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton36.setForeground(new java.awt.Color(255, 255, 255));
         jButton36.setText("Download Report");
+        jButton36.setBorderPainted(false);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -220,6 +221,7 @@ public class SupplierDashboard extends javax.swing.JFrame {
         jButton33.setForeground(new java.awt.Color(255, 255, 255));
         jButton33.setText("Repair Log");
         jButton33.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton33.setBorderPainted(false);
         jButton33.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton33.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,6 +234,7 @@ public class SupplierDashboard extends javax.swing.JFrame {
         jButton34.setForeground(new java.awt.Color(255, 255, 255));
         jButton34.setText(" Equipment Inventory");
         jButton34.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton34.setBorderPainted(false);
         jButton34.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -244,6 +247,7 @@ public class SupplierDashboard extends javax.swing.JFrame {
         jButton35.setForeground(new java.awt.Color(255, 255, 255));
         jButton35.setText("Maintenance Request");
         jButton35.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton35.setBorderPainted(false);
         jButton35.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton35.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -305,7 +309,7 @@ public class SupplierDashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 612, Short.MAX_VALUE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
