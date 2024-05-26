@@ -4,6 +4,12 @@
  */
 package GUI;
 
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
+
 /**
  *
  * @author Admin
@@ -11,10 +17,35 @@ package GUI;
 public class Bil_Generation extends javax.swing.JFrame {
 
     /**
-     * Creates new form Table_Taking
+     * Creates new form Order_Taking
      */
     public Bil_Generation() {
         initComponents();
+    }
+    private void loadmenu (){
+         try {
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `menu` ");
+
+            while (resultset.next()) {
+                String id = resultset.getString("id");
+                String fname = resultset.getString("fname");
+                String lname = resultset.getString("lname");
+                String mobile = resultset.getString("mobile");
+
+                Vector vector = new Vector();//Row
+                vector.add(id);
+                vector.add(fname);
+                vector.add(lname);
+                vector.add(mobile);
+
+                model.addRow(vector);
+
+            }
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -357,14 +388,16 @@ public class Bil_Generation extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Table_Taking ttaking = new Table_Taking();
+        Order_Taking ttaking = new Order_Taking();
         ttaking.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         Order_Taking ordertaking = new Order_Taking();
+         Table_Resevation ordertaking = new Table_Resevation();
        ordertaking.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -375,12 +408,14 @@ public class Bil_Generation extends javax.swing.JFrame {
         // TODO add your handling code here:
         Menu_Management menu = new Menu_Management();
         menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         Special_Request sr = new Special_Request();
         sr.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -421,13 +456,7 @@ public class Bil_Generation extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Bil_Generation.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

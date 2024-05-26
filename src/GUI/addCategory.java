@@ -4,10 +4,10 @@
  */
 package GUI;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import java.sql.ResultSet;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import model.MySql;
+import model.MYSQL;
 
 /**
  *
@@ -20,6 +20,25 @@ public class addCategory extends javax.swing.JFrame {
      */
     public addCategory() {
         initComponents();
+        loadcategory();
+    }
+
+    private void loadcategory() {
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+
+        try (ResultSet resultset = MYSQL.execute("SELECT `name` FROM `categories`")) {
+            while (resultset.next()) {
+                String category = resultset.getString("name");
+                listModel.addElement(category);
+            }
+
+            jList1.setModel(listModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error loading categories: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -42,11 +61,6 @@ public class addCategory extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Add Category");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jButton1.setText("ADD");
@@ -96,11 +110,23 @@ public class addCategory extends javax.swing.JFrame {
         // TODO add your handling code here:
         String category = jTextField1.getText();
         
-         Icon icon = new ImageIcon("src/img/done.png");
+        if(category.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please Enter category", "validation Error", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+
         try {
-           // MySql.execute("INSER INTO `category` VALUES 'category'");
-            JOptionPane.showMessageDialog(this, "Category added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE,icon);
+            MYSQL.execute("INSERT INTO `categories`(`name`) VALUES ('" + category + "')");
+            
+            JOptionPane.showMessageDialog(this, "Category added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            jTextField1.setText("");
+            loadcategory();
+            Create_Menu cm = new Create_Menu();
+            cm.setVisible(true);
+            
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
