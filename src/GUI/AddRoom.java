@@ -7,10 +7,14 @@ package GUI;
 import com.mysql.cj.protocol.Resultset;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Customer;
 import model.MYSQL;
 import model.room;
@@ -30,9 +34,9 @@ public class AddRoom extends javax.swing.JFrame {
         loadRoomService();
         loadAdditionalServices();
     }
-
+    
     public final void loadRoomType() {
-
+        
         try {
             ResultSet rs = MYSQL.execute("SELECT * FROM `room_type`");
             while (rs.next()) {
@@ -42,9 +46,9 @@ public class AddRoom extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-
+    
     public final void loadRoomService() {
-
+        
         try {
             ResultSet rs = MYSQL.execute("SELECT * FROM `room_service`");
             while (rs.next()) {
@@ -54,9 +58,9 @@ public class AddRoom extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-
+    
     public final void loadAdditionalServices() {
-
+        
         try {
             ResultSet rs = MYSQL.execute("SELECT * FROM `additional_room_services`");
             while (rs.next()) {
@@ -95,6 +99,8 @@ public class AddRoom extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Add Room ");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Additional Service" }));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -190,20 +196,71 @@ public class AddRoom extends javax.swing.JFrame {
 
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-
-
-        String[] str = new String[7];
-        str[0] = "test1";
-        str[1] = "test2";
-        str[2] = "test3";
-        str[3] = "test4";
-        str[4] = "test5";
-        str[5] = "test6";
-        str[6] = "test7";
-
-        Customer.setRooms(str);
-
-        RoomSelection.loadTableData();
+        
+        String roomType = (String) jComboBox1.getSelectedItem();
+        String roomService = (String) jComboBox2.getSelectedItem();
+        Integer additionalService = jComboBox3.getSelectedIndex();
+        Date checkInDate = jDateChooser1.getDate();
+        Date checkOutDate = jDateChooser2.getDate();
+        
+        Integer AdditionalServicePrice = 0;
+        
+        if (checkInDate == null) {
+            JOptionPane.showMessageDialog(this, "Select a Check In Date !", "Empty Field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (checkOutDate == null) {
+            JOptionPane.showMessageDialog(this, "Select a Check Out Date !", "Empty Field", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        if (additionalService > 0) {
+            String getAdditionalService = jComboBox3.getSelectedItem().toString();
+            
+            ResultSet serviceCharge = MYSQL.execute("SELECT service_charge FROM additional_room_services "
+                    + "WHERE room_service_type = '" + getAdditionalService + "'");
+            
+            try {
+                if (serviceCharge.next()) {
+                    AdditionalServicePrice = AdditionalServicePrice + serviceCharge.getInt("service_charge");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(AddRoom.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        try {
+            ResultSet room = MYSQL.execute("SELECT * FROM `room` "
+                    + "WHERE room.room_type_id = (SELECT room_type_id FROM room_type WHERE room_type.type_name = '" + roomType + "' )"
+                    + " AND room.room_service_id = (SELECT room_service_id FROM room_service WHERE room_service.room_service_type = '" + roomService + "' )  "
+                    + "AND room.room_status = '1' LIMIT 1;");
+            
+            if (room.next()) {
+                
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                String easyCheckinDate = dateFormat.format(checkInDate);
+                String easyCheckOutDate = dateFormat.format(checkOutDate);
+                
+                String[] str = new String[6];
+                str[0] = room.getString("room_id");
+                str[1] = roomType;
+                str[2] = roomService;
+                str[3] = easyCheckinDate;
+                str[4] = easyCheckOutDate;
+                str[5] = Integer.toString(room.getInt("room_price") + AdditionalServicePrice);
+                Customer.setRooms(str);
+                
+                Customer.setOtherTotalPrice(Integer.toString(AdditionalServicePrice));
+                Customer.setTotalPrice(Integer.toString(room.getInt("room_price") + AdditionalServicePrice));
+                RoomSelection.setPrices();
+                RoomSelection.loadTableData();
+            } else {
+                JOptionPane.showMessageDialog(this, "All rooms are Bookded , Thank You !", "Room Reserved", JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (SQLException e) {
+        }
+        
 
     }//GEN-LAST:event_jButton9ActionPerformed
 

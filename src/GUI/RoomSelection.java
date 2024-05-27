@@ -21,6 +21,12 @@ public class RoomSelection extends javax.swing.JFrame {
     public RoomSelection() {
         initComponents();
         loadTableData();
+        setPrices();
+    }
+
+    public static void setPrices() {
+        jLabel32.setText(Customer.getOtherTotalPrice());
+        jLabel35.setText(Customer.getTotalPrice());
     }
 
     public static void loadTableData() {
@@ -38,8 +44,7 @@ public class RoomSelection extends javax.swing.JFrame {
                 dtm.addRow(vec);
             }
 
-          // jTable1.setModel(dtm);
-
+            // jTable1.setModel(dtm);
         }
     }
 
@@ -489,9 +494,9 @@ public class RoomSelection extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
+    private static javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
+    private static javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

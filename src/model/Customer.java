@@ -5,9 +5,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
 
 
 public class Customer {
@@ -25,6 +22,9 @@ public class Customer {
     private static String ProfilePhoto = null;
     private static String NicFront = null;
     private static String NicBack = null;
+    
+    private static String otherTotalPrice;
+    private static String TotalPrice;
     
     private static ArrayList<String[]> rooms = new ArrayList<String[]>();
 
@@ -209,6 +209,34 @@ public class Customer {
     public static void setRooms(String[] aRooms) {
         rooms.add(aRooms);
         System.out.println("Str Array : "+rooms);
+    }
+
+    /**
+     * @return the otherTotalPrice
+     */
+    public static String getOtherTotalPrice() {
+        return otherTotalPrice;
+    }
+
+    /**
+     * @param aOtherTotalPrice the otherTotalPrice to set
+     */
+    public static void setOtherTotalPrice(String aOtherTotalPrice) {
+        otherTotalPrice = aOtherTotalPrice;
+    }
+
+    /**
+     * @return the TotalPrice
+     */
+    public static String getTotalPrice() {
+        return TotalPrice;
+    }
+
+    /**
+     * @param aTotalPrice the TotalPrice to set
+     */
+    public static void setTotalPrice(String aTotalPrice) {
+        TotalPrice = aTotalPrice;
     }
 
 }
