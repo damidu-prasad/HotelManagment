@@ -5,6 +5,16 @@
  */
 package GUI;
 
+import GUI.SalesLeadTracking;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
+import javax.swing.ButtonModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
 /**
  *
  * @author Helitha
@@ -16,6 +26,49 @@ public class MarketingCampaign extends javax.swing.JFrame {
      */
     public MarketingCampaign() {
         initComponents();
+        loadCampaign();
+    }
+
+    private void loadCampaign() {
+        try {
+            //search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `campaign_data`");
+
+            //load data to table
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            //get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector();
+
+                vector1.add(resultSet.getString("campaign_data_id"));
+                vector1.add(resultSet.getString("name"));
+                vector1.add(resultSet.getString("Start_date"));
+                vector1.add(resultSet.getString("end_date"));
+                vector1.add(resultSet.getString("description"));
+                vector1.add(resultSet.getString("budget"));
+                vector1.add(resultSet.getString("Channel"));
+                vector1.add(resultSet.getString("status"));
+
+                model.addRow(vector1);
+                jTable1.setModel(model);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resetForm() {
+        jTextFieldName.setText("");
+        jDateChooserStart.setDate(null); // Clear the date picker's value
+        jDateChooserEnd.setDate(null); // Clear the date picker's value
+        jTextAreaDescription.setText("");
+        jTextFieldBudget.setText("");
+        jComboBox2.setSelectedItem("Select");
+        jComboBox1.setSelectedItem("Select");
+
     }
 
     /**
@@ -26,14 +79,13 @@ public class MarketingCampaign extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroupStatus = new javax.swing.ButtonGroup();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabelLogo = new javax.swing.JLabel();
         jLabelUserManagement = new javax.swing.JLabel();
-        jLabelDashboard = new javax.swing.JLabel();
         jLabelLogsAudit = new javax.swing.JLabel();
-        jLabelSystemconfiguration2 = new javax.swing.JLabel();
         jLabelLogOut = new javax.swing.JLabel();
         jLabelSystemconfiguration = new javax.swing.JLabel();
         jPanelCurrent = new javax.swing.JPanel();
@@ -44,29 +96,31 @@ public class MarketingCampaign extends javax.swing.JFrame {
         jLabelUserName = new javax.swing.JLabel();
         jLabelUserId = new javax.swing.JLabel();
         jLabelName = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        jTextFieldName = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jDatePicker1 = new org.jdatepicker.JDatePicker();
-        jDatePicker2 = new org.jdatepicker.JDatePicker();
         jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        jTextFieldBudget = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonUpdate = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextAreaDescription = new javax.swing.JTextArea();
+        jDateChooserStart = new com.toedter.calendar.JDateChooser();
+        jDateChooserEnd = new com.toedter.calendar.JDateChooser();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
+        jTextFieldSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,18 +142,6 @@ public class MarketingCampaign extends javax.swing.JFrame {
             }
         });
 
-        jLabelDashboard.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelDashboard.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabelDashboard.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelDashboard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelDashboard.setText("Dashboard");
-        jLabelDashboard.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelDashboardMouseClicked(evt);
-            }
-        });
-
         jLabelLogsAudit.setBackground(new java.awt.Color(83, 66, 54));
         jLabelLogsAudit.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabelLogsAudit.setForeground(new java.awt.Color(255, 255, 255));
@@ -109,18 +151,6 @@ public class MarketingCampaign extends javax.swing.JFrame {
         jLabelLogsAudit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelLogsAuditMouseClicked(evt);
-            }
-        });
-
-        jLabelSystemconfiguration2.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelSystemconfiguration2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabelSystemconfiguration2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSystemconfiguration2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelSystemconfiguration2.setText("Promotional Campaign");
-        jLabelSystemconfiguration2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelSystemconfiguration2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelSystemconfiguration2MouseClicked(evt);
             }
         });
 
@@ -171,7 +201,6 @@ public class MarketingCampaign extends javax.swing.JFrame {
 
         jPaneluser.setBackground(new java.awt.Color(83, 66, 54));
         jPaneluser.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPaneluser.setPreferredSize(new java.awt.Dimension(199, 72));
 
         jLabelUseImg.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUseImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/user.png"))); // NOI18N
@@ -221,7 +250,7 @@ public class MarketingCampaign extends javax.swing.JFrame {
                         .addComponent(jLabelName)
                         .addGap(3, 3, 3)
                         .addComponent(jLabelUserName)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPaneluserLayout.setVerticalGroup(
             jPaneluserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,11 +278,9 @@ public class MarketingCampaign extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanelCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelSystemconfiguration2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPaneluser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -270,19 +297,15 @@ public class MarketingCampaign extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabelLogo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabelDashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(43, 43, 43)
                 .addComponent(jLabelUserManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelLogsAudit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelSystemconfiguration, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelSystemconfiguration2)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelLogOut)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPaneluser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -290,274 +313,305 @@ public class MarketingCampaign extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel4.setBackground(new java.awt.Color(217, 217, 217));
+        jPanel4.setForeground(new java.awt.Color(83, 66, 54));
+        jPanel4.setEnabled(false);
+        jPanel4.setPreferredSize(new java.awt.Dimension(272, 392));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel4.setText("Campaign Name");
+
+        jTextFieldName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNameActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel8.setText("Start Date");
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel9.setText("End Date");
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel10.setText("Description");
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel11.setText("Budget Allocation");
+
+        jTextFieldBudget.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldBudgetActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel13.setText("Channels :");
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel14.setText("Status :");
+
+        jButtonAdd.setBackground(new java.awt.Color(83, 66, 54));
+        jButtonAdd.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAdd.setText("ADD");
+        jButtonAdd.setPreferredSize(new java.awt.Dimension(60, 25));
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
+
+        jButtonUpdate.setBackground(new java.awt.Color(83, 66, 54));
+        jButtonUpdate.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jButtonUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonUpdate.setText("Update");
+        jButtonUpdate.setPreferredSize(new java.awt.Dimension(60, 25));
+        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUpdateActionPerformed(evt);
+            }
+        });
+
+        jButtonDelete.setBackground(new java.awt.Color(83, 66, 54));
+        jButtonDelete.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jButtonDelete.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonDelete.setText("Delete");
+        jButtonDelete.setPreferredSize(new java.awt.Dimension(60, 25));
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
+
+        jTextAreaDescription.setColumns(20);
+        jTextAreaDescription.setRows(5);
+        jScrollPane2.setViewportView(jTextAreaDescription);
+
+        jDateChooserStart.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooserStart.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(217, 217, 217), new java.awt.Color(217, 217, 217), new java.awt.Color(217, 217, 217), new java.awt.Color(217, 217, 217)));
+
+        jDateChooserEnd.setBackground(new java.awt.Color(255, 255, 255));
+        jDateChooserEnd.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(217, 217, 217), new java.awt.Color(217, 217, 217), new java.awt.Color(217, 217, 217), new java.awt.Color(217, 217, 217)));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Active", "Inactive" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "In-House", "Email", "WebSite", "Social Medea" }));
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldBudget, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldName)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel13)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9)
+                                .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jDateChooserStart, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jDateChooserEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(8, 8, 8))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addComponent(jLabel4)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addGap(4, 4, 4)
+                        .addComponent(jDateChooserStart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooserEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(jLabel10)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel11)
+                .addGap(6, 6, 6)
+                .addComponent(jTextFieldBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 25)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(83, 66, 54));
         jLabel1.setText("Marketing Campaign ");
 
-        jPanel4.setBackground(new java.awt.Color(217, 217, 217));
-        jPanel4.setForeground(new java.awt.Color(83, 66, 54));
-        jPanel4.setEnabled(false);
-        jPanel4.setPreferredSize(new java.awt.Dimension(508, 248));
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel4.setText("Campaign Id");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 24, 0, 0);
-        jPanel4.add(jLabel4, gridBagConstraints);
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.ipadx = 229;
-        gridBagConstraints.ipady = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(1, 4, 0, 18);
-        jPanel4.add(jTextField1, gridBagConstraints);
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 10;
-        gridBagConstraints.ipadx = 225;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 24, 0, 0);
-        jPanel4.add(jTextField2, gridBagConstraints);
-
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 48;
-        gridBagConstraints.ipadx = 478;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 24, 0, 18);
-        jPanel4.add(jTextField3, gridBagConstraints);
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel8.setText("Start Date");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(13, 24, 0, 0);
-        jPanel4.add(jLabel8, gridBagConstraints);
-
-        jDatePicker1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jDatePicker1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 10;
-        gridBagConstraints.ipadx = 205;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 24, 0, 0);
-        jPanel4.add(jDatePicker1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 28;
-        gridBagConstraints.ipadx = 209;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 4, 0, 18);
-        jPanel4.add(jDatePicker2, gridBagConstraints);
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel9.setText("End Date");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(13, 4, 0, 0);
-        jPanel4.add(jLabel9, gridBagConstraints);
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel11.setText("Budget");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 24, 0, 0);
-        jPanel4.add(jLabel11, gridBagConstraints);
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel12.setText("Campaign Name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 14;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 4, 0, 0);
-        jPanel4.add(jLabel12, gridBagConstraints);
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel14.setText("Status :");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 24, 0, 0);
-        jPanel4.add(jLabel14, gridBagConstraints);
-
-        jRadioButton1.setText("Active");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(8, 1, 0, 0);
-        jPanel4.add(jRadioButton1, gridBagConstraints);
-
-        jRadioButton2.setText("Inactive");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 11;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(8, 27, 0, 0);
-        jPanel4.add(jRadioButton2, gridBagConstraints);
-
-        jButton1.setBackground(new java.awt.Color(83, 66, 54));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("ADD");
-        jButton1.setContentAreaFilled(false);
-        jButton1.setOpaque(true);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 9;
-        gridBagConstraints.ipadx = 84;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 24, 13, 0);
-        jPanel4.add(jButton1, gridBagConstraints);
-
-        jButton2.setBackground(new java.awt.Color(83, 66, 54));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Update");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 13;
-        gridBagConstraints.ipadx = 60;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 27, 13, 0);
-        jPanel4.add(jButton2, gridBagConstraints);
-
-        jButton3.setBackground(new java.awt.Color(83, 66, 54));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Delete");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setOpaque(true);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 33;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.gridwidth = 15;
-        gridBagConstraints.ipadx = 72;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 26, 13, 18);
-        jPanel4.add(jButton3, gridBagConstraints);
-
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(403, 412));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Campaign ID", "Campaign Name", "Start Date", "End Date", "Budget", "Status"
+                "Id", "Campaingn Name", "Start date", "End Date", "Description", "Budget", "Channels", "Status"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE))
-                .addGap(34, 34, 34))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jTable1MouseMoved(evt);
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTable1MouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
+        }
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
+
+        jTextFieldSearch.setText("Search Campaign Name");
+        jTextFieldSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldSearchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jTextFieldSearchMouseEntered(evt);
+            }
+        });
+        jTextFieldSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSearchActionPerformed(evt);
+            }
+        });
+        jTextFieldSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldSearchKeyTyped(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addGap(2, 2, 2)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                        .addContainerGap(24, Short.MAX_VALUE))))
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(816, 539));
+        setSize(new java.awt.Dimension(814, 507));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -568,26 +622,12 @@ public class MarketingCampaign extends javax.swing.JFrame {
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelUserManagementMouseClicked
 
-    private void jLabelDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDashboardMouseClicked
-
-       Dashboard Dashboard = new Dashboard();// Get the Dashboard
-        Dashboard.setVisible(true); // Show the new Dashboard
-        this.setVisible(false); // Close the current window
-    }//GEN-LAST:event_jLabelDashboardMouseClicked
-
     private void jLabelLogsAuditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelLogsAuditMouseClicked
 
         SalesLeadTracking SalesLeadTracking = new SalesLeadTracking();// Get the new SalesLeadTracking
         SalesLeadTracking.setVisible(true); // Show the new SalesLeadTracking
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelLogsAuditMouseClicked
-
-    private void jLabelSystemconfiguration2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfiguration2MouseClicked
-
-        PromotionalCampaign PromotionalCampaign = new PromotionalCampaign();// Get the  PromotionalCampaign
-        PromotionalCampaign.setVisible(true); // Show the new  PromotionalCampaign
-        this.setVisible(false); // Close the current window
-    }//GEN-LAST:event_jLabelSystemconfiguration2MouseClicked
 
     private void jLabelSystemconfigurationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfigurationMouseClicked
 
@@ -600,25 +640,310 @@ public class MarketingCampaign extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabelSystemconfiguration1MouseClicked
 
-    private void jDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePicker1ActionPerformed
+    private void jTextFieldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jDatePicker1ActionPerformed
+    }//GEN-LAST:event_jTextFieldNameActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void jTextFieldBudgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBudgetActionPerformed
+    }//GEN-LAST:event_jTextFieldBudgetActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+//get data
+        String name = jTextFieldName.getText();
+        String description = jTextAreaDescription.getText();
+        String budget = jTextFieldBudget.getText();
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        // dates
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String start = null;
+        if (jDateChooserStart.getDate() != null) {
+            start = dateFormat.format(jDateChooserStart.getDate());
+        }
+        String end = null;
+        if (jDateChooserEnd.getDate() != null) {
+            end = dateFormat.format(jDateChooserEnd.getDate());
+        }
+
+        String channel = (String) jComboBox2.getSelectedItem();
+        String status = (String) jComboBox1.getSelectedItem();
+
+        String numeric = "\\d+";
+        //get messages
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Campaign Name", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldName.grabFocus();
+
+        } else if (start == null || end == null) {
+            JOptionPane.showMessageDialog(this, "Please select valid dates", "Warning", JOptionPane.ERROR_MESSAGE);
+            jDateChooserStart.requestFocus();
+            if (start == null) {
+                jDateChooserStart.requestFocus();
+            } else {
+                jDateChooserEnd.requestFocus();
+            }
+
+        } else if (description.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Description", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextAreaDescription.grabFocus();
+
+        } else if (budget.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Budget", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldBudget.grabFocus();
+
+        } else if (!budget.matches(numeric)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid numeric Budget", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldBudget.grabFocus();
+
+        } else if ("Select".equals(jComboBox2.getSelectedItem())) {
+            JOptionPane.showMessageDialog(this, "Please select the Channel", "Warning", JOptionPane.ERROR_MESSAGE);
+            jComboBox2.grabFocus();
+
+        } else if ("Select".equals(jComboBox1.getSelectedItem())) {
+            JOptionPane.showMessageDialog(this, "Please select the Status", "Warning", JOptionPane.ERROR_MESSAGE);
+            jComboBox1.grabFocus();
+
+        } else {
+
+            try {
+                // Insert 
+                MYSQL.execute("INSERT INTO campaign_data (name, description, budget, Start_date, end_date, status, Channel) "
+                        + "VALUES ('" + name + "', '" + description + "', '" + budget + "', '" + start + "','" + end + "','" + status + "','" + channel + "')");
+
+                // Update table & clear form
+                loadCampaign();
+                resetForm();
+
+                //  Message
+                JOptionPane.showMessageDialog(this, "New Campaign Created", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error saving data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a row", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTable1.grabFocus();
+
+        } else {
+            //get data
+            String name = jTextFieldName.getText();
+            String description = jTextAreaDescription.getText();
+            String budget = jTextFieldBudget.getText();
+
+            // dates
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+            String start = null;
+            if (jDateChooserStart.getDate() != null) {
+                start = dateFormat.format(jDateChooserStart.getDate());
+            }
+            String end = null;
+            if (jDateChooserEnd.getDate() != null) {
+                end = dateFormat.format(jDateChooserEnd.getDate());
+            }
+
+            String channel = (String) jComboBox2.getSelectedItem();
+            String status = (String) jComboBox1.getSelectedItem();
+
+            String numeric = "\\d+";
+            //get messages
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Campaign Name", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldName.grabFocus();
+
+            } else if (start == null || end == null) {
+                JOptionPane.showMessageDialog(this, "Please select valid dates", "Warning", JOptionPane.ERROR_MESSAGE);
+                jDateChooserStart.requestFocus();
+                if (start == null) {
+                    jDateChooserStart.requestFocus();
+                } else {
+                    jDateChooserEnd.requestFocus();
+                }
+
+            } else if (description.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Description", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextAreaDescription.grabFocus();
+
+            } else if (budget.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Budget", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldBudget.grabFocus();
+
+            } else if (!budget.matches(numeric)) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid numeric Budget", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldBudget.grabFocus();
+
+            } else if ("Select".equals(jComboBox2.getSelectedItem())) {
+                JOptionPane.showMessageDialog(this, "Please select the Channel", "Warning", JOptionPane.ERROR_MESSAGE);
+                jComboBox2.grabFocus();
+
+            } else if ("Select".equals(jComboBox1.getSelectedItem())) {
+                JOptionPane.showMessageDialog(this, "Please select the Status", "Warning", JOptionPane.ERROR_MESSAGE);
+                jComboBox1.grabFocus();
+            } else {
+
+                try {
+                    int campaignId = Integer.parseInt((String) jTable1.getValueAt(selectedRow, 0));
+                    // Execute the update query
+
+                    MYSQL.execute("UPDATE `campaign_data` SET "
+                            + "`name` = '" + name + "', "
+                            + "`description` = '" + description + "', "
+                            + "`Start_date` = '" + start + "', "
+                            + "`end_date` = '" + end + "', "
+                            + "`status` = '" + status + "', "
+                            + "`Channel` = '" + channel + "' "
+                            + "WHERE `campaign_data_id` = '" + campaignId + "'");
+
+                    // Update the table and reset the form
+                    loadCampaign();
+                    resetForm();
+
+                    // Show success message
+                    JOptionPane.showMessageDialog(this, "Update successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Update failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButtonUpdateActionPerformed
+
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        int[] selectedRows = jTable1.getSelectedRows();
+
+        if (selectedRows.length == 0) {
+            // Message: No rows selected
+            JOptionPane.showMessageDialog(this, "Please select one or more rows to delete.", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTable1.grabFocus();
+            return;
+        }
+
+        try {
+            for (int selectedRow : selectedRows) {
+                int accountId = Integer.parseInt((String) jTable1.getValueAt(selectedRow, 0));
+
+                // Delete the book
+                MYSQL.execute("DELETE FROM `campaign_data` WHERE `campaign_data_id`='" + accountId + "'");
+            }
+
+            loadCampaign();
+            resetForm();
+
+            jTable1.setEnabled(true); // Unlock table
+            jButtonAdd.setEnabled(true); // Unlock "insert" button
+
+            // Success message
+            JOptionPane.showMessageDialog(this, "Selected rows have been deleted.", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
+
+    private void jTable1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseMoved
+        int row = jTable1.rowAtPoint(evt.getComponent().getLocation());
+
+        if (row >= 0) {
+            jTable1.setToolTipText("Double-click to Update");
+        }
+    }//GEN-LAST:event_jTable1MouseMoved
+
+    private void jTable1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseReleased
+        int[] selectedRows = jTable1.getSelectedRows();
+
+        if (selectedRows.length == 1) {
+            for (int selectedRow : selectedRows) {
+                String name = String.valueOf(jTable1.getValueAt(selectedRow, 1));
+                String start = String.valueOf(jTable1.getValueAt(selectedRow, 2));
+                String end = String.valueOf(jTable1.getValueAt(selectedRow, 3));
+                String description = String.valueOf(jTable1.getValueAt(selectedRow, 4));
+                String budjet = String.valueOf(jTable1.getValueAt(selectedRow, 5));
+                String channel = String.valueOf(jTable1.getValueAt(selectedRow, 6));
+                String status = String.valueOf(jTable1.getValueAt(selectedRow, 7));
+
+                jButtonAdd.setEnabled(false); // "Insert" lock
+
+                // Populate form fields
+                jTextFieldName.setText(name);
+                jTextAreaDescription.setText(description);
+                jTextFieldBudget.setText(budjet);
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");//get date format
+                try {
+                    Date startdate = dateFormat.parse(start);
+                    jDateChooserStart.setDate(startdate);
+                    Date enddate = dateFormat.parse(end);
+                    jDateChooserEnd.setDate(enddate);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                jComboBox2.setSelectedItem(channel);
+                jComboBox1.setSelectedItem(status);
+            }
+        }
+    }//GEN-LAST:event_jTable1MouseReleased
+
+    private void jTextFieldSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyTyped
+        String search = jTextFieldSearch.getText();
+
+        if (!search.isEmpty()) {
+            try {
+                ResultSet resultSet = MYSQL.execute("SELECT * FROM `campaign_data` WHERE `campaign_data`.`name` LIKE '%" + search + "%'");
+
+                DefaultTableModel defaultTableModel = (DefaultTableModel) jTable1.getModel();
+                defaultTableModel.setRowCount(0);
+
+                // Get data to table
+                while (resultSet.next()) {
+                    Vector<String> vector1 = new Vector<>();
+
+                    vector1.add(resultSet.getString("campaign_data_id"));
+                    vector1.add(resultSet.getString("name"));
+                    vector1.add(resultSet.getString("Start_date"));
+                    vector1.add(resultSet.getString("end_date"));
+                    vector1.add(resultSet.getString("description"));
+                    vector1.add(resultSet.getString("budget"));
+                    vector1.add(resultSet.getString("Channel"));
+                    vector1.add(resultSet.getString("status"));
+                    defaultTableModel.addRow(vector1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            jTextFieldSearch.grabFocus();
+            loadCampaign();
+        }
+    }//GEN-LAST:event_jTextFieldSearchKeyTyped
+
+    private void jTextFieldSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldSearchMouseClicked
+  jTextFieldSearch.setText("Search Campaign Name");
+    
+    if (jTextFieldSearch.getText().equals("Search Campaign Name")) {
+        jTextFieldSearch.setText("");
+    } else {
+        jTextFieldSearch.setText("Search Campaign Name");
+    }       
+    }//GEN-LAST:event_jTextFieldSearchMouseClicked
+
+    private void jTextFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jTextFieldSearchActionPerformed
+
+    private void jTextFieldSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldSearchMouseEntered
+      
+
+    }//GEN-LAST:event_jTextFieldSearchMouseEntered
 
     /**
      * @param args the command line arguments
@@ -646,6 +971,9 @@ public class MarketingCampaign extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MarketingCampaign.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -656,20 +984,24 @@ public class MarketingCampaign extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private org.jdatepicker.JDatePicker jDatePicker1;
-    private org.jdatepicker.JDatePicker jDatePicker2;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroupStatus;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonUpdate;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private com.toedter.calendar.JDateChooser jDateChooserEnd;
+    private com.toedter.calendar.JDateChooser jDateChooserStart;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabelDashboard;
     private javax.swing.JLabel jLabelId;
     private javax.swing.JLabel jLabelLogOut;
     private javax.swing.JLabel jLabelLogo;
@@ -677,23 +1009,21 @@ public class MarketingCampaign extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelName;
     private javax.swing.JLabel jLabelSystemconfiguration;
     private javax.swing.JLabel jLabelSystemconfiguration1;
-    private javax.swing.JLabel jLabelSystemconfiguration2;
     private javax.swing.JLabel jLabelUseImg;
     private javax.swing.JLabel jLabelUserId;
     private javax.swing.JLabel jLabelUserManagement;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelCurrent;
     private javax.swing.JPanel jPaneluser;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextArea jTextAreaDescription;
+    private javax.swing.JTextField jTextFieldBudget;
+    private javax.swing.JTextField jTextFieldName;
+    private javax.swing.JTextField jTextFieldSearch;
     // End of variables declaration//GEN-END:variables
 }

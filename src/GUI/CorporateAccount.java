@@ -5,17 +5,67 @@
  */
 package GUI;
 
+import GUI.GuestFeedbackAnalysis;
+import GUI.MarketingCampaign;
+import GUI.SalesLeadTracking;
+import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
 /**
  *
  * @author Helitha
  */
-public class CorporateAccount extends javax.swing.JFrame {
+public final class CorporateAccount extends javax.swing.JFrame {
 
     /**
      * Creates new form CorporateAccount
      */
     public CorporateAccount() {
         initComponents();
+        loadCorparates();
+
+    }
+
+    public void loadCorparates() {
+        try {
+            // Search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `cooperate_account`");
+
+            // Load data to table
+            DefaultTableModel model = (DefaultTableModel) JTableCorporateAccounts.getModel();
+            model.setRowCount(0);
+
+            // Get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector<>();
+
+                vector1.add(resultSet.getString("cooperate_account_id"));
+                vector1.add(resultSet.getString("company_name"));
+                vector1.add(resultSet.getString("email"));
+                vector1.add(resultSet.getString("mobile"));
+                vector1.add(resultSet.getString("address"));
+                model.addRow(vector1);
+            }
+
+            // Set model after adding all rows
+            JTableCorporateAccounts.setModel(model);
+
+        } catch (SQLException e) {
+        }
+    }
+
+    public void resetForm() {
+        jTextFieldCompanyName.setText("");
+        jTextFieldEmail.setText("");
+        jTextFieldMobile.setText("");
+        jTextFieldAddress.setText("");
     }
 
     /**
@@ -34,43 +84,41 @@ public class CorporateAccount extends javax.swing.JFrame {
         jLabelUserName = new javax.swing.JLabel();
         jLabelUserId = new javax.swing.JLabel();
         jLabelName = new javax.swing.JLabel();
-        jLabelLogo = new javax.swing.JLabel();
         jLabelSystemconfiguration = new javax.swing.JLabel();
         jLabelSystemconfiguration1 = new javax.swing.JLabel();
         jLabelLogsAudit = new javax.swing.JLabel();
-        jLabelSystemconfiguration2 = new javax.swing.JLabel();
         jLabelLogOut = new javax.swing.JLabel();
-        jLabelUserManagement = new javax.swing.JLabel();
         jPanelCurrent = new javax.swing.JPanel();
         jLabelDashboard = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldEmail = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldMobile = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        jTextFieldAddress = new javax.swing.JTextField();
+        jButtonUpdate = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
+        jButtonAdd = new javax.swing.JButton();
+        jTextFieldCompanyName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        jTextFieldSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        JTableCorporateAccounts = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(83, 66, 54));
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
         jPanel2.setPreferredSize(new java.awt.Dimension(200, 500));
         jPanel2.setRequestFocusEnabled(false);
 
         jPaneluser.setBackground(new java.awt.Color(83, 66, 54));
-        jPaneluser.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPaneluser.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
         jPaneluser.setPreferredSize(new java.awt.Dimension(199, 72));
 
         jLabelUseImg.setBackground(new java.awt.Color(83, 66, 54));
@@ -121,7 +169,7 @@ public class CorporateAccount extends javax.swing.JFrame {
                         .addComponent(jLabelName)
                         .addGap(3, 3, 3)
                         .addComponent(jLabelUserName)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPaneluserLayout.setVerticalGroup(
             jPaneluserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,8 +186,6 @@ public class CorporateAccount extends javax.swing.JFrame {
                             .addComponent(jLabelName)
                             .addComponent(jLabelUserName)))))
         );
-
-        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logo.png"))); // NOI18N
 
         jLabelSystemconfiguration.setBackground(new java.awt.Color(83, 66, 54));
         jLabelSystemconfiguration.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
@@ -177,36 +223,12 @@ public class CorporateAccount extends javax.swing.JFrame {
             }
         });
 
-        jLabelSystemconfiguration2.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelSystemconfiguration2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabelSystemconfiguration2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSystemconfiguration2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelSystemconfiguration2.setText("Promotional Campaign");
-        jLabelSystemconfiguration2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelSystemconfiguration2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelSystemconfiguration2MouseClicked(evt);
-            }
-        });
-
         jLabelLogOut.setBackground(new java.awt.Color(83, 66, 54));
         jLabelLogOut.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
         jLabelLogOut.setForeground(new java.awt.Color(255, 255, 255));
         jLabelLogOut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLogOut.setText("Log Out");
         jLabelLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jLabelUserManagement.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelUserManagement.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabelUserManagement.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelUserManagement.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelUserManagement.setText("Dashboard");
-        jLabelUserManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabelUserManagement.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabelUserManagementMouseClicked(evt);
-            }
-        });
 
         jPanelCurrent.setBackground(new java.awt.Color(255, 255, 255));
         jPanelCurrent.setPreferredSize(new java.awt.Dimension(199, 32));
@@ -230,40 +252,36 @@ public class CorporateAccount extends javax.swing.JFrame {
             .addComponent(jLabelDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
         );
 
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logo.png"))); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabelLogo))
-            .addComponent(jLabelUserManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jPanelCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jLabelLogsAudit, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jLabelSystemconfiguration1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jLabelSystemconfiguration, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jLabelSystemconfiguration2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jLabelLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jPaneluser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel7))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addComponent(jLabelLogo)
-                .addGap(7, 7, 7)
-                .addComponent(jLabelUserManagement, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jPanelCurrent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jLabelLogsAudit)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jLabelSystemconfiguration1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jLabelSystemconfiguration)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addComponent(jLabelSystemconfiguration2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(jLabelLogOut)
                 .addGap(7, 7, 7)
                 .addComponent(jPaneluser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -280,7 +298,7 @@ public class CorporateAccount extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(221, 217, 214));
         jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(221, 217, 214), 1, true));
 
-        jTextField1.setPreferredSize(new java.awt.Dimension(388, 22));
+        jTextFieldEmail.setPreferredSize(new java.awt.Dimension(388, 25));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(83, 66, 54));
@@ -288,57 +306,56 @@ public class CorporateAccount extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel3.setText("Customer Name");
+        jLabel3.setText("Mobile");
 
-        jTextField2.setPreferredSize(new java.awt.Dimension(388, 22));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldMobile.setPreferredSize(new java.awt.Dimension(388, 25));
+        jTextFieldMobile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jTextFieldMobileActionPerformed(evt);
             }
         });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel4.setText("Mobile");
+        jLabel4.setText("Address");
 
-        jTextField3.setPreferredSize(new java.awt.Dimension(388, 22));
+        jTextFieldAddress.setPreferredSize(new java.awt.Dimension(388, 25));
 
-        jButton2.setBackground(new java.awt.Color(83, 66, 54));
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Update");
-        jButton2.setContentAreaFilled(false);
-        jButton2.setOpaque(true);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonUpdate.setBackground(new java.awt.Color(83, 66, 54));
+        jButtonUpdate.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonUpdate.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonUpdate.setText("Update");
+        jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonUpdateActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(83, 66, 54));
-        jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Delete");
-        jButton3.setContentAreaFilled(false);
-        jButton3.setOpaque(true);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonDelete.setBackground(new java.awt.Color(83, 66, 54));
+        jButtonDelete.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonDelete.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonDelete.setText("Delete");
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonDeleteActionPerformed(evt);
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(83, 66, 54));
-        jButton4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("ADD");
-        jButton4.setContentAreaFilled(false);
-        jButton4.setOpaque(true);
+        jButtonAdd.setBackground(new java.awt.Color(83, 66, 54));
+        jButtonAdd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButtonAdd.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonAdd.setText("ADD");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
 
-        jTextField4.setPreferredSize(new java.awt.Dimension(388, 22));
+        jTextFieldCompanyName.setPreferredSize(new java.awt.Dimension(388, 25));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(83, 66, 54));
-        jLabel5.setText("Email");
+        jLabel5.setText(" Company name");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -350,21 +367,21 @@ public class CorporateAccount extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                             .addGap(24, 24, 24)
-                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(15, 15, 15))
-                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldAddress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldMobile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addComponent(jLabel2)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jTextFieldEmail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextFieldCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,49 +389,86 @@ public class CorporateAccount extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel5)
                 .addGap(3, 3, 3)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(8, 8, 8)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTextFieldAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButtonUpdate)
+                    .addComponent(jButtonDelete)
+                    .addComponent(jButtonAdd))
                 .addContainerGap())
         );
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
 
-        jTextField5.setPreferredSize(new java.awt.Dimension(152, 25));
+        jTextFieldSearch.setText("Search Company Name");
+        jTextFieldSearch.setPreferredSize(new java.awt.Dimension(152, 25));
+        jTextFieldSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldSearchMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jTextFieldSearchMouseEntered(evt);
+            }
+        });
+        jTextFieldSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldSearchKeyTyped(evt);
+            }
+        });
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(522, 134));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        JTableCorporateAccounts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Name", "Email", "Contact", "status"
+                "id", "Company Name", "Email", "Contact", "Address"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        JTableCorporateAccounts.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                JTableCorporateAccountsMouseMoved(evt);
+            }
+        });
+        JTableCorporateAccounts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                JTableCorporateAccountsMouseReleased(evt);
+            }
+        });
+        JTableCorporateAccounts.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                JTableCorporateAccountsKeyTyped(evt);
+            }
+        });
+        jScrollPane1.setViewportView(JTableCorporateAccounts);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -433,7 +487,7 @@ public class CorporateAccount extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(39, 39, 39))
         );
         jPanel1Layout.setVerticalGroup(
@@ -445,7 +499,7 @@ public class CorporateAccount extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -457,17 +511,109 @@ public class CorporateAccount extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabelSystemconfigurationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfigurationMouseClicked
-        GuestFeedbackAnalysis GuestFeedbackAnalysis = new GuestFeedbackAnalysis();// Get the new SystemConfiguration
-        GuestFeedbackAnalysis.setVisible(true); // Show the new SystemConfiguration
-        this.setVisible(false); // Close the current window
-    }//GEN-LAST:event_jLabelSystemconfigurationMouseClicked
+    private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
+        int selectedRow = JTableCorporateAccounts.getSelectedRow();
 
-    private void jLabelSystemconfiguration1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfiguration1MouseClicked
-        MarketingCampaign MarketingCampaign = new MarketingCampaign();// Get the new MarketingCampaign
-        MarketingCampaign.setVisible(true); // Show the new MarketingCampaign
-        this.setVisible(false); // Close the current window
-    }//GEN-LAST:event_jLabelSystemconfiguration1MouseClicked
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a row", "Warning", JOptionPane.WARNING_MESSAGE);
+            JTableCorporateAccounts.grabFocus();
+
+        } else {
+            // Assuming that the ID column is at index 0 of the table model
+
+            String name = jTextFieldCompanyName.getText();
+            String mail = jTextFieldEmail.getText();
+            String mobile = jTextFieldMobile.getText();
+            String address = jTextFieldAddress.getText();
+
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Company Name", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldCompanyName.grabFocus();
+
+            } else if (mail.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Email", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldEmail.grabFocus();
+
+            } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+                JOptionPane.showMessageDialog(this, "Please enter a Valid Email", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldEmail.grabFocus();
+
+            } else if (mobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Contact Number", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldMobile.grabFocus();
+
+            } else if (!mobile.matches("^\\+?[1-9]\\d{1,14}$")) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldMobile.requestFocus();
+
+            } else if (address.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Company Address", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldAddress.requestFocus();
+
+            } else {
+
+                try {
+                    int accountId = Integer.parseInt((String) JTableCorporateAccounts.getValueAt(selectedRow, 0));
+
+                    // Execute the update query
+                    MYSQL.execute("UPDATE `cooperate_account` SET "
+                            + "`email` = '" + mail + "', "
+                            + "`company_name` = '" + name + "', "
+                            + "`mobile` = '" + mobile + "', "
+                            + "`address` = '" + address + "' "
+                            + "WHERE `cooperate_account_id` = '" + accountId + "'");
+
+                    // Update the table and reset the form
+                    loadCorparates();
+                    resetForm();
+
+                    // Show success message
+                    JOptionPane.showMessageDialog(this, "Update successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Update failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
+    }//GEN-LAST:event_jButtonUpdateActionPerformed
+
+    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
+        int[] selectedRows = JTableCorporateAccounts.getSelectedRows();
+
+        if (selectedRows.length == 0) {
+            // Message: No rows selected
+            JOptionPane.showMessageDialog(this, "Please select one or more rows to delete.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JTableCorporateAccounts.grabFocus();
+            return;
+        }
+
+        try {
+            for (int selectedRow : selectedRows) {
+                int accountId = Integer.parseInt((String) JTableCorporateAccounts.getValueAt(selectedRow, 0));
+
+                // Delete the book
+                MYSQL.execute("DELETE FROM `cooperate_account` WHERE `cooperate_account_id`='" + accountId + "'");
+            }
+
+            loadCorparates();
+            resetForm();
+
+            JTableCorporateAccounts.setEnabled(true); // Unlock table
+            jButtonAdd.setEnabled(true); // Unlock "insert" button
+
+            // Success message
+            JOptionPane.showMessageDialog(this, "Selected rows have been deleted.", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_jButtonDeleteActionPerformed
+
+    private void jTextFieldMobileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldMobileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldMobileActionPerformed
 
     private void jLabelLogsAuditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelLogsAuditMouseClicked
         SalesLeadTracking SalesLeadTracking = new SalesLeadTracking();// Get the new logs&audit
@@ -475,29 +621,149 @@ public class CorporateAccount extends javax.swing.JFrame {
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelLogsAuditMouseClicked
 
-    private void jLabelSystemconfiguration2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfiguration2MouseClicked
-        PromotionalCampaign PromotionalCampaign = new PromotionalCampaign();// Get the  PromotionalCampaign
-        PromotionalCampaign.setVisible(true); // Show the new  PromotionalCampaign
+    private void jLabelSystemconfiguration1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfiguration1MouseClicked
+        MarketingCampaign MarketingCampaign = new MarketingCampaign();// Get the new MarketingCampaign
+        MarketingCampaign.setVisible(true); // Show the new MarketingCampaign
         this.setVisible(false); // Close the current window
-    }//GEN-LAST:event_jLabelSystemconfiguration2MouseClicked
+    }//GEN-LAST:event_jLabelSystemconfiguration1MouseClicked
 
-    private void jLabelUserManagementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUserManagementMouseClicked
-        Dashboard Dashboard = new Dashboard();// Get the Dashboard
-        Dashboard.setVisible(true); // Show the new Dashboard
+    private void jLabelSystemconfigurationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelSystemconfigurationMouseClicked
+        GuestFeedbackAnalysis GuestFeedbackAnalysis = new GuestFeedbackAnalysis();// Get the new SystemConfiguration
+        GuestFeedbackAnalysis.setVisible(true); // Show the new SystemConfiguration
         this.setVisible(false); // Close the current window
-    }//GEN-LAST:event_jLabelUserManagementMouseClicked
+    }//GEN-LAST:event_jLabelSystemconfigurationMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        //get data
+        String name = jTextFieldCompanyName.getText();
+        String mail = jTextFieldEmail.getText();
+        String mobile = jTextFieldMobile.getText();
+        String address = jTextFieldAddress.getText();
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+//get messages
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Company Name", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldCompanyName.grabFocus();
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        } else if (mail.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Email", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldEmail.grabFocus();
+
+        } else if (!mail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a Valid Email", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldEmail.grabFocus();
+
+        } else if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Contact Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldMobile.grabFocus();
+
+        } else if (!mobile.matches("^\\+?[1-9]\\d{1,14}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldMobile.requestFocus();
+
+        } else if (address.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Company Address", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldEmail.requestFocus();
+
+        } else {
+
+            try {
+                // Insert 
+                MYSQL.execute("INSERT INTO `cooperate_account` (`email`, `company_name`, `mobile`, `address`) "
+                        + "VALUES ('" + mail + "', '" + name + "', '" + mobile + "', '" + address + "')");
+
+                // Update table & clear form
+                loadCorparates();
+                resetForm();
+
+                //  Message
+                JOptionPane.showMessageDialog(this, "New Account Created", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    private void JTableCorporateAccountsMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTableCorporateAccountsMouseMoved
+        int row = JTableCorporateAccounts.rowAtPoint(evt.getComponent().getLocation());
+
+        if (row >= 0) {
+            JTableCorporateAccounts.setToolTipText("Double-click to Update");
+        }
+    }//GEN-LAST:event_JTableCorporateAccountsMouseMoved
+
+    private void JTableCorporateAccountsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTableCorporateAccountsMouseReleased
+        int[] selectedRows = JTableCorporateAccounts.getSelectedRows();
+
+        if (selectedRows.length == 1) {
+            for (int selectedRow : selectedRows) {
+                String name = String.valueOf(JTableCorporateAccounts.getValueAt(selectedRow, 1));
+                String mail = String.valueOf(JTableCorporateAccounts.getValueAt(selectedRow, 2));
+                String mobile = String.valueOf(JTableCorporateAccounts.getValueAt(selectedRow, 3));
+                String address = String.valueOf(JTableCorporateAccounts.getValueAt(selectedRow, 4));
+
+                jButtonAdd.setEnabled(false); // "Insert" lock
+
+                // Populate form fields
+                jTextFieldCompanyName.setText(name);
+                jTextFieldEmail.setText(mail);
+                jTextFieldMobile.setText(mobile);
+                jTextFieldAddress.setText(address);
+
+            }
+        }
+
+    }//GEN-LAST:event_JTableCorporateAccountsMouseReleased
+
+    private void jTextFieldSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyTyped
+        String search = jTextFieldSearch.getText();
+
+        if (!search.isEmpty()) {
+            try {
+                ResultSet resultSet = MYSQL.execute("SELECT * FROM `cooperate_account` WHERE `cooperate_account`.`company_name` LIKE '%" + search + "%'");
+
+                DefaultTableModel defaultTableModel = (DefaultTableModel) JTableCorporateAccounts.getModel();
+                defaultTableModel.setRowCount(0);
+
+                // Get data to table
+                while (resultSet.next()) {
+                    Vector<String> vector1 = new Vector<>();
+
+                    vector1.add(resultSet.getString("cooperate_account_id"));
+                    vector1.add(resultSet.getString("company_name"));
+                    vector1.add(resultSet.getString("email"));
+                    vector1.add(resultSet.getString("mobile"));
+                    vector1.add(resultSet.getString("address"));
+                    defaultTableModel.addRow(vector1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            jTextFieldSearch.grabFocus();
+            loadCorparates();
+        }
+
+    }//GEN-LAST:event_jTextFieldSearchKeyTyped
+
+    private void JTableCorporateAccountsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTableCorporateAccountsKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_JTableCorporateAccountsKeyTyped
+
+    private void jTextFieldSearchMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldSearchMouseEntered
+        
+    }//GEN-LAST:event_jTextFieldSearchMouseEntered
+
+    private void jTextFieldSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldSearchMouseClicked
+          jTextFieldSearch.setText("Search Campaign Name");
+    
+    if (jTextFieldSearch.getText().equals("Search Campaign Name")) {
+        jTextFieldSearch.setText("");
+    } else {
+        jTextFieldSearch.setText("Search Campaign Name");
+    }
+    }//GEN-LAST:event_jTextFieldSearchMouseClicked
 
     /**
      * @param args the command line arguments
@@ -513,17 +779,28 @@ public class CorporateAccount extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CorporateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CorporateAccount.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CorporateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CorporateAccount.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CorporateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CorporateAccount.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CorporateAccount.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CorporateAccount.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -535,27 +812,26 @@ public class CorporateAccount extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JTable JTableCorporateAccounts;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonDelete;
+    private javax.swing.JButton jButtonUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabelDashboard;
     private javax.swing.JLabel jLabelId;
     private javax.swing.JLabel jLabelLogOut;
-    private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelLogsAudit;
     private javax.swing.JLabel jLabelName;
     private javax.swing.JLabel jLabelSystemconfiguration;
     private javax.swing.JLabel jLabelSystemconfiguration1;
-    private javax.swing.JLabel jLabelSystemconfiguration2;
     private javax.swing.JLabel jLabelUseImg;
     private javax.swing.JLabel jLabelUserId;
-    private javax.swing.JLabel jLabelUserManagement;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -563,11 +839,10 @@ public class CorporateAccount extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCurrent;
     private javax.swing.JPanel jPaneluser;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextFieldAddress;
+    private javax.swing.JTextField jTextFieldCompanyName;
+    private javax.swing.JTextField jTextFieldEmail;
+    private javax.swing.JTextField jTextFieldMobile;
+    private javax.swing.JTextField jTextFieldSearch;
     // End of variables declaration//GEN-END:variables
 }
