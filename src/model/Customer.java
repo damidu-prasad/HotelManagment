@@ -4,6 +4,9 @@
  */
 package model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  *
  * @author mlahi
@@ -24,6 +27,7 @@ public class Customer {
     private static String NicFront = null;
     private static String NicBack = null;
 
+    private static ArrayList<String[]> SelectedRooms = new ArrayList<>();
     /**
      * @return the Name
      */
@@ -191,7 +195,20 @@ public class Customer {
     public static void setReservationNo(String aReservationNo) {
         ReservationNo = aReservationNo;
     }
-    
-    
+
+    /**
+     * @return the SelectedRooms
+     */
+    public static ArrayList<String[]> getSelectedRooms() {
+        return SelectedRooms;
+    }
+
+    /**
+     * @param aSelectedRooms the SelectedRooms to set
+     */
+    public static void setSelectedRooms(ArrayList<String[]> aSelectedRooms) {
+        SelectedRooms = aSelectedRooms;
+    }
+
 
 }

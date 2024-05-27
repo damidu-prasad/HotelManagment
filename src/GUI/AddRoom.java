@@ -4,6 +4,16 @@
  */
 package GUI;
 
+import com.mysql.cj.protocol.Resultset;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import model.Customer;
+import model.MYSQL;
+import model.room;
+
 /**
  *
  * @author Thamoddya Rashmitha
@@ -15,6 +25,45 @@ public class AddRoom extends javax.swing.JFrame {
      */
     public AddRoom() {
         initComponents();
+        loadRoomType();
+        loadRoomService();
+        loadAdditionalServices();
+    }
+
+    public final void loadRoomType() {
+
+        try {
+            ResultSet rs = MYSQL.execute("SELECT * FROM `room_type`");
+            while (rs.next()) {
+                jComboBox1.addItem(rs.getString("type_name"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public final void loadRoomService() {
+
+        try {
+            ResultSet rs = MYSQL.execute("SELECT * FROM `room_service`");
+            while (rs.next()) {
+                jComboBox2.addItem(rs.getString("room_service_type"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public final void loadAdditionalServices() {
+
+        try {
+            ResultSet rs = MYSQL.execute("SELECT * FROM `additional_room_services`");
+            while (rs.next()) {
+                jComboBox3.addItem(rs.getString("room_service_type"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     /**
@@ -37,7 +86,7 @@ public class AddRoom extends javax.swing.JFrame {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jButton9 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(83, 70, 50));
@@ -45,12 +94,6 @@ public class AddRoom extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Add Room ");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Twin", "Family", "Couple", "Bussiness", " " }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Standed", "Signature", "Luxury", "Romantic ", "Pet-Friendly" }));
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Additional Service", "Item 2", "Item 3", "Item 4" }));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -144,9 +187,26 @@ public class AddRoom extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private ArrayList<String[]> selectedRooms = new ArrayList<>();
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-       
+
+        String roomType = (String) jComboBox1.getSelectedItem();
+        String roomService = (String) jComboBox2.getSelectedItem();
+        String additionalService = (String) jComboBox3.getSelectedItem();
+        Date checkInDate = jDateChooser1.getDate();
+        Date checkOutDate = jDateChooser2.getDate();
+
+        // Add data to selectedRooms list
+        selectedRooms.add(new String[]{
+//            "1",roomType, roomService, additionalService, checkInDate.toString(), checkOutDate.toString()
+            "1","Single Room","Luxery","","2024.01.12","2024.01.14","14000"
+        });
+
+        // Set selected rooms in the Customer class
+        Customer.setSelectedRooms(selectedRooms);
+
+        RoomSelection.loadTableData();
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**

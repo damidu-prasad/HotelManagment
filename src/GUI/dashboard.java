@@ -6,16 +6,15 @@ package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.io.File;
-import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.SecureRandom;
 import javax.swing.JOptionPane;
 import model.MYSQL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 import javax.swing.JFileChooser;
 import model.Customer;
 
@@ -313,9 +312,9 @@ public class dashboard extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                     .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12))
         );
@@ -417,7 +416,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
@@ -504,7 +503,7 @@ public class dashboard extends javax.swing.JFrame {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 19, Short.MAX_VALUE)
+            .addGap(0, 22, Short.MAX_VALUE)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,7 +516,7 @@ public class dashboard extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -527,7 +526,7 @@ public class dashboard extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 537, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -710,20 +709,30 @@ public class dashboard extends javax.swing.JFrame {
         if (getEmail.isEmpty() && getName.isEmpty() && getMobile.isEmpty() && getNic.isEmpty() && getAddress.isEmpty() && getCountry.isEmpty() && getReligion.isEmpty() && getNicFront.isEmpty() && getNicBack.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Data Not Complete!", "Validation Error", JOptionPane.WARNING_MESSAGE);
         } else {
-            
-            SecureRandom random = new SecureRandom();
-            String reservationNo = new BigInteger(130, random).toString(32);
-            Customer.setReservationNo(reservationNo);
 
+            Random random = new Random();
+            long reservationNo = 1000000000L + (long) (random.nextDouble() * 9000000000L);
+            Customer.setReservationNo(Long.toString(reservationNo));
+//          String userNic = User.getName();
+            String userNic = "200109223435";
             try {
-//                MYSQL.execute("")
-            } catch (Exception e) {
-            }
+                MYSQL.execute("INSERT INTO `reservation`(reservation_no,employee_id,reservation_status) "
+                        + "VALUES ('" + reservationNo + "',(SELECT user_id FROM user WHERE user.nic = '" + userNic + "') ,'1' )");
 
+                MYSQL.execute("INSERT INTO reservation_"
+                        + "customer(reservation_id,customer_name,customer_mobile,customer_nic,customer_email,country_id,religon_id,address,note,selfie_path,nic_front_path,nic_back_side) "
+                        + "VALUES((SELECT reservation_id FROM `reservation` WHERE `reservation_no` = '" + reservationNo + "'  ),'" + getName + "','" + getMobile + "','" + getNic + "'"
+                        + ",'" + getEmail + "',(SELECT country_id FROM country WHERE country.name = '" + getCountry + "'),"
+                        + "(SELECT religon_id FROM religon WHERE religon.name = '" + getReligion + "'),'" + getAddress + "','" + getDescription + "','" + getProfilePhoto + "','" + getNicFront + "','" + getNicBack + "')");
+                
+
+                new RoomSelection().setVisible(true);
+                this.setVisible(false);
+            } catch (Exception e) {
+
+            }
         }
 
-        new RoomSelection().setVisible(true);
-        this.setVisible(false);
 
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -767,7 +776,6 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
-      
 
     }//GEN-LAST:event_jButton10ActionPerformed
 
