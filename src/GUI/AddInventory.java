@@ -7,6 +7,7 @@ package GUI;
 import com.mysql.cj.protocol.Resultset;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,6 +24,32 @@ public class AddInventory extends javax.swing.JFrame {
      */
     public AddInventory() {
         initComponents();
+        LoadCombo1();
+        LoadCombo2();
+    }
+
+    private void LoadCombo1() {
+        ResultSet resultsetdrop = MYSQL.execute("SELECT * FROM `inventory_category`");
+
+        try {
+            while (resultsetdrop.next()) {
+                String Categoryitem = resultsetdrop.getString("inventory_name");
+                jComboBox4.addItem(Categoryitem);
+            }
+        } catch (SQLException e) {
+        }
+    }
+
+    private void LoadCombo2() {
+        ResultSet resultsetdrop = MYSQL.execute("SELECT * FROM `item`");
+
+        try {
+            while (resultsetdrop.next()) {
+                String Categoryitem = resultsetdrop.getString("item_name");
+                jComboBox5.addItem(Categoryitem);
+            }
+        } catch (SQLException e) {
+        }
     }
 
     /**
@@ -47,14 +74,13 @@ public class AddInventory extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jButton3 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(83, 70, 50));
@@ -85,12 +111,12 @@ public class AddInventory extends javax.swing.JFrame {
             }
         });
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category" }));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Damidu");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item", "Item 2", "Item 3", "Item 4" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item" }));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -100,7 +126,16 @@ public class AddInventory extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Price :");
 
-        jButton2.setText("Add Item");
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField3KeyReleased(evt);
+            }
+        });
 
         jButton3.setText("Submit");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +149,7 @@ public class AddInventory extends javax.swing.JFrame {
         jLabel7.setText("Total Value : ");
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("1000000.00");
+        jLabel8.setText("00");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -155,8 +190,7 @@ public class AddInventory extends javax.swing.JFrame {
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel4)))
-                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2))
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,7 +214,7 @@ public class AddInventory extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addGap(9, 9, 9)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -192,9 +226,7 @@ public class AddInventory extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 236, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8))
@@ -229,8 +261,44 @@ public class AddInventory extends javax.swing.JFrame {
         String supplierId = jTextField2.getText();
         String category = (String) jComboBox4.getSelectedItem();
         String item = (String) jComboBox5.getSelectedItem();
-        String quantity = jTextField1.getText();
-        String price = jTextField3.getText();
+        Integer price = Integer.parseInt(jTextField3.getText());
+        Integer quantity = Integer.parseInt(jTextField1.getText());
+        LocalDate currentDate = LocalDate.now();
+        Integer Total = price * quantity;
+
+        if (supplierId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Supplier ID is required", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (category == null || category.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Category is required", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (item == null || item.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Item is required", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (quantity==0) {
+            JOptionPane.showMessageDialog(null, "Quantity is required", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        if (price==0) {
+            JOptionPane.showMessageDialog(null, "Price is required", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try {
+            MYSQL.execute("INSERT INTO `supplier_in`(supplier_id,total_price,in_date) SELECT '"+supplierId+"','"+Total+"','"+currentDate+"'");
+            JOptionPane.showMessageDialog(null, "Success", "Success", JOptionPane.OK_OPTION);
+            this.setVisible(false);
+            new Equipment().setVisible(true);
+        } catch (Exception e) {
+        }
+
 
     }//GEN-LAST:event_jButton3ActionPerformed
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -242,13 +310,15 @@ public class AddInventory extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Enter Inventory ID", "Empty Field", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-                
+
                 ResultSet resultSet = MYSQL.execute("SELECT * FROM `supplier` WHERE supplier_id='" + sid + "'");
                 System.out.println("hi");
-                String suplyname = resultSet.getString("supplier.supplier_id");
-                System.out.println("bye");
-                jLabel4.setText(suplyname);
+                if (resultSet.next()) {
+                    String suplyname = resultSet.getString("supplier.sname");
+                    System.out.println("bye");
+                    jLabel4.setText(suplyname);
 //                System.out.println(supName);
+                }
 
             } catch (SQLException e) {
             }
@@ -257,6 +327,20 @@ public class AddInventory extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+        // TODO add your handling code here:
+        Integer price = Integer.parseInt(jTextField3.getText());
+        Integer qty = Integer.parseInt(jTextField1.getText());
+
+        Integer Total = price * qty;
+
+        jLabel8.setText(Total.toString());
+    }//GEN-LAST:event_jTextField3KeyReleased
 
     /**
      * @param args the command line arguments
@@ -303,7 +387,6 @@ public class AddInventory extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
