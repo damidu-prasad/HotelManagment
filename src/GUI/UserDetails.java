@@ -562,6 +562,11 @@ public class UserDetails extends javax.swing.JFrame {
         jTableStaff.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jTableStaff.setSelectionForeground(new java.awt.Color(155, 117, 1));
         jTableStaff.getTableHeader().setReorderingAllowed(false);
+        jTableStaff.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jTableStaffMouseMoved(evt);
+            }
+        });
         jTableStaff.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jTableStaffMouseReleased(evt);
@@ -869,6 +874,14 @@ public class UserDetails extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jTextFieldSearchKeyTyped
+
+    private void jTableStaffMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStaffMouseMoved
+         int row = jTableStaff.rowAtPoint(evt.getComponent().getLocation());
+
+        if (row >= 0) {
+            jTableStaff.setToolTipText("Double-click to Update");
+        }
+    }//GEN-LAST:event_jTableStaffMouseMoved
 
     /**
      * @param args the command line arguments
