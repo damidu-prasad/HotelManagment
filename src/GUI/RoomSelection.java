@@ -43,8 +43,6 @@ public class RoomSelection extends javax.swing.JFrame {
                 }
                 dtm.addRow(vec);
             }
-
-            // jTable1.setModel(dtm);
         }
     }
 
