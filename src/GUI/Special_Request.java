@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import javax.swing.JOptionPane;
+import model.MYSQL;
+
 /**
  *
  * @author Admin
@@ -332,6 +335,18 @@ public class Special_Request extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        String request = jTextArea1.getText();
+        
+        if(request.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please Enter Request ","validation Error",JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        try {
+            MYSQL.execute("INSERT INTO `special_request` (`description`)VALUES ('"+request+"')");
+            JOptionPane.showMessageDialog(this, "Please Enter Request ","validation Error",JOptionPane.INFORMATION_MESSAGE);
+            jTextArea1.setText("");
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**

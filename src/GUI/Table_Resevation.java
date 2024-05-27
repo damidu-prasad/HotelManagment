@@ -6,11 +6,14 @@ package GUI;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
 
 
@@ -25,8 +28,43 @@ public class Table_Resevation extends javax.swing.JFrame {
      */
     public Table_Resevation() {
         initComponents();
+        loadtable();
     }
 
+    private void loadtable (){
+         try {
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `table_resevation` ");
+
+            while (resultset.next()) {
+                String name = resultset.getString("customer_name");
+                String mobile = resultset.getString("customer_mobile");
+                String nic = resultset.getString("nic");
+                String date = resultset.getString("date");
+                String time = resultset.getString("time");
+                String participents = resultset.getString("participents");
+                String note = resultset.getString("note");
+                
+
+                Vector vector = new Vector();//Row
+                vector.add(name);
+                vector.add(mobile);
+                vector.add(nic);
+                vector.add(date);
+                vector.add(time);
+                vector.add(participents);
+                vector.add(note);
+                
+
+                model.addRow(vector);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +88,6 @@ public class Table_Resevation extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
@@ -159,14 +196,6 @@ public class Table_Resevation extends javax.swing.JFrame {
 
         jLabel4.setText("Name");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("Participents");
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -197,29 +226,26 @@ public class Table_Resevation extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel10)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel9)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, 0, 196, Short.MAX_VALUE)
-                                .addComponent(jLabel11)
-                                .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(datePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel11)
+                            .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(datePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(5, 5, 5)
+                                .addComponent(jTextField2)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
                             .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
-                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(jPanel5Layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(timePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(timePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField6))
                     .addComponent(jScrollPane4))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -248,7 +274,6 @@ public class Table_Resevation extends javax.swing.JFrame {
                     .addComponent(timePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -280,23 +305,23 @@ public class Table_Resevation extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setBackground(new java.awt.Color(199, 189, 177));
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Name", "Mobile", "NIC", "Date", "Time", "Menu", "Participsnts", "Note"
+                "Name", "Mobile", "NIC", "Date", "Time", "Participsnts", "Note"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable2.setBackground(new java.awt.Color(199, 189, 177));
         jScrollPane3.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
             jTable2.getColumnModel().getColumn(0).setResizable(false);
@@ -306,7 +331,6 @@ public class Table_Resevation extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(4).setResizable(false);
             jTable2.getColumnModel().getColumn(5).setResizable(false);
             jTable2.getColumnModel().getColumn(6).setResizable(false);
-            jTable2.getColumnModel().getColumn(7).setResizable(false);
         }
 
         jButton10.setText("Export Report");
@@ -354,12 +378,12 @@ public class Table_Resevation extends javax.swing.JFrame {
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(datePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                                 .addComponent(jButton9))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -385,7 +409,7 @@ public class Table_Resevation extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton10)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(83, 66, 54));
@@ -550,10 +574,6 @@ public class Table_Resevation extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         String name = jTextField6.getText();
@@ -561,7 +581,6 @@ public class Table_Resevation extends javax.swing.JFrame {
         String nic = jTextField7.getText();
         LocalDate date = datePicker1.getDate();
         LocalTime time = timePicker1.getTime();
-        String menu = jComboBox1.getSelectedItem().toString();
         String participants = jTextField2.getText().toString();
         String note = jTextArea2.getText().toString();
 
@@ -589,12 +608,7 @@ public class Table_Resevation extends javax.swing.JFrame {
         if (time == null) {
             JOptionPane.showMessageDialog(this, "Please select a time.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }
-
-        if (menu.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a menu.", "Validation Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        }    
 
         if (participants.isEmpty() || !participants.matches("\\d+")) {
             JOptionPane.showMessageDialog(this, "Please enter a valid number of participants.", "Validation Error", JOptionPane.ERROR_MESSAGE);
@@ -602,10 +616,23 @@ public class Table_Resevation extends javax.swing.JFrame {
         }
 
         try {
-            //MySql.execute("INSERT INTO `##`() VALUES(name,mobile,nic,date,time,menu,participate,note)");
+            MYSQL.execute("INSERT INTO `table_resevation`"
+                    + "(`customer_name`,`customer_mobile`,`nic`,`date`,`time`,`participents`,`note`) "
+                    + "VALUES('"+name+"','"+mobile+"','"+nic+"','"+date+"','"+time+"','"+participants+"','"+note+"')");
             JOptionPane.showMessageDialog(this, "Validation successful. Proceeding with further processing.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            
+            jTextField2.setText("");
+            jTextField6.setText("");
+            jTextField7.setText("");
+            jTextField8.setText("");
+            jTextArea2.setText("");
+            datePicker1.setText("");
+            timePicker1.setText("");
+            
+           // model.setRowCount(0);
+            loadtable();
         } catch (Exception e) {
-                        
+            e.printStackTrace();
         }
         // Proceed with the rest of your logic if validation passes
         // For example, save to database or further processing
@@ -622,9 +649,39 @@ public class Table_Resevation extends javax.swing.JFrame {
  LocalDate fromDate = datePicker2.getDate();
  LocalDate toDate = datePicker3.getDate();
  
-        try {
-            MYSQL.execute("SELECT * FROM `` ");
+ 
+ 
+          try {
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `table_resevation` WHERE '"+fromDate+"'  ");
+
+            while (resultset.next()) {
+                String name = resultset.getString("customer_name");
+                String mobile = resultset.getString("customer_mobile");
+                String nic = resultset.getString("nic");
+                String date = resultset.getString("date");
+                String time = resultset.getString("time");
+                String participents = resultset.getString("participents");
+                String note = resultset.getString("note");
+                
+
+                Vector vector = new Vector();//Row
+                vector.add(name);
+                vector.add(mobile);
+                vector.add(nic);
+                vector.add(date);
+                vector.add(time);
+                vector.add(participents);
+                vector.add(note);
+                
+
+                model.addRow(vector);
+
+            }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
@@ -667,7 +724,6 @@ public class Table_Resevation extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -4,8 +4,11 @@
  */
 package GUI;
 
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import model.MYSQL;
 
 /**
  *
@@ -18,8 +21,29 @@ public class Order_Taking extends javax.swing.JFrame {
      */
     public Order_Taking() {
         initComponents();
+        loadmenu();
     }
 
+    private void loadmenu(){
+        
+        Vector<String> vector = new Vector<>(); // Use generic type for better type safety
+
+        try (ResultSet resultset = MYSQL.execute("SELECT `name` FROM `categories`")) {
+            vector.add("Select categories");
+            while (resultset.next()) {
+                String categories = resultset.getString("name");
+                vector.add(categories);
+            }
+
+            DefaultComboBoxModel<String> comboboxModel = new DefaultComboBoxModel<>(vector);
+            jComboBox1.setModel(comboboxModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //JOptionPane.showMessageDialog(null, "Error loading months: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
