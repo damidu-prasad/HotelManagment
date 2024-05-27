@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Vector;
 import model.Customer;
 import model.MYSQL;
 import model.room;
@@ -187,23 +188,20 @@ public class AddRoom extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private ArrayList<String[]> selectedRooms = new ArrayList<>();
+
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 
-        String roomType = (String) jComboBox1.getSelectedItem();
-        String roomService = (String) jComboBox2.getSelectedItem();
-        String additionalService = (String) jComboBox3.getSelectedItem();
-        Date checkInDate = jDateChooser1.getDate();
-        Date checkOutDate = jDateChooser2.getDate();
 
-        // Add data to selectedRooms list
-        selectedRooms.add(new String[]{
-//            "1",roomType, roomService, additionalService, checkInDate.toString(), checkOutDate.toString()
-            "1","Single Room","Luxery","","2024.01.12","2024.01.14","14000"
-        });
+        String[] str = new String[7];
+        str[0] = "test1";
+        str[1] = "test2";
+        str[2] = "test3";
+        str[3] = "test4";
+        str[4] = "test5";
+        str[5] = "test6";
+        str[6] = "test7";
 
-        // Set selected rooms in the Customer class
-        Customer.setSelectedRooms(selectedRooms);
+        Customer.setRooms(str);
 
         RoomSelection.loadTableData();
 

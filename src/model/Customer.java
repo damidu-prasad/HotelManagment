@@ -4,13 +4,12 @@
  */
 package model;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Vector;
 
-/**
- *
- * @author mlahi
- */
+
 public class Customer {
 
     private static String Name = null;
@@ -26,8 +25,9 @@ public class Customer {
     private static String ProfilePhoto = null;
     private static String NicFront = null;
     private static String NicBack = null;
+    
+    private static ArrayList<String[]> rooms = new ArrayList<String[]>();
 
-    private static ArrayList<String[]> SelectedRooms = new ArrayList<>();
     /**
      * @return the Name
      */
@@ -197,18 +197,18 @@ public class Customer {
     }
 
     /**
-     * @return the SelectedRooms
+     * @return the rooms
      */
-    public static ArrayList<String[]> getSelectedRooms() {
-        return SelectedRooms;
+    public static ArrayList<String[]> getRooms() {
+        return rooms;
     }
 
     /**
-     * @param aSelectedRooms the SelectedRooms to set
+     * @param aRooms the rooms to set
      */
-    public static void setSelectedRooms(ArrayList<String[]> aSelectedRooms) {
-        SelectedRooms = aSelectedRooms;
+    public static void setRooms(String[] aRooms) {
+        rooms.add(aRooms);
+        System.out.println("Str Array : "+rooms);
     }
-
 
 }

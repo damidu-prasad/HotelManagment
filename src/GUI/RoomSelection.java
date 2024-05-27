@@ -5,6 +5,7 @@
 package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.Customer;
 
@@ -20,20 +21,26 @@ public class RoomSelection extends javax.swing.JFrame {
     public RoomSelection() {
         initComponents();
         loadTableData();
-
     }
 
     public static void loadTableData() {
+        DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
+        dtm.setRowCount(0);
 
-        DefaultTableModel tableModel = new DefaultTableModel();
-        tableModel.setRowCount(0);
+        //load when DataHolder not empty
+        if (Customer.getRooms().size() > 0) {
 
-       
-        // Load data from selectedRooms
-        for (String[] roomData : Customer.getSelectedRooms()) {
-            tableModel.addRow(roomData);
+            for (String[] roomSET : Customer.getRooms()) {
+                Vector vec = new Vector();
+                for (String room : roomSET) {
+                    vec.add(room);
+                }
+                dtm.addRow(vec);
+            }
+
+          // jTable1.setModel(dtm);
+
         }
-
     }
 
     /**
@@ -491,7 +498,7 @@ public class RoomSelection extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public static javax.swing.JTable jTable1;
     private org.jdatepicker.impl.UtilCalendarModel utilCalendarModel1;
     // End of variables declaration//GEN-END:variables
 }
