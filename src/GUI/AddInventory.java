@@ -4,6 +4,14 @@
  */
 package GUI;
 
+import com.mysql.cj.protocol.Resultset;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
 /**
  *
  * @author Thamoddya Rashmitha
@@ -71,6 +79,11 @@ public class AddInventory extends javax.swing.JFrame {
         });
 
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Item 2", "Item 3", "Item 4" }));
 
@@ -220,6 +233,30 @@ public class AddInventory extends javax.swing.JFrame {
         String price = jTextField3.getText();
 
     }//GEN-LAST:event_jButton3ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String sid = jTextField2.getText();
+
+//        System.out.println(sid);
+        if (sid.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Enter Inventory ID", "Empty Field", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                
+                ResultSet resultSet = MYSQL.execute("SELECT * FROM `supplier` WHERE supplier_id='" + sid + "'");
+                System.out.println("hi");
+                String suplyname = resultSet.getString("supplier.supplier_id");
+                System.out.println("bye");
+                jLabel4.setText(suplyname);
+//                System.out.println(supName);
+
+            } catch (SQLException e) {
+            }
+
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -235,16 +272,24 @@ public class AddInventory extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddInventory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddInventory.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddInventory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddInventory.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddInventory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddInventory.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddInventory.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AddInventory.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

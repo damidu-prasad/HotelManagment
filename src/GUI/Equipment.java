@@ -23,8 +23,62 @@ public class Equipment extends javax.swing.JFrame {
      */
     public Equipment() {
         initComponents();
+        loadInventoryData();
+        dropdowndataload1();
+        
     }
+    
+    private void loadInventoryData(){
+           try {
+                ResultSet resultset = MYSQL.execute("SELECT * FROM `inventory` INNER JOIN `item` ON `item`.item_id = `inventory`.item_id INNER JOIN `inventory_category` ON `inventory_category`.inventory_category_id = `inventory`.inventory_category_id");
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
+                model.setRowCount(0);
+                while (resultset.next()) {
+                    String inv_id = resultset.getString("inventory_id");
+                    String item = resultset.getString("item_name");
+                    String category = resultset.getString("inventory_name");
+                    String LDate = resultset.getString("last_maintained");
+                    String NDate = resultset.getString("next_maintained");
+                    String qty = resultset.getString("qty");
+                    String status = resultset.getString("status");
+
+//                System.out.println(sid);
+//
+                    Vector vector = new Vector();//Row
+                    vector.add(inv_id);
+                    vector.add(item);
+                    vector.add(category);
+                    vector.add(LDate);
+                    vector.add(NDate);
+                    vector.add(qty);
+                    vector.add(status);
+
+                    model.addRow(vector);
+
+                }
+
+            } catch (SQLException e) {
+            }
+    }
+    
+    private void dropdowndataload1(){
+        ResultSet resultsetdrop = MYSQL.execute("SELECT * FROM `inventory_category`");
+        
+        
+        try {
+             while (resultsetdrop.next()) {
+                String Categoryitem = resultsetdrop.getString("inventory_name"); // Update with your column name
+                jComboBox2.addItem(Categoryitem);
+            }
+        } catch (Exception e) {
+        }
+        
+         
+               
+    }
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +92,6 @@ public class Equipment extends javax.swing.JFrame {
         jPanel13 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jButton32 = new javax.swing.JButton();
-        jButton33 = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
         jButton35 = new javax.swing.JButton();
         jButton36 = new javax.swing.JButton();
@@ -46,12 +99,13 @@ public class Equipment extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -72,19 +126,6 @@ public class Equipment extends javax.swing.JFrame {
         jButton32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton32ActionPerformed(evt);
-            }
-        });
-
-        jButton33.setBackground(new java.awt.Color(83, 66, 54));
-        jButton33.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton33.setForeground(new java.awt.Color(255, 255, 255));
-        jButton33.setText("Preventive");
-        jButton33.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jButton33.setBorderPainted(false);
-        jButton33.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton33.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton33ActionPerformed(evt);
             }
         });
 
@@ -132,7 +173,6 @@ public class Equipment extends javax.swing.JFrame {
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -155,14 +195,18 @@ public class Equipment extends javax.swing.JFrame {
                 .addComponent(jButton32)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton36)
-                .addGap(18, 18, 18)
-                .addComponent(jButton33)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton34)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton35)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(83, 66, 54));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -173,9 +217,12 @@ public class Equipment extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status" }));
-
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Category" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -187,17 +234,14 @@ public class Equipment extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton2.setBackground(new java.awt.Color(82, 66, 54));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Add Inventory");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("Inventory");
+
+        jLabel3.setText("Status :");
+
+        jLabel4.setText("1-good");
+
+        jLabel5.setText("2-want to repair");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -209,19 +253,22 @@ public class Equipment extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1)))))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(13, 13, 13))
         );
         jPanel2Layout.setVerticalGroup(
@@ -229,19 +276,24 @@ public class Equipment extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addComponent(jButton2)
+                    .addComponent(jLabel2)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, 0)
+                .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -278,11 +330,6 @@ public class Equipment extends javax.swing.JFrame {
         new SupplierDashboard().setVisible(true);
     }//GEN-LAST:event_jButton32ActionPerformed
 
-    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        // TODO add your handling code here:
-        new PreventiveMaintain().setVisible(true);
-    }//GEN-LAST:event_jButton33ActionPerformed
-
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
         // TODO add your handling code here:
         new RepairLog().setVisible(true);
@@ -297,11 +344,6 @@ public class Equipment extends javax.swing.JFrame {
         new MaintainanceManage().setVisible(true);
 
     }//GEN-LAST:event_jButton36ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        new AddInventory().setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -324,8 +366,8 @@ public class Equipment extends javax.swing.JFrame {
                     String qty = resultset.getString("qty");
                     String status = resultset.getString("status");
 
-//                System.out.println(sid);
-//
+                    //                System.out.println(sid);
+                    //
                     Vector vector = new Vector();//Row
                     vector.add(inv_id);
                     vector.add(item);
@@ -344,6 +386,55 @@ public class Equipment extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        // TODO add your handling code here:
+        int  selectedIndex = (int) jComboBox2.getSelectedIndex();
+
+        if (selectedIndex==0) {
+            JOptionPane.showMessageDialog(null, "Enter Inventory ID", "Select Category", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                String selectCategory = (String) jComboBox2.getSelectedItem();
+                ResultSet resultset = MYSQL.execute("SELECT * FROM `inventory` INNER JOIN `item` ON `item`.item_id = `inventory`.item_id INNER JOIN `inventory_category` ON `inventory_category`.inventory_category_id = `inventory`.inventory_category_id  WHERE '" + selectCategory + "'= inventory_name");
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+                model.setRowCount(0);
+                while (resultset.next()) {
+                    String inv_id = resultset.getString("inventory_id");
+                    String item = resultset.getString("item_name");
+                    String category = resultset.getString("inventory_name");
+                    String LDate = resultset.getString("last_maintained");
+                    String NDate = resultset.getString("next_maintained");
+                    String qty = resultset.getString("qty");
+                    String status = resultset.getString("status");
+
+                    //                System.out.println(sid);
+                    //
+                    Vector vector = new Vector();//Row
+                    vector.add(inv_id);
+                    vector.add(item);
+                    vector.add(category);
+                    vector.add(LDate);
+                    vector.add(NDate);
+                    vector.add(qty);
+                    vector.add(status);
+
+                    model.addRow(vector);
+
+                }
+
+            } catch (SQLException e) {
+            }
+
+        }
+        
+        
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -382,17 +473,17 @@ public class Equipment extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton32;
-    private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton35;
     private javax.swing.JButton jButton36;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;

@@ -86,7 +86,6 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jPanel12 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
         jButton31 = new javax.swing.JButton();
-        jButton32 = new javax.swing.JButton();
         jButton33 = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
         jButton35 = new javax.swing.JButton();
@@ -123,19 +122,6 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jButton31.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton31ActionPerformed(evt);
-            }
-        });
-
-        jButton32.setBackground(new java.awt.Color(83, 66, 54));
-        jButton32.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton32.setForeground(new java.awt.Color(255, 255, 255));
-        jButton32.setText("Preventive");
-        jButton32.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jButton32.setBorderPainted(false);
-        jButton32.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton32.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton32ActionPerformed(evt);
             }
         });
 
@@ -183,7 +169,6 @@ public class MaintainanceManage extends javax.swing.JFrame {
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton33, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton34, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton31, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -206,8 +191,6 @@ public class MaintainanceManage extends javax.swing.JFrame {
                 .addComponent(jButton31)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton35)
-                .addGap(18, 18, 18)
-                .addComponent(jButton32)
                 .addGap(18, 18, 18)
                 .addComponent(jButton33)
                 .addGap(18, 18, 18)
@@ -326,6 +309,11 @@ public class MaintainanceManage extends javax.swing.JFrame {
                 "No", "Status", "Room No", "Maintain type", "Edit"
             }
         ));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -354,7 +342,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -382,11 +370,6 @@ public class MaintainanceManage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton31ActionPerformed
 
-    private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
-        // TODO add your handling code here:
-        new PreventiveMaintain().setVisible(true);
-    }//GEN-LAST:event_jButton32ActionPerformed
-
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
         // TODO add your handling code here:
         new RepairLog().setVisible(true);
@@ -402,6 +385,11 @@ public class MaintainanceManage extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_jButton35ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        new MaintainPopUp().setVisible(true);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -441,7 +429,6 @@ public class MaintainanceManage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton31;
-    private javax.swing.JButton jButton32;
     private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton35;
