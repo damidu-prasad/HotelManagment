@@ -391,7 +391,7 @@
                       <Component id="jPanelGeneralSettings" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                  <Component id="jPanelRoomConfig" pref="251" max="32767" attributes="0"/>
+                  <Component id="jPanelRoomConfig" pref="279" max="32767" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -481,12 +481,12 @@
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jTextFieldMail" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" pref="14" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jButtonEdit" alignment="3" max="32767" attributes="0"/>
                           <Component id="jButtonSave" alignment="3" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="9" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -685,6 +685,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldAddress">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d6" green="d9" red="dd" type="rgb"/>
                 </Property>
@@ -717,6 +718,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldMobile">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d6" green="d9" red="dd" type="rgb"/>
                 </Property>
@@ -752,6 +754,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextFieldMail">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d6" green="d9" red="dd" type="rgb"/>
                 </Property>
@@ -1398,7 +1401,7 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPaneDescription" alignment="0" pref="27" max="32767" attributes="0"/>
+                                  <Component id="jScrollPaneDescription" alignment="0" pref="61" max="32767" attributes="0"/>
                                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                                       <Component id="jLabelDescription" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1492,7 +1495,7 @@
                           <Component id="jLabelTotalRooms" min="-2" pref="109" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabelRoomTotal" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="45" max="32767" attributes="0"/>
+                          <EmptySpace pref="51" max="32767" attributes="0"/>
                           <Component id="jLabelAvailableRooms" min="-2" pref="75" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabelRoomAvailable" min="-2" max="-2" attributes="0"/>

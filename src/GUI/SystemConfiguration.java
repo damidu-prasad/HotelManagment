@@ -4,6 +4,10 @@
  */
 package gui;
 
+import GUI.UserManagement;
+import java.sql.ResultSet;
+import model.MYSQL;
+
 /**
  *
  * @author DELL
@@ -15,6 +19,32 @@ public class SystemConfiguration extends javax.swing.JFrame {
      */
     public SystemConfiguration() {
         initComponents();
+        Details();
+    }
+
+    private void Details() {
+        try {
+            // Fetch address
+            ResultSet addressResultSet = MYSQL.execute("SELECT `Address` FROM hotel");
+            if (addressResultSet.next()) {
+                jTextFieldAddress.setText(addressResultSet.getString("Address"));
+            }
+
+            // Fetch mobile
+            ResultSet mobileResultSet = MYSQL.execute("SELECT `Mobile` FROM hotel");
+            if (mobileResultSet.next()) {
+                jTextFieldMobile.setText(mobileResultSet.getString("Mobile"));
+            }
+
+            // Fetch email
+            ResultSet emailResultSet = MYSQL.execute("SELECT `Email` FROM hotel");
+            if (emailResultSet.next()) {
+                jTextFieldMail.setText(emailResultSet.getString("Email"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -357,6 +387,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
         jLabel8.setText(":");
         jLabel8.setPreferredSize(new java.awt.Dimension(84, 25));
 
+        jTextFieldAddress.setEditable(false);
         jTextFieldAddress.setBackground(new java.awt.Color(221, 217, 214));
         jTextFieldAddress.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jTextFieldAddress.setForeground(new java.awt.Color(155, 117, 1));
@@ -369,6 +400,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldMobile.setEditable(false);
         jTextFieldMobile.setBackground(new java.awt.Color(221, 217, 214));
         jTextFieldMobile.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jTextFieldMobile.setForeground(new java.awt.Color(155, 117, 1));
@@ -382,6 +414,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldMail.setEditable(false);
         jTextFieldMail.setBackground(new java.awt.Color(221, 217, 214));
         jTextFieldMail.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jTextFieldMail.setForeground(new java.awt.Color(155, 117, 1));
@@ -489,11 +522,11 @@ public class SystemConfiguration extends javax.swing.JFrame {
                     .addComponent(jLabelMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 14, Short.MAX_VALUE)
                 .addGroup(jPanelGeneralSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButtonSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         jPanelTotal.setBackground(new java.awt.Color(199, 189, 177));
@@ -749,7 +782,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
                 .addComponent(jLabelTotalRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelRoomTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(jLabelAvailableRooms, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelRoomAvailable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1071,7 +1104,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
                             .addComponent(jTextFieldPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanelRoomConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                            .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
                             .addGroup(jPanelRoomConfigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1125,7 +1158,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
                     .addComponent(jPanelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanelGeneralSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addComponent(jPanelRoomConfig, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                .addComponent(jPanelRoomConfig, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1152,7 +1185,7 @@ public class SystemConfiguration extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldMobileActionPerformed
 
     private void jTextFieldAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddressActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextFieldAddressActionPerformed
 
     private void jTextFieldHotelNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldHotelNameActionPerformed
@@ -1216,26 +1249,26 @@ public class SystemConfiguration extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonChangeRoomStatusActionPerformed
 
     private void jLabelUserManagementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUserManagementMouseClicked
-      userManagement userManagement = new userManagement();// Get the new UserManagement
+        UserManagement userManagement = new UserManagement();// Get the new UserManagement
         userManagement.setVisible(true); // Show the new UserManagement
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelUserManagementMouseClicked
 
     private void jLabelDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDashboardMouseClicked
-         AdminDashboard AdminDashboard = new AdminDashboard();// Get the new AdminDashboard
+        AdminDashboard AdminDashboard = new AdminDashboard();// Get the new AdminDashboard
         AdminDashboard.setVisible(true); // Show the new UserManagement
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelDashboardMouseClicked
 
     private void jLabelLogsAuditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelLogsAuditMouseClicked
-          Logs_Audit Logs_Audit = new Logs_Audit();// Get the new logs&audit
+        Logs_Audit Logs_Audit = new Logs_Audit();// Get the new logs&audit
         Logs_Audit.setVisible(true); // Show the new logs&audit
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelLogsAuditMouseClicked
 
     private void jButtonManageRoomsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonManageRoomsMouseClicked
-          ManageRooms  ManageRooms = new  ManageRooms();// Instantiate the new UserDetails window
-         ManageRooms.setVisible(true); // Show the UserDetails window
+        ManageRooms ManageRooms = new ManageRooms();// Instantiate the new UserDetails window
+        ManageRooms.setVisible(true); // Show the UserDetails window
         this.setVisible(false);    // Hide the current window
     }//GEN-LAST:event_jButtonManageRoomsMouseClicked
 

@@ -47,12 +47,12 @@ public class ManageRooms extends javax.swing.JFrame {
         jPanelAllUsers = new javax.swing.JPanel();
         jTextFieldSearch = new javax.swing.JTextField();
         jLabelSearch = new javax.swing.JLabel();
-        jButtonClose = new javax.swing.JButton();
+        jButtonClearRoomSearch = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableRooms = new javax.swing.JTable();
         jLabelSearch1 = new javax.swing.JLabel();
-        jButtonClose1 = new javax.swing.JButton();
-        jComboBoxType = new javax.swing.JComboBox<>();
+        jButtonClearRoomTypeSearch = new javax.swing.JButton();
+        jComboBoxSearch = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -292,14 +292,14 @@ public class ManageRooms extends javax.swing.JFrame {
         jLabelSearch.setBackground(new java.awt.Color(83, 66, 54));
         jLabelSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
 
-        jButtonClose.setBackground(new java.awt.Color(155, 117, 1));
-        jButtonClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/clear.png"))); // NOI18N
-        jButtonClose.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255)));
-        jButtonClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonClose.setPreferredSize(new java.awt.Dimension(25, 25));
-        jButtonClose.addActionListener(new java.awt.event.ActionListener() {
+        jButtonClearRoomSearch.setBackground(new java.awt.Color(155, 117, 1));
+        jButtonClearRoomSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/clear.png"))); // NOI18N
+        jButtonClearRoomSearch.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255)));
+        jButtonClearRoomSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonClearRoomSearch.setPreferredSize(new java.awt.Dimension(25, 25));
+        jButtonClearRoomSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCloseActionPerformed(evt);
+                jButtonClearRoomSearchActionPerformed(evt);
             }
         });
 
@@ -345,26 +345,26 @@ public class ManageRooms extends javax.swing.JFrame {
         jLabelSearch1.setBackground(new java.awt.Color(83, 66, 54));
         jLabelSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
 
-        jButtonClose1.setBackground(new java.awt.Color(155, 117, 1));
-        jButtonClose1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/clear.png"))); // NOI18N
-        jButtonClose1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255)));
-        jButtonClose1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonClose1.setPreferredSize(new java.awt.Dimension(25, 25));
-        jButtonClose1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonClearRoomTypeSearch.setBackground(new java.awt.Color(155, 117, 1));
+        jButtonClearRoomTypeSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/clear.png"))); // NOI18N
+        jButtonClearRoomTypeSearch.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255)));
+        jButtonClearRoomTypeSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonClearRoomTypeSearch.setPreferredSize(new java.awt.Dimension(25, 25));
+        jButtonClearRoomTypeSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonClose1ActionPerformed(evt);
+                jButtonClearRoomTypeSearchActionPerformed(evt);
             }
         });
 
-        jComboBoxType.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBoxType.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jComboBoxType.setForeground(new java.awt.Color(83, 66, 54));
-        jComboBoxType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxType.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(155, 117, 1)));
-        jComboBoxType.setPreferredSize(new java.awt.Dimension(119, 30));
-        jComboBoxType.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxSearch.setBackground(new java.awt.Color(255, 255, 255));
+        jComboBoxSearch.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jComboBoxSearch.setForeground(new java.awt.Color(83, 66, 54));
+        jComboBoxSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(155, 117, 1)));
+        jComboBoxSearch.setPreferredSize(new java.awt.Dimension(119, 30));
+        jComboBoxSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxTypeActionPerformed(evt);
+                jComboBoxSearchActionPerformed(evt);
             }
         });
 
@@ -380,13 +380,13 @@ public class ManageRooms extends javax.swing.JFrame {
                         .addGap(0, 0, 0)
                         .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonClearRoomSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addComponent(jLabelSearch1)
                         .addGap(1, 1, 1)
-                        .addComponent(jComboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonClose1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButtonClearRoomTypeSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -395,15 +395,15 @@ public class ManageRooms extends javax.swing.JFrame {
             .addGroup(jPanelAllUsersLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanelAllUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonClearRoomSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelAllUsersLayout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanelAllUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButtonClose1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBoxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButtonClearRoomTypeSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -419,17 +419,17 @@ public class ManageRooms extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldSearchActionPerformed
 
-    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonCloseActionPerformed
+    private void jButtonClearRoomSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearRoomSearchActionPerformed
+      jButtonClearRoomSearch.setText("");
+    }//GEN-LAST:event_jButtonClearRoomSearchActionPerformed
 
-    private void jButtonClose1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClose1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonClose1ActionPerformed
+    private void jButtonClearRoomTypeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearRoomTypeSearchActionPerformed
+      
+    }//GEN-LAST:event_jButtonClearRoomTypeSearchActionPerformed
 
-    private void jComboBoxTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTypeActionPerformed
+    private void jComboBoxSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxSearchActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxTypeActionPerformed
+    }//GEN-LAST:event_jComboBoxSearchActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
         // TODO add your handling code here:
@@ -497,11 +497,11 @@ public class ManageRooms extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonClose1;
+    private javax.swing.JButton jButtonClearRoomSearch;
+    private javax.swing.JButton jButtonClearRoomTypeSearch;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JComboBox<String> jComboBoxRoomType;
-    private javax.swing.JComboBox<String> jComboBoxType;
+    private javax.swing.JComboBox<String> jComboBoxSearch;
     private javax.swing.JLabel jLabelBooking;
     private javax.swing.JLabel jLabelCleaning;
     private javax.swing.JLabel jLabelMail;

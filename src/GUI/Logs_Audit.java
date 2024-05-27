@@ -4,6 +4,8 @@
  */
 package gui;
 
+import GUI.UserManagement;
+
 /**
  *
  * @author DELL
@@ -66,8 +68,8 @@ public class Logs_Audit extends javax.swing.JFrame {
         jLabelUser4 = new javax.swing.JLabel();
         jLabelUser5 = new javax.swing.JLabel();
         jButtonDelete3 = new javax.swing.JButton();
-        jTimeChooser1 = new lu.tudor.santec.jtimechooser.JTimeChooser();
         jDatePicker3 = new org.jdatepicker.JDatePicker();
+        jTimeChooser2 = new lu.tudor.santec.jtimechooser.JTimeChooser();
         jButtonChangeStatus = new javax.swing.JButton();
         jDatePicker2 = new org.jdatepicker.JDatePicker();
 
@@ -494,16 +496,12 @@ public class Logs_Audit extends javax.swing.JFrame {
             }
         });
 
-        jTimeChooser1.setBackground(new java.awt.Color(221, 217, 214));
-        jTimeChooser1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177)));
-        jTimeChooser1.setForeground(new java.awt.Color(155, 117, 1));
-        jTimeChooser1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jTimeChooser1.setPreferredSize(new java.awt.Dimension(113, 30));
-
         jDatePicker3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177)));
         jDatePicker3.setForeground(new java.awt.Color(155, 117, 1));
         jDatePicker3.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jDatePicker3.setPreferredSize(new java.awt.Dimension(112, 35));
+
+        jTimeChooser2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177)));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -516,16 +514,16 @@ public class Logs_Audit extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabelDate1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabelTime1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabelUser5, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTimeChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jTimeChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
                                 .addComponent(jLabelUser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabelUser1)
                         .addGap(3, 3, 3)
@@ -570,16 +568,15 @@ public class Logs_Audit extends javax.swing.JFrame {
                     .addComponent(jLabelUser4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDatePicker3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabelTime1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelUser5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jTimeChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelTime1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelUser5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTimeChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addComponent(jLabelDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(jScrollPaneDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(jButtonInsert1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(jButtonUpdate1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -662,7 +659,7 @@ public class Logs_Audit extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelUserManagementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelUserManagementMouseClicked
-        userManagement userManagement = new userManagement();// Get the new UserManagement
+        UserManagement  userManagement = new UserManagement();// Get the new UserManagement
         userManagement.setVisible(true); // Show the new UserManagement
         this.setVisible(false); // Close the current window
     }//GEN-LAST:event_jLabelUserManagementMouseClicked
@@ -794,6 +791,6 @@ public class Logs_Audit extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaDescription1;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTextField jTextFieldUserId1;
-    private lu.tudor.santec.jtimechooser.JTimeChooser jTimeChooser1;
+    private lu.tudor.santec.jtimechooser.JTimeChooser jTimeChooser2;
     // End of variables declaration//GEN-END:variables
 }

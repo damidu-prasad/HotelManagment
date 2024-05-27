@@ -4,17 +4,100 @@
  */
 package gui;
 
+import GUI.UserManagement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.ButtonModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+import model.role;
+
 /**
  *
  * @author DELL
  */
 public class UserDetails extends javax.swing.JFrame {
 
+    public static HashMap<String, role> roleMap = new HashMap();
+
     /**
      * Creates new form UserDetailsForm
      */
     public UserDetails() {
         initComponents();
+        loadEmployees();
+        Role();
+    }
+
+    public void loadEmployees() {
+        try {
+            // Search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `user` "
+                    + "INNER JOIN `role` ON `user`.`role_id` = `role`.`role_id` "
+                    + "INNER JOIN `gender` ON `user`.`gender_id` = `gender`.`gender_id` "
+                    + "INNER JOIN `status` ON `user`.`status_id` = `status`.`status_id` ");
+
+            // Load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableStaff.getModel();
+            model.setRowCount(0);
+
+            // Get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector<>();
+
+                vector1.add(resultSet.getString("user_id"));
+                vector1.add(resultSet.getString("name"));
+                vector1.add(resultSet.getString("role.name"));
+                vector1.add(resultSet.getString("nic"));
+                vector1.add(resultSet.getString("mobile"));
+                vector1.add(resultSet.getString("email"));
+                vector1.add(resultSet.getString("birthday"));
+                vector1.add(resultSet.getString("gender.gendar"));
+                vector1.add(resultSet.getString("created_at"));
+                vector1.add(resultSet.getString("password"));
+                vector1.add(resultSet.getString("status.status"));
+                model.addRow(vector1);
+            }
+
+            // Set model after adding all rows
+            jTableStaff.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void Role() {
+        try {
+            //search districts
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `role`");
+
+            Vector<String> vectorRole = new Vector<>();
+            vectorRole.add("Select");
+
+            while (resultSet.next()) {
+                vectorRole.add(resultSet.getString("name"));
+
+                role role = new role();
+                role.setRole_id(resultSet.getInt("role_id"));
+                role.setName(resultSet.getString("name"));
+
+                roleMap.put(resultSet.getString("name"), role);
+            }
+
+            //set vector vector1 to district
+            DefaultComboBoxModel model1 = new DefaultComboBoxModel(vectorRole);
+            jComboBoxRole.setModel(model1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
     }
 
     /**
@@ -46,11 +129,14 @@ public class UserDetails extends javax.swing.JFrame {
         jRadioButtonMale = new javax.swing.JRadioButton();
         jRadioButtonFemale = new javax.swing.JRadioButton();
         jLabelPassword = new javax.swing.JLabel();
-        jTextFieldPassword = new javax.swing.JTextField();
         jButtonInsert = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonDelete = new javax.swing.JButton();
-        jDatePicker1 = new org.jdatepicker.JDatePicker();
+        jLabelUserId1 = new javax.swing.JLabel();
+        jButtonReport = new javax.swing.JButton();
+        jDateChooserDate = new com.toedter.calendar.JDateChooser();
+        jDateChooserDob = new com.toedter.calendar.JDateChooser();
+        jPasswordFieldPassword = new javax.swing.JPasswordField();
         jPanelAllUsers = new javax.swing.JPanel();
         jTextFieldSearch = new javax.swing.JTextField();
         jLabelSearch = new javax.swing.JLabel();
@@ -62,6 +148,7 @@ public class UserDetails extends javax.swing.JFrame {
         jComboBoxRole1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setType(java.awt.Window.Type.POPUP);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -168,6 +255,7 @@ public class UserDetails extends javax.swing.JFrame {
         jRadioButtonMale.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jRadioButtonMale.setForeground(new java.awt.Color(221, 217, 214));
         jRadioButtonMale.setText("Male");
+        jRadioButtonMale.setActionCommand("1");
         jRadioButtonMale.setPreferredSize(new java.awt.Dimension(73, 25));
         jRadioButtonMale.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,22 +268,12 @@ public class UserDetails extends javax.swing.JFrame {
         jRadioButtonFemale.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jRadioButtonFemale.setForeground(new java.awt.Color(221, 217, 214));
         jRadioButtonFemale.setText("Female");
+        jRadioButtonFemale.setActionCommand("2");
         jRadioButtonFemale.setPreferredSize(new java.awt.Dimension(73, 25));
 
         jLabelPassword.setBackground(new java.awt.Color(199, 189, 177));
         jLabelPassword.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         jLabelPassword.setText("Password:");
-
-        jTextFieldPassword.setBackground(new java.awt.Color(221, 217, 214));
-        jTextFieldPassword.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jTextFieldPassword.setForeground(new java.awt.Color(155, 117, 1));
-        jTextFieldPassword.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
-        jTextFieldPassword.setPreferredSize(new java.awt.Dimension(155, 25));
-        jTextFieldPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldPasswordActionPerformed(evt);
-            }
-        });
 
         jButtonInsert.setBackground(new java.awt.Color(155, 117, 1));
         jButtonInsert.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
@@ -205,7 +283,7 @@ public class UserDetails extends javax.swing.JFrame {
         jButtonInsert.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonInsert.setFocusable(false);
         jButtonInsert.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonInsert.setPreferredSize(new java.awt.Dimension(83, 30));
+        jButtonInsert.setPreferredSize(new java.awt.Dimension(73, 30));
         jButtonInsert.setSelected(true);
         jButtonInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,7 +299,7 @@ public class UserDetails extends javax.swing.JFrame {
         jButtonUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonUpdate.setFocusable(false);
         jButtonUpdate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonUpdate.setPreferredSize(new java.awt.Dimension(83, 30));
+        jButtonUpdate.setPreferredSize(new java.awt.Dimension(73, 30));
         jButtonUpdate.setSelected(true);
         jButtonUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -237,7 +315,7 @@ public class UserDetails extends javax.swing.JFrame {
         jButtonDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonDelete.setFocusable(false);
         jButtonDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButtonDelete.setPreferredSize(new java.awt.Dimension(83, 30));
+        jButtonDelete.setPreferredSize(new java.awt.Dimension(73, 30));
         jButtonDelete.setSelected(true);
         jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,9 +323,36 @@ public class UserDetails extends javax.swing.JFrame {
             }
         });
 
-        jDatePicker1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
-        jDatePicker1.setForeground(new java.awt.Color(155, 117, 1));
-        jDatePicker1.setPreferredSize(new java.awt.Dimension(155, 39));
+        jLabelUserId1.setBackground(new java.awt.Color(199, 189, 177));
+        jLabelUserId1.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        jLabelUserId1.setText("Date of Registered:");
+
+        jButtonReport.setBackground(new java.awt.Color(155, 117, 1));
+        jButtonReport.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        jButtonReport.setForeground(new java.awt.Color(255, 255, 255));
+        jButtonReport.setText("Report");
+        jButtonReport.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
+        jButtonReport.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonReport.setFocusable(false);
+        jButtonReport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButtonReport.setPreferredSize(new java.awt.Dimension(73, 30));
+        jButtonReport.setSelected(true);
+        jButtonReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonReportActionPerformed(evt);
+            }
+        });
+
+        jDateChooserDate.setBackground(new java.awt.Color(221, 217, 214));
+        jDateChooserDate.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
+
+        jDateChooserDob.setBackground(new java.awt.Color(221, 217, 214));
+        jDateChooserDob.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
+
+        jPasswordFieldPassword.setBackground(new java.awt.Color(221, 217, 214));
+        jPasswordFieldPassword.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jPasswordFieldPassword.setForeground(new java.awt.Color(155, 117, 1));
+        jPasswordFieldPassword.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54), new java.awt.Color(83, 66, 54)));
 
         javax.swing.GroupLayout jPanelUserDetailsLayout = new javax.swing.GroupLayout(jPanelUserDetails);
         jPanelUserDetails.setLayout(jPanelUserDetailsLayout);
@@ -256,58 +361,74 @@ public class UserDetails extends javax.swing.JFrame {
             .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBoxRole, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldMail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
                         .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelNic)
-                            .addComponent(jTextFieldNic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelMobile)))
-                    .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
-                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabelUserId)
-                                .addComponent(jLabelFullName)
-                                .addComponent(jLabelRole)
-                                .addComponent(jTextFieldUserId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelUserDetails, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelMail)
-                                .addComponent(jLabelBday))
-                            .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldFullName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxRole, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextFieldMail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
-                                .addComponent(jLabelGendar)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jRadioButtonMale, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButtonFemale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelNic)
+                                    .addComponent(jTextFieldNic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelMobile)))
+                            .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
+                                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelUserId)
+                                    .addComponent(jLabelFullName)
+                                    .addComponent(jLabelRole)
+                                    .addComponent(jLabelUserDetails)
+                                    .addComponent(jLabelMail)
+                                    .addComponent(jLabelBday)
+                                    .addComponent(jTextFieldUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jDateChooserDob, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
+                                                .addComponent(jLabelGendar)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(jRadioButtonMale, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jRadioButtonFemale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUserDetailsLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabelUserId1)
+                                            .addComponent(jDateChooserDate, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
+                                .addComponent(jLabelPassword)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
-                        .addComponent(jLabelPassword)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPasswordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelUserDetailsLayout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jButtonInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(22, 22, 22))))
         );
         jPanelUserDetailsLayout.setVerticalGroup(
             jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
                 .addComponent(jLabelUserDetails)
                 .addGap(18, 18, 18)
-                .addComponent(jLabelUserId)
+                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelUserId)
+                    .addComponent(jLabelUserId1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooserDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabelFullName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -325,30 +446,32 @@ public class UserDetails extends javax.swing.JFrame {
                     .addComponent(jTextFieldNic, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFieldMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
-                        .addComponent(jLabelMail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelBday)
-                            .addComponent(jLabelGendar))
-                        .addGap(6, 6, 6)
-                        .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jRadioButtonMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jRadioButtonFemale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jLabelMail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelBday)
+                    .addComponent(jLabelGendar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jRadioButtonMale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jRadioButtonFemale, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDateChooserDob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelPassword)
-                    .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanelUserDetailsLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jPasswordFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(jPanelUserDetailsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonInsert, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanelUserDetails, java.awt.BorderLayout.LINE_START);
@@ -356,7 +479,6 @@ public class UserDetails extends javax.swing.JFrame {
         jPanelAllUsers.setBackground(new java.awt.Color(255, 255, 255));
         jPanelAllUsers.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jTextFieldSearch.setBackground(new java.awt.Color(255, 255, 255));
         jTextFieldSearch.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jTextFieldSearch.setForeground(new java.awt.Color(83, 66, 54));
         jTextFieldSearch.setText(" Search User ID");
@@ -397,14 +519,14 @@ public class UserDetails extends javax.swing.JFrame {
 
             },
             new String [] {
-                "User ID", "Name", "Role", "NIC", "Mobile", "E-mail", "Birth Day", "Gendar", "Password", "Status (On/Off)"
+                "User ID", "Name", "Role", "NIC", "Mobile", "E-mail", "Birth Day", "Gendar", "Registered", "Password", "Status (On/Off)"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -420,6 +542,11 @@ public class UserDetails extends javax.swing.JFrame {
         jTableStaff.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jTableStaff.setSelectionForeground(new java.awt.Color(155, 117, 1));
         jTableStaff.getTableHeader().setReorderingAllowed(false);
+        jTableStaff.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableStaffMouseReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableStaff);
 
         jLabelSearch1.setBackground(new java.awt.Color(83, 66, 54));
@@ -436,7 +563,6 @@ public class UserDetails extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxRole1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBoxRole1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jComboBoxRole1.setForeground(new java.awt.Color(83, 66, 54));
         jComboBoxRole1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -482,7 +608,7 @@ public class UserDetails extends javax.swing.JFrame {
                             .addComponent(jComboBoxRole1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButtonClose1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(10, 10, 10)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -512,16 +638,86 @@ public class UserDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButtonMaleActionPerformed
 
-    private void jTextFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldPasswordActionPerformed
-
     private void jButtonInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsertActionPerformed
-        // TODO add your handling code here:
+        //get data
+        String name = jTextFieldFullName.getText();
+        String nic = jTextFieldNic.getText();
+        String mobile = jTextFieldMobile.getText();
+        String mail = jTextFieldMail.getText();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date = null;
+        if (jDateChooserDate.getDate() != null) {
+            date = dateFormat.format(jDateChooserDate.getDate());
+        }
+        String dob = null;
+        if (jDateChooserDob.getDate() != null) {
+            dob = dateFormat.format(jDateChooserDob.getDate());
+        }
+        String role = String.valueOf(jComboBoxRole.getSelectedItem());
+        // Retrieve the role ID from the role map
+        role roleObj = roleMap.get(role);
+        ButtonModel genderSelection = buttonGroupGendar.getSelection();
+        String password = String.valueOf(jPasswordFieldPassword.getPassword());
+
+        // Validate inputs and show error messages
+        if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Date of registration", "Warning", JOptionPane.ERROR_MESSAGE);
+            jDateChooserDate.requestFocus();
+        } else if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Name", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldFullName.grabFocus();
+        } else if (roleObj == null) {
+            JOptionPane.showMessageDialog(this, "Invalid Role selected", "Warning", JOptionPane.ERROR_MESSAGE);
+            jComboBoxRole.requestFocus();
+            return;
+
+        } else if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the NIC", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldNic.grabFocus();
+        } else if (!mobile.matches("^(?:\\+94|0)(?:7[1-9]|9[1-9])\\d{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldMobile.requestFocus();
+        } else if (!mail.matches("^[A-Za-z0-9._%+-]+@gmail.com$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid E-Mail", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldMail.grabFocus();
+        } else if (role.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select the Role", "Warning", JOptionPane.ERROR_MESSAGE);
+            jComboBoxRole.requestFocus();
+        } else if (dob == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Birthday", "Warning", JOptionPane.ERROR_MESSAGE);
+            jDateChooserDob.requestFocus();
+        } else if (genderSelection == null) {
+            JOptionPane.showMessageDialog(this, "Please select a Gender", "Warning", JOptionPane.ERROR_MESSAGE);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Invalid Password", "Warning", JOptionPane.ERROR_MESSAGE);
+            jPasswordFieldPassword.requestFocus();
+
+        } else {
+
+            int roleId = roleObj.getRole_id();
+
+            // Assuming genderId is set in the ButtonModel's action command
+            String genderId = genderSelection.getActionCommand();
+
+            try {
+                // Insert the new record into the database
+                MYSQL.execute("INSERT INTO user (name,email,  mobile, nic, password,birthday,created_at, role_id, gender_id,status_id) "
+                        + "VALUES ('" + name + "', '" + mail + "','" + mobile + "','" + nic + "','" + password + "', '" + dob + "',  '" + date + "', '" + roleId + "', '" + genderId + "','" + 1 + "' )");
+
+                // Show success message
+                JOptionPane.showMessageDialog(this, "New account Created", "Successful", JOptionPane.PLAIN_MESSAGE);
+                loadEmployees();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error saving data", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_jButtonInsertActionPerformed
 
     private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdateActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
@@ -545,10 +741,77 @@ public class UserDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxRole1ActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        userManagement userManagement = new userManagement();
+        UserManagement userManagement = new UserManagement();
         userManagement.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_formWindowClosed
+
+    private void jButtonReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReportActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonReportActionPerformed
+
+    private void jTableStaffMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStaffMouseReleased
+        int[] selectedRows = jTableStaff.getSelectedRows();
+      
+        if (selectedRows.length == 1) {
+            int selectedRow = selectedRows[0];
+            String id = String.valueOf(jTableStaff.getValueAt(selectedRow, 0));
+            String name = String.valueOf(jTableStaff.getValueAt(selectedRow, 1));
+            String role = String.valueOf(jTableStaff.getValueAt(selectedRow, 2));
+            String nic = String.valueOf(jTableStaff.getValueAt(selectedRow, 3));
+            String mobile = String.valueOf(jTableStaff.getValueAt(selectedRow, 4));
+            String mail = String.valueOf(jTableStaff.getValueAt(selectedRow, 5));
+            String dob = String.valueOf(jTableStaff.getValueAt(selectedRow, 6));
+            String gender = String.valueOf(jTableStaff.getValueAt(selectedRow, 7));
+            String date = String.valueOf(jTableStaff.getValueAt(selectedRow, 8));
+            String password = String.valueOf(jTableStaff.getValueAt(selectedRow, 9));
+
+            // Disable the "Insert" button
+            jButtonInsert.setEnabled(false);
+
+            // Set the values to the respective UI components
+              jTextFieldUserId.setText(id);
+            jTextFieldFullName.setText(name);
+            jTextFieldNic.setText(nic);
+            jTextFieldMobile.setText(mobile);
+            jTextFieldMail.setText(mail);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                // Parse and set the registration date
+                Date registrationDate = dateFormat.parse(date);
+                jDateChooserDate.setDate(registrationDate);
+
+                // Parse and set the date of birth
+                Date dobDate = dateFormat.parse(dob);
+                jDateChooserDob.setDate(dobDate);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Date parsing error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+
+            // Set the role
+            jComboBoxRole.setSelectedItem(role);
+
+            // Set the gender
+            if (gender.equalsIgnoreCase("Male")) {
+                jRadioButtonMale.setSelected(true);
+            } else if (gender.equalsIgnoreCase("Female")) {
+                jRadioButtonFemale.setSelected(true);
+            } else {
+                // Handle cases where gender might not be "Male" or "Female"
+                jRadioButtonMale.setSelected(false);
+                jRadioButtonFemale.setSelected(false);
+            }
+
+            // Set the password
+            jPasswordFieldPassword.setText(password);
+        } else {
+            // Handle the case when no row or more than one row is selected
+            JOptionPane.showMessageDialog(this, "Please select exactly one row", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jTableStaffMouseReleased
 
     /**
      * @param args the command line arguments
@@ -564,16 +827,24 @@ public class UserDetails extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(UserDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserDetails.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(UserDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserDetails.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(UserDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserDetails.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(UserDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(UserDetails.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -592,10 +863,12 @@ public class UserDetails extends javax.swing.JFrame {
     private javax.swing.JButton jButtonClose1;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonInsert;
+    private javax.swing.JButton jButtonReport;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JComboBox<String> jComboBoxRole;
     private javax.swing.JComboBox<String> jComboBoxRole1;
-    private org.jdatepicker.JDatePicker jDatePicker1;
+    private com.toedter.calendar.JDateChooser jDateChooserDate;
+    private com.toedter.calendar.JDateChooser jDateChooserDob;
     private javax.swing.JLabel jLabelBday;
     private javax.swing.JLabel jLabelFullName;
     private javax.swing.JLabel jLabelGendar;
@@ -608,8 +881,10 @@ public class UserDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelSearch1;
     private javax.swing.JLabel jLabelUserDetails;
     private javax.swing.JLabel jLabelUserId;
+    private javax.swing.JLabel jLabelUserId1;
     private javax.swing.JPanel jPanelAllUsers;
     private javax.swing.JPanel jPanelUserDetails;
+    private javax.swing.JPasswordField jPasswordFieldPassword;
     private javax.swing.JRadioButton jRadioButtonFemale;
     private javax.swing.JRadioButton jRadioButtonMale;
     private javax.swing.JScrollPane jScrollPane2;
@@ -618,7 +893,6 @@ public class UserDetails extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldMail;
     private javax.swing.JTextField jTextFieldMobile;
     private javax.swing.JTextField jTextFieldNic;
-    private javax.swing.JTextField jTextFieldPassword;
     private javax.swing.JTextField jTextFieldSearch;
     private javax.swing.JTextField jTextFieldUserId;
     // End of variables declaration//GEN-END:variables

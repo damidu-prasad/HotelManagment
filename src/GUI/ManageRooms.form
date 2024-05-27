@@ -519,13 +519,13 @@
                           <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           <Component id="jTextFieldSearch" min="-2" pref="131" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButtonClose" max="-2" attributes="0"/>
+                          <Component id="jButtonClearRoomSearch" max="-2" attributes="0"/>
                           <EmptySpace pref="42" max="32767" attributes="0"/>
                           <Component id="jLabelSearch1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                          <Component id="jComboBoxType" min="-2" pref="128" max="-2" attributes="0"/>
+                          <Component id="jComboBoxSearch" min="-2" pref="128" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jButtonClose1" max="-2" attributes="0"/>
+                          <Component id="jButtonClearRoomTypeSearch" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane2" alignment="0" pref="0" max="32767" attributes="0"/>
                   </Group>
@@ -538,17 +538,17 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jButtonClose" alignment="0" max="-2" attributes="0"/>
+                      <Component id="jButtonClearRoomSearch" alignment="0" max="-2" attributes="0"/>
                       <Component id="jTextFieldSearch" alignment="0" max="-2" attributes="0"/>
                       <Component id="jLabelSearch" alignment="0" min="-2" pref="30" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabelSearch1" alignment="0" min="-2" pref="29" max="-2" attributes="0"/>
-                              <Component id="jComboBoxType" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jComboBoxSearch" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <Component id="jButtonClose1" alignment="1" max="-2" attributes="0"/>
+                      <Component id="jButtonClearRoomTypeSearch" alignment="1" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="408" max="-2" attributes="0"/>
@@ -598,7 +598,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonClose">
+        <Component class="javax.swing.JButton" name="jButtonClearRoomSearch">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="1" green="75" red="9b" type="rgb"/>
@@ -624,7 +624,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCloseActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClearRoomSearchActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -731,7 +731,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonClose1">
+        <Component class="javax.swing.JButton" name="jButtonClearRoomTypeSearch">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="1" green="75" red="9b" type="rgb"/>
@@ -757,10 +757,10 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClose1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonClearRoomTypeSearchActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxType">
+        <Component class="javax.swing.JComboBox" name="jComboBoxSearch">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -791,7 +791,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxTypeActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxSearchActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
