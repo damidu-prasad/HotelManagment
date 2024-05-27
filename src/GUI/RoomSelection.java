@@ -5,8 +5,12 @@
 package GUI;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Customer;
@@ -25,8 +29,8 @@ public class RoomSelection extends javax.swing.JFrame {
     }
 
     public static void setPrices() {
-        jLabel32.setText(Customer.getOtherTotalPrice());
-        jLabel35.setText(Customer.getTotalPrice());
+        jLabel32.setText(Customer.getOtherTotalPrice().toString());
+        jLabel35.setText(Customer.getTotalPrice().toString());
     }
 
     public static void loadTableData() {
@@ -72,7 +76,6 @@ public class RoomSelection extends javax.swing.JFrame {
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         jButton9 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -244,19 +247,6 @@ public class RoomSelection extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 16, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         jButton10.setBackground(new java.awt.Color(83, 66, 54));
         jButton10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton10.setForeground(new java.awt.Color(255, 255, 255));
@@ -283,10 +273,7 @@ public class RoomSelection extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {"1", "Single", "Luxery", "2024 May 24", "2024 May 26", "15000"}
             },
             new String [] {
                 "Room No", "Room Type", "Room Service", "Checking Date", "Checkout Date", "Price"
@@ -311,8 +298,6 @@ public class RoomSelection extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,7 +333,7 @@ public class RoomSelection extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)))
-                        .addGap(35, 35, 35))))
+                        .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,38 +341,33 @@ public class RoomSelection extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(45, 45, 45))
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel4))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel4))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel31)
-                            .addComponent(jLabel32))
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel34)
-                            .addComponent(jLabel35))
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(125, 125, 125))))
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel31)
+                    .addComponent(jLabel32))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel34)
+                    .addComponent(jLabel35))
+                .addGap(65, 65, 65)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(125, 125, 125))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -453,31 +433,35 @@ public class RoomSelection extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select a Check Out Date !", "Empty Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
         Date checkInDate = jDateChooser1.getDate();
         Date checkOutDate = jDateChooser2.getDate();
         String ReservationNo = Customer.getReservationNo();
 
+        Integer rowCount = jTable1.getRowCount();
+        Integer roomIdColumn = 0;
+        Integer checkinDateColumn = 3;
+        Integer checkOutDateColumn = 4;
+
+        for (int i = 0; i < rowCount; i++) {
+
+            String checkinDateStr = jTable1.getModel().getValueAt(i, checkinDateColumn).toString();
+            String checkOutDateStr = jTable1.getModel().getValueAt(i, checkOutDateColumn).toString();
+            String roomID = jTable1.getModel().getValueAt(i, roomIdColumn).toString();
+
+            try {
+
+                MYSQL.execute("INSERT INTO reservation_has_room (reservation_id, room_id, room_checkin_date, room_checkout_date) VALUES ((SELECT reservation_id FROM reservation"
+                        + " WHERE reservation_no = '" + ReservationNo + "'),'" + roomID + "', '" + checkinDateStr + "', '" + checkOutDateStr + "')");
+            } catch (Exception ex) {
+                Logger.getLogger(RoomSelection.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         try {
             MYSQL.execute("UPDATE reservation SET checkin_date = '" + checkInDate + "' , checkout_date = '" + checkOutDate + "' WHERE reservation_no = '" + ReservationNo + "'");
-
-            //load when DataHolder not empty
-            if (Customer.getRooms().size() > 0) {
-
-                for (String[] roomSET : Customer.getRooms()) {
-                    Vector vec = new Vector();
-                    for (String room : roomSET) {
-                        vec.add(room);
-                    }
-                  
-                }
-            }
-            MYSQL.execute("");
         } catch (Exception e) {
         }
 
         new Check_In().setVisible(true);
-
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -493,10 +477,8 @@ public class RoomSelection extends javax.swing.JFrame {
         FlatLightLaf.setup();
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RoomSelection().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new RoomSelection().setVisible(true);
         });
     }
 
@@ -525,7 +507,6 @@ public class RoomSelection extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     public static javax.swing.JTable jTable1;

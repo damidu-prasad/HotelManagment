@@ -6,7 +6,6 @@ package model;
 
 import java.util.ArrayList;
 
-
 public class Customer {
 
     private static String Name = null;
@@ -17,15 +16,15 @@ public class Customer {
     private static String Country = null;
     private static String Address = null;
     private static String Description = null;
-    private static String ReservationNo = null;
+    private static String ReservationNo = "5877022464";
 
     private static String ProfilePhoto = null;
     private static String NicFront = null;
     private static String NicBack = null;
-    
-    private static String otherTotalPrice;
-    private static String TotalPrice;
-    
+
+    private static Integer otherTotalPrice = 0;
+    private static Integer TotalPrice = 0;
+
     private static ArrayList<String[]> rooms = new ArrayList<String[]>();
 
     /**
@@ -208,35 +207,35 @@ public class Customer {
      */
     public static void setRooms(String[] aRooms) {
         rooms.add(aRooms);
-        System.out.println("Str Array : "+rooms);
+        System.out.println("Str Array : " + rooms);
     }
 
     /**
      * @return the otherTotalPrice
      */
-    public static String getOtherTotalPrice() {
+    public static Integer getOtherTotalPrice() {
         return otherTotalPrice;
     }
 
     /**
      * @param aOtherTotalPrice the otherTotalPrice to set
      */
-    public static void setOtherTotalPrice(String aOtherTotalPrice) {
-        otherTotalPrice = aOtherTotalPrice;
+    public static void setOtherTotalPrice(Integer aOtherTotalPrice) {
+        otherTotalPrice = otherTotalPrice + aOtherTotalPrice;
     }
 
     /**
      * @return the TotalPrice
      */
-    public static String getTotalPrice() {
+    public static Integer getTotalPrice() {
         return TotalPrice;
     }
 
     /**
      * @param aTotalPrice the TotalPrice to set
      */
-    public static void setTotalPrice(String aTotalPrice) {
-        TotalPrice = aTotalPrice;
+    public static void setTotalPrice(Integer aTotalPrice) {
+        TotalPrice = TotalPrice + aTotalPrice;
     }
 
 }

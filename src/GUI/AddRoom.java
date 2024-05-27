@@ -34,9 +34,9 @@ public class AddRoom extends javax.swing.JFrame {
         loadRoomService();
         loadAdditionalServices();
     }
-    
+
     public final void loadRoomType() {
-        
+
         try {
             ResultSet rs = MYSQL.execute("SELECT * FROM `room_type`");
             while (rs.next()) {
@@ -46,9 +46,9 @@ public class AddRoom extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-    
+
     public final void loadRoomService() {
-        
+
         try {
             ResultSet rs = MYSQL.execute("SELECT * FROM `room_service`");
             while (rs.next()) {
@@ -58,9 +58,9 @@ public class AddRoom extends javax.swing.JFrame {
             System.out.println(e);
         }
     }
-    
+
     public final void loadAdditionalServices() {
-        
+
         try {
             ResultSet rs = MYSQL.execute("SELECT * FROM `additional_room_services`");
             while (rs.next()) {
@@ -196,15 +196,15 @@ public class AddRoom extends javax.swing.JFrame {
 
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        
+
         String roomType = (String) jComboBox1.getSelectedItem();
         String roomService = (String) jComboBox2.getSelectedItem();
         Integer additionalService = jComboBox3.getSelectedIndex();
         Date checkInDate = jDateChooser1.getDate();
         Date checkOutDate = jDateChooser2.getDate();
-        
+
         Integer AdditionalServicePrice = 0;
-        
+
         if (checkInDate == null) {
             JOptionPane.showMessageDialog(this, "Select a Check In Date !", "Empty Field", JOptionPane.WARNING_MESSAGE);
             return;
@@ -213,54 +213,58 @@ public class AddRoom extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select a Check Out Date !", "Empty Field", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         if (additionalService > 0) {
             String getAdditionalService = jComboBox3.getSelectedItem().toString();
-            
+
             ResultSet serviceCharge = MYSQL.execute("SELECT service_charge FROM additional_room_services "
                     + "WHERE room_service_type = '" + getAdditionalService + "'");
-            
+
             try {
                 if (serviceCharge.next()) {
                     AdditionalServicePrice = AdditionalServicePrice + serviceCharge.getInt("service_charge");
                 }
-                
+
             } catch (SQLException ex) {
                 Logger.getLogger(AddRoom.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
         try {
             ResultSet room = MYSQL.execute("SELECT * FROM `room` "
                     + "WHERE room.room_type_id = (SELECT room_type_id FROM room_type WHERE room_type.type_name = '" + roomType + "' )"
                     + " AND room.room_service_id = (SELECT room_service_id FROM room_service WHERE room_service.room_service_type = '" + roomService + "' )  "
-                    + "AND room.room_status = '1' LIMIT 1;");
-            
+                    + "AND room.room_status = '2' AND room.status = 1 LIMIT 1");
+
             if (room.next()) {
-                
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                String easyCheckinDate = dateFormat.format(checkInDate);
-                String easyCheckOutDate = dateFormat.format(checkOutDate);
-                
-                String[] str = new String[6];
-                str[0] = room.getString("room_id");
-                str[1] = roomType;
-                str[2] = roomService;
-                str[3] = easyCheckinDate;
-                str[4] = easyCheckOutDate;
-                str[5] = Integer.toString(room.getInt("room_price") + AdditionalServicePrice);
-                Customer.setRooms(str);
-                
-                Customer.setOtherTotalPrice(Integer.toString(AdditionalServicePrice));
-                Customer.setTotalPrice(Integer.toString(room.getInt("room_price") + AdditionalServicePrice));
-                RoomSelection.setPrices();
-                RoomSelection.loadTableData();
+
+                try {
+                    MYSQL.execute("UPDATE room SET `status` = '2' WHERE room.room_id = '" + room.getString("room_id") + "'");
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
+
+                    String[] str = new String[6];
+                    str[0] = room.getString("room_id");
+                    str[1] = roomType;
+                    str[2] = roomService;
+                    str[3] = checkInDate.toString();
+                    str[4] = checkOutDate.toString();
+                    str[5] = Integer.toString(room.getInt("room_price") + AdditionalServicePrice);
+                    Customer.setRooms(str);
+
+                    Customer.setOtherTotalPrice(AdditionalServicePrice);
+                    Customer.setTotalPrice(room.getInt("room_price") + AdditionalServicePrice);
+
+                    RoomSelection.setPrices();
+                    RoomSelection.loadTableData();
+                } catch (Exception e) {
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "All rooms are Bookded , Thank You !", "Room Reserved", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException e) {
         }
-        
+
 
     }//GEN-LAST:event_jButton9ActionPerformed
 

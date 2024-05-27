@@ -606,6 +606,8 @@ public class dashboard extends javax.swing.JFrame {
                 Customer.setNicBack(destinationPath);
                 System.out.println(destinationPath);
                 JOptionPane.showMessageDialog(null, "Image Selected successfully!");
+                jButton8.setText("Selected");
+                jButton8.setEnabled(Boolean.FALSE);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Failed to upload image.");
@@ -740,6 +742,11 @@ public class dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+
+    }//GEN-LAST:event_jButton10ActionPerformed
+
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
@@ -767,17 +774,14 @@ public class dashboard extends javax.swing.JFrame {
                 Customer.setNicFront(destinationPath);
                 System.out.println(destinationPath);
                 JOptionPane.showMessageDialog(null, "Image Selected successfully!");
+                jButton7.setText("Selected");
+                jButton7.setEnabled(Boolean.FALSE);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Failed to upload image.");
             }
         }
     }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-
-
-    }//GEN-LAST:event_jButton10ActionPerformed
 
     /**
      * @param args the command line arguments
