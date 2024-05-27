@@ -18,7 +18,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
     /**
      *
      */
-    public MaintainanceManage() { 
+    public MaintainanceManage() {
         initComponents();
         MaintainDataLoad();
 
@@ -31,26 +31,45 @@ public class MaintainanceManage extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
             ResultSet resultSet = MYSQL.execute("SELECT * FROM `room_maintenance` INNER JOIN `room_maintenance_type` ON `room_maintenance`.room_maintenance_type_id = `room_maintenance_type`.room_maintenance_type_id INNER JOIN `priority` ON `priority`.priority_id = `room_maintenance`.priority_id INNER JOIN `room` ON `room`.room_id = `room_maintenance`.room_id ");
-            
+
             while (resultSet.next()) {
                 String rmno = resultSet.getString("room_maintenance_type_id");
                 String status = resultSet.getString("room_maintenance.status");
                 String rno = resultSet.getString("room_id");
                 String name = resultSet.getString("type_name");
-                
-                
+
                 Vector vector = new Vector();
                 vector.add(rmno);
                 vector.add(status);
                 vector.add(rno);
                 vector.add(name);
-                
-                
+
                 model.addRow(vector);
             }
-        } catch (Exception e) {
 
+            ResultSet rs = MYSQL.execute("SELECT COUNT(maintain_status) AS row_count FROM `room_maintenance`");
+            ResultSet rs2 = MYSQL.execute("SELECT COUNT(maintain_status) AS row_count1 FROM room_maintenance WHERE maintain_status = 1");
+            ResultSet rs3 = MYSQL.execute("SELECT COUNT(maintain_status) AS row_count2 FROM `room_maintenance` WHERE maintain_status=2");
             
+//            System.out.println(rs2);
+//            System.out.println(rs3);
+
+
+            if (rs2.next()) {
+                int rowCount1 = rs2.getInt("row_count1");
+                jLabel8.setText("" + rowCount1);
+               
+            }
+            if (rs.next()) {
+                int rowCount = rs.getInt("row_count");
+                jLabel6.setText("" + rowCount);
+            }
+            if (rs3.next()) {
+                int rowCount2 = rs3.getInt("row_count2");
+                jLabel10.setText("" + rowCount2);
+            }
+
+        } catch (Exception e) {
 
         }
     }
@@ -354,6 +373,7 @@ public class MaintainanceManage extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed

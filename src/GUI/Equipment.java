@@ -4,6 +4,14 @@
  */
 package GUI;
 
+import com.mysql.cj.protocol.Resultset;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
 /**
  *
  * @author Thamoddya Rashmitha
@@ -59,6 +67,7 @@ public class Equipment extends javax.swing.JFrame {
         jButton32.setForeground(new java.awt.Color(255, 255, 255));
         jButton32.setText("Supplier Dashboard");
         jButton32.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton32.setBorderPainted(false);
         jButton32.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton32.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,6 +93,7 @@ public class Equipment extends javax.swing.JFrame {
         jButton34.setForeground(new java.awt.Color(255, 255, 255));
         jButton34.setText("Repair Log");
         jButton34.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton34.setBorderPainted(false);
         jButton34.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton34.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -95,6 +105,7 @@ public class Equipment extends javax.swing.JFrame {
         jButton35.setForeground(new java.awt.Color(83, 66, 54));
         jButton35.setText(" Equipment Inventory");
         jButton35.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton35.setBorderPainted(false);
         jButton35.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton35.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +118,7 @@ public class Equipment extends javax.swing.JFrame {
         jButton36.setForeground(new java.awt.Color(255, 255, 255));
         jButton36.setText("Maintenance Request");
         jButton36.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        jButton36.setBorderPainted(false);
         jButton36.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -155,6 +167,11 @@ public class Equipment extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(83, 66, 54));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Search");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Status" }));
 
@@ -162,10 +179,7 @@ public class Equipment extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Item", "Category", "Last Maintained", "Next Maintained", "Quantity", "Status"
@@ -288,6 +302,48 @@ public class Equipment extends javax.swing.JFrame {
         // TODO add your handling code here:
         new AddInventory().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String searchId = jTextField1.getText();
+
+        if (searchId.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Enter Inventory ID", "Empty Field", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                ResultSet resultset = MYSQL.execute("SELECT * FROM `inventory` INNER JOIN `item` ON `item`.item_id = `inventory`.item_id INNER JOIN `inventory_category` ON `inventory_category`.inventory_category_id = `inventory`.inventory_category_id  WHERE '" + searchId + "'= inventory_id");
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+                model.setRowCount(0);
+                while (resultset.next()) {
+                    String inv_id = resultset.getString("inventory_id");
+                    String item = resultset.getString("item_name");
+                    String category = resultset.getString("inventory_name");
+                    String LDate = resultset.getString("last_maintained");
+                    String NDate = resultset.getString("next_maintained");
+                    String qty = resultset.getString("qty");
+                    String status = resultset.getString("status");
+
+//                System.out.println(sid);
+//
+                    Vector vector = new Vector();//Row
+                    vector.add(inv_id);
+                    vector.add(item);
+                    vector.add(category);
+                    vector.add(LDate);
+                    vector.add(NDate);
+                    vector.add(qty);
+                    vector.add(status);
+
+                    model.addRow(vector);
+
+                }
+
+            } catch (SQLException e) {
+            }
+
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
