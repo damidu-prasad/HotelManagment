@@ -100,6 +100,19 @@ public class UserDetails extends javax.swing.JFrame {
         }
     }
 
+    public void resetForm() {
+        jTextFieldUserId.setText("");
+        jTextFieldNic.setText("");
+        jTextFieldMobile.setText("");
+        jTextFieldMail.setText("");
+        jTextFieldFullName.setText("");
+        jPasswordFieldPassword.setText("");
+        jDateChooserDob.setDate(null);
+        jDateChooserDate.setDate(null);
+        buttonGroupGendar.clearSelection();
+        jComboBoxRole.setSelectedItem("Select");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -143,9 +156,6 @@ public class UserDetails extends javax.swing.JFrame {
         jButtonClose = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableStaff = new javax.swing.JTable();
-        jLabelSearch1 = new javax.swing.JLabel();
-        jButtonClose1 = new javax.swing.JButton();
-        jComboBoxRole1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setType(java.awt.Window.Type.POPUP);
@@ -485,9 +495,19 @@ public class UserDetails extends javax.swing.JFrame {
         jTextFieldSearch.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(155, 117, 1)));
         jTextFieldSearch.setDisabledTextColor(new java.awt.Color(221, 217, 214));
         jTextFieldSearch.setPreferredSize(new java.awt.Dimension(118, 30));
+        jTextFieldSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldSearchMouseClicked(evt);
+            }
+        });
         jTextFieldSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldSearchActionPerformed(evt);
+            }
+        });
+        jTextFieldSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextFieldSearchKeyTyped(evt);
             }
         });
 
@@ -549,31 +569,6 @@ public class UserDetails extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTableStaff);
 
-        jLabelSearch1.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelSearch1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
-
-        jButtonClose1.setBackground(new java.awt.Color(155, 117, 1));
-        jButtonClose1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/clear.png"))); // NOI18N
-        jButtonClose1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255), new java.awt.Color(255, 255, 255)));
-        jButtonClose1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonClose1.setPreferredSize(new java.awt.Dimension(25, 25));
-        jButtonClose1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonClose1ActionPerformed(evt);
-            }
-        });
-
-        jComboBoxRole1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jComboBoxRole1.setForeground(new java.awt.Color(83, 66, 54));
-        jComboBoxRole1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxRole1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(155, 117, 1)));
-        jComboBoxRole1.setPreferredSize(new java.awt.Dimension(119, 30));
-        jComboBoxRole1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxRole1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelAllUsersLayout = new javax.swing.GroupLayout(jPanelAllUsers);
         jPanelAllUsers.setLayout(jPanelAllUsersLayout);
         jPanelAllUsersLayout.setHorizontalGroup(
@@ -581,16 +576,10 @@ public class UserDetails extends javax.swing.JFrame {
             .addGroup(jPanelAllUsersLayout.createSequentialGroup()
                 .addComponent(jLabelSearch)
                 .addGap(2, 2, 2)
-                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addComponent(jTextFieldSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(jLabelSearch1)
-                .addGap(1, 1, 1)
-                .addComponent(jComboBoxRole1, 0, 146, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonClose1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jButtonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 481, Short.MAX_VALUE)
         );
         jPanelAllUsersLayout.setVerticalGroup(
             jPanelAllUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -600,15 +589,9 @@ public class UserDetails extends javax.swing.JFrame {
                     .addComponent(jButtonClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelAllUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jTextFieldSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelAllUsersLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addGroup(jPanelAllUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBoxRole1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonClose1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                        .addComponent(jLabelSearch, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 431, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -721,7 +704,42 @@ public class UserDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonUpdateActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
-        // TODO add your handling code here:
+        int[] selectedRows = jTableStaff.getSelectedRows();
+
+        if (selectedRows.length == 0) {
+            // Message: No rows selected
+            JOptionPane.showMessageDialog(this, "Please select one or more rows to delete.", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTableStaff.grabFocus();
+            return;
+        }
+
+        try {
+            for (int selectedRow : selectedRows) {
+                int id = Integer.parseInt((String) jTableStaff.getValueAt(selectedRow, 0));
+
+                // Delete the book
+                MYSQL.execute("DELETE FROM `user` WHERE `user_id`='" + id + "'");
+            }
+
+            loadEmployees();
+            resetForm();
+
+            jButtonInsert.setEnabled(true); // Unlock "insert" button
+
+            // Success message
+            JOptionPane.showMessageDialog(this, "Selected rows have been deleted.", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void jTable1MouseMoved(java.awt.event.MouseEvent evt) {
+        int row = jTableStaff.rowAtPoint(evt.getComponent().getLocation());
+
+        if (row >= 0) {
+            jTableStaff.setToolTipText("Double-click to Update");
+        }
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     private void jTextFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchActionPerformed
@@ -729,16 +747,8 @@ public class UserDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldSearchActionPerformed
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCloseActionPerformed
-        // TODO add your handling code here:
+        jTextFieldSearch.setText("");
     }//GEN-LAST:event_jButtonCloseActionPerformed
-
-    private void jButtonClose1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClose1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonClose1ActionPerformed
-
-    private void jComboBoxRole1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRole1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxRole1ActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         UserManagement userManagement = new UserManagement();
@@ -752,7 +762,7 @@ public class UserDetails extends javax.swing.JFrame {
 
     private void jTableStaffMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStaffMouseReleased
         int[] selectedRows = jTableStaff.getSelectedRows();
-      
+
         if (selectedRows.length == 1) {
             int selectedRow = selectedRows[0];
             String id = String.valueOf(jTableStaff.getValueAt(selectedRow, 0));
@@ -770,7 +780,7 @@ public class UserDetails extends javax.swing.JFrame {
             jButtonInsert.setEnabled(false);
 
             // Set the values to the respective UI components
-              jTextFieldUserId.setText(id);
+            jTextFieldUserId.setText(id);
             jTextFieldFullName.setText(name);
             jTextFieldNic.setText(nic);
             jTextFieldMobile.setText(mobile);
@@ -812,6 +822,53 @@ public class UserDetails extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_jTableStaffMouseReleased
+
+    private void jTextFieldSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldSearchMouseClicked
+        jTextFieldSearch.setText("Search User Id");
+
+        if (jTextFieldSearch.getText().equals("Search User Id")) {
+            jTextFieldSearch.setText("");
+        } else {
+            jTextFieldSearch.setText("Search User Id");
+        }
+    }//GEN-LAST:event_jTextFieldSearchMouseClicked
+
+    private void jTextFieldSearchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyTyped
+        String search = jTextFieldSearch.getText();
+
+        if (!search.isEmpty()) {
+            try {
+                ResultSet resultSet = MYSQL.execute("SELECT * FROM `user` WHERE `user`.`nic` LIKE '%" + search + "%'");
+
+                DefaultTableModel defaultTableModel = (DefaultTableModel) jTableStaff.getModel();
+                defaultTableModel.setRowCount(0);
+
+                // Get data to table
+                while (resultSet.next()) {
+                    Vector<String> vector1 = new Vector<>();
+
+                    vector1.add(resultSet.getString("user_id"));
+                    vector1.add(resultSet.getString("name"));
+                    vector1.add(resultSet.getString("role.name"));
+                    vector1.add(resultSet.getString("nic"));
+                    vector1.add(resultSet.getString("mobile"));
+                    vector1.add(resultSet.getString("email"));
+                    vector1.add(resultSet.getString("birthday"));
+                    vector1.add(resultSet.getString("gender.gendar"));
+                    vector1.add(resultSet.getString("created_at"));
+                    vector1.add(resultSet.getString("password"));
+                    vector1.add(resultSet.getString("status.status"));
+                    defaultTableModel.addRow(vector1);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            jTextFieldSearch.grabFocus();
+            loadEmployees();
+        }
+
+    }//GEN-LAST:event_jTextFieldSearchKeyTyped
 
     /**
      * @param args the command line arguments
@@ -860,13 +917,11 @@ public class UserDetails extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroupGendar;
     private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonClose1;
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonInsert;
     private javax.swing.JButton jButtonReport;
     private javax.swing.JButton jButtonUpdate;
     private javax.swing.JComboBox<String> jComboBoxRole;
-    private javax.swing.JComboBox<String> jComboBoxRole1;
     private com.toedter.calendar.JDateChooser jDateChooserDate;
     private com.toedter.calendar.JDateChooser jDateChooserDob;
     private javax.swing.JLabel jLabelBday;
@@ -878,7 +933,6 @@ public class UserDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPassword;
     private javax.swing.JLabel jLabelRole;
     private javax.swing.JLabel jLabelSearch;
-    private javax.swing.JLabel jLabelSearch1;
     private javax.swing.JLabel jLabelUserDetails;
     private javax.swing.JLabel jLabelUserId;
     private javax.swing.JLabel jLabelUserId1;

@@ -5,6 +5,13 @@
 package gui;
 
 import GUI.UserManagement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
+import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
 
 /**
  *
@@ -17,8 +24,181 @@ public class AdminDashboard extends javax.swing.JFrame {
      */
     public AdminDashboard() {
         initComponents();
+        setTodayDate();
+        setTime();
+        cards();
+        loadEvents();
+        loadInventory(); 
+        loadRooms(); 
+        loadFoodMenu();
     }
 
+    public void setTodayDate() {
+
+        // Get the current date
+        Date today = new Date();
+
+        // Format the date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // Set the formatted date to the label
+        labelDate.setText(dateFormat.format(today));
+    }
+
+    public void setTime() {
+        // Get the current time
+        Date now = new Date();
+
+        // Format the time
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+        // Set the formatted time to the label
+        labelTime.setText(timeFormat.format(now));
+    }
+
+    private void cards() {
+        try {
+            // Fetch address
+            String today = labelDate.getText();
+            ResultSet revenueResultSet = MYSQL.execute("SELECT SUM(recieved_amount) AS total_received_amount FROM recieved_payment WHERE recieved_date = '" + today + "'");
+            if (revenueResultSet.next()) {
+                // Use the correct column name "total_received_amount" instead of "revenue"
+                int totalReceivedAmount = revenueResultSet.getInt("total_received_amount");
+                labelRevenue.setText(String.valueOf(totalReceivedAmount));
+            }
+
+            // Fetch guest count
+            ResultSet guestResultSet = MYSQL.execute("SELECT COUNT(*) AS total FROM reservation_customer WHERE status='1'");
+            if (guestResultSet.next()) {
+                // Use getInt() to retrieve the integer value from the ResultSet
+                int guestCount = guestResultSet.getInt("total");
+                // Set the guest count to labelGuestsCount
+                labelGuestsCount.setText(String.valueOf(guestCount));
+            }
+
+            // Fetch staff count
+            ResultSet staffResultSet = MYSQL.execute("SELECT COUNT(*) AS total FROM user WHERE status_id='1'");
+            if (staffResultSet.next()) {
+                // Use getInt() to retrieve the integer value from the ResultSet
+                int staffCount = staffResultSet.getInt("total");
+                // Set the staff count to labelActiveStaff
+                labelStaffCount.setText(String.valueOf(staffCount));
+            }
+
+            // Fetch available room count
+            ResultSet availableResultSet = MYSQL.execute("SELECT COUNT(*) AS total FROM room WHERE status='1'");
+            if (availableResultSet.next()) {
+                // Use getInt() to retrieve the integer value from the ResultSet
+                int availableCount = availableResultSet.getInt("total");
+                // Set the available room count to labelRoomCount
+                labelRoomCount.setText(String.valueOf(availableCount));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadEvents() {
+        try {
+            //search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `special_event`");
+
+            //load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableEvent.getModel();
+            model.setRowCount(0);
+
+            //get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector();
+
+                vector1.add(resultSet.getString("date"));
+                vector1.add(resultSet.getString("description"));
+
+                model.addRow(vector1);
+                jTableEvent.setModel(model);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+     private void loadInventory() {
+        try {
+            //search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `inventory`");
+
+            //load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableInventry.getModel();
+            model.setRowCount(0);
+
+            //get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector();
+
+                vector1.add(resultSet.getString("description"));
+                vector1.add(resultSet.getString("qty"));
+
+                model.addRow(vector1);
+                jTableInventry.setModel(model);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+ 
+     
+     private void loadRooms() {
+        try {
+            //search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT `room_id`,`room_price` FROM `room` ; ");
+
+            //load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableRooms.getModel();
+            model.setRowCount(0);
+
+            //get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector();
+
+                vector1.add(resultSet.getString("room_id"));
+                vector1.add(resultSet.getString("room_price"));
+
+                model.addRow(vector1);
+                jTableRooms.setModel(model);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
+     
+    private void loadFoodMenu() {
+        try {
+            //search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT `title`,`price` FROM `menu`");
+
+            //load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableFoodMenu.getModel();
+            model.setRowCount(0);
+
+            //get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector();
+
+                vector1.add(resultSet.getString("title"));
+                vector1.add(resultSet.getString("price"));
+
+                model.addRow(vector1);
+                jTableFoodMenu.setModel(model);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -74,12 +254,17 @@ public class AdminDashboard extends javax.swing.JFrame {
         labelInventory = new java.awt.Label();
         jSeparatorLine7 = new javax.swing.JSeparator();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTableIInventry = new javax.swing.JTable();
+        jTableInventry = new javax.swing.JTable();
         jPanelRoomProcing = new javax.swing.JPanel();
         labelPricing = new java.awt.Label();
         jSeparatorLine9 = new javax.swing.JSeparator();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTableRooms = new javax.swing.JTable();
+        jPanelRoomProcing1 = new javax.swing.JPanel();
+        labelPricing1 = new java.awt.Label();
+        jSeparatorLine10 = new javax.swing.JSeparator();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableFoodMenu = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -483,7 +668,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         labelSpecialEvents.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         labelSpecialEvents.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         labelSpecialEvents.setForeground(new java.awt.Color(83, 66, 64));
-        labelSpecialEvents.setText("Today's Special Events ");
+        labelSpecialEvents.setText("Monthly Special Events ");
 
         jSeparatorLine6.setBackground(new java.awt.Color(199, 189, 177));
         jSeparatorLine6.setForeground(new java.awt.Color(221, 217, 214));
@@ -569,12 +754,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         jScrollPane3.setBackground(new java.awt.Color(83, 66, 54));
         jScrollPane3.setAutoscrolls(true);
 
-        jTableIInventry.setAutoCreateRowSorter(true);
-        jTableIInventry.setBackground(new java.awt.Color(199, 189, 177));
-        jTableIInventry.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jTableIInventry.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jTableIInventry.setForeground(new java.awt.Color(83, 66, 54));
-        jTableIInventry.setModel(new javax.swing.table.DefaultTableModel(
+        jTableInventry.setAutoCreateRowSorter(true);
+        jTableInventry.setBackground(new java.awt.Color(199, 189, 177));
+        jTableInventry.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTableInventry.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jTableInventry.setForeground(new java.awt.Color(83, 66, 54));
+        jTableInventry.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -582,7 +767,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Item", "count"
+                "Description", "Quantity"
             }
         ) {
             Class[] types = new Class [] {
@@ -600,11 +785,11 @@ public class AdminDashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableIInventry.setGridColor(new java.awt.Color(255, 255, 255));
-        jTableIInventry.setSelectionBackground(new java.awt.Color(255, 255, 255));
-        jTableIInventry.setSelectionForeground(new java.awt.Color(155, 117, 1));
-        jTableIInventry.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTableIInventry);
+        jTableInventry.setGridColor(new java.awt.Color(255, 255, 255));
+        jTableInventry.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jTableInventry.setSelectionForeground(new java.awt.Color(155, 117, 1));
+        jTableInventry.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTableInventry);
 
         javax.swing.GroupLayout jPanelHousekeepingLayout = new javax.swing.GroupLayout(jPanelHousekeeping);
         jPanelHousekeeping.setLayout(jPanelHousekeepingLayout);
@@ -658,7 +843,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Type", "Price (Rs.)"
+                "Room No.", "Price (Rs.)"
             }
         ) {
             Class[] types = new Class [] {
@@ -691,7 +876,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelRoomProcingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparatorLine9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelRoomProcingLayout.setVerticalGroup(
@@ -705,6 +890,82 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 12, Short.MAX_VALUE))
         );
 
+        jPanelRoomProcing1.setBackground(new java.awt.Color(199, 189, 177));
+
+        labelPricing1.setAlignment(java.awt.Label.CENTER);
+        labelPricing1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        labelPricing1.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        labelPricing1.setForeground(new java.awt.Color(83, 66, 64));
+        labelPricing1.setText("Food Menu");
+
+        jSeparatorLine10.setBackground(new java.awt.Color(199, 189, 177));
+        jSeparatorLine10.setForeground(new java.awt.Color(221, 217, 214));
+        jSeparatorLine10.setName(""); // NOI18N
+        jSeparatorLine10.setPreferredSize(new java.awt.Dimension(120, 2));
+
+        jScrollPane5.setBackground(new java.awt.Color(83, 66, 54));
+        jScrollPane5.setAutoscrolls(true);
+
+        jTableFoodMenu.setAutoCreateRowSorter(true);
+        jTableFoodMenu.setBackground(new java.awt.Color(199, 189, 177));
+        jTableFoodMenu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jTableFoodMenu.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jTableFoodMenu.setForeground(new java.awt.Color(83, 66, 54));
+        jTableFoodMenu.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Title", "Price (Rs.)"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableFoodMenu.setGridColor(new java.awt.Color(255, 255, 255));
+        jTableFoodMenu.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jTableFoodMenu.setSelectionForeground(new java.awt.Color(155, 117, 1));
+        jTableFoodMenu.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(jTableFoodMenu);
+
+        javax.swing.GroupLayout jPanelRoomProcing1Layout = new javax.swing.GroupLayout(jPanelRoomProcing1);
+        jPanelRoomProcing1.setLayout(jPanelRoomProcing1Layout);
+        jPanelRoomProcing1Layout.setHorizontalGroup(
+            jPanelRoomProcing1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelPricing1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanelRoomProcing1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelRoomProcing1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparatorLine10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanelRoomProcing1Layout.setVerticalGroup(
+            jPanelRoomProcing1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelRoomProcing1Layout.createSequentialGroup()
+                .addComponent(labelPricing1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(jSeparatorLine10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 12, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanelScreenLayout = new javax.swing.GroupLayout(jPanelScreen);
         jPanelScreen.setLayout(jPanelScreenLayout);
         jPanelScreenLayout.setHorizontalGroup(
@@ -712,7 +973,6 @@ public class AdminDashboard extends javax.swing.JFrame {
             .addGroup(jPanelScreenLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelRoomProcing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelScreenLayout.createSequentialGroup()
                         .addComponent(labelAdminName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(2, 2, 2)
@@ -723,6 +983,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         .addComponent(labelTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanelScreenLayout.createSequentialGroup()
                         .addGroup(jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanelRoomProcing, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelScreenLayout.createSequentialGroup()
                                 .addComponent(jPanelCardRevenue, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -734,7 +995,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                                 .addComponent(jPanelStaff, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPanelRooms, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-                            .addComponent(jPanelHousekeeping, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanelHousekeeping, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanelRoomProcing1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanelScreenLayout.setVerticalGroup(
@@ -763,7 +1025,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                     .addComponent(jPanelEventCalender, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelHousekeeping, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jPanelRoomProcing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanelRoomProcing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanelRoomProcing1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -846,6 +1110,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelHousekeeping;
     private javax.swing.JPanel jPanelMenu;
     private javax.swing.JPanel jPanelRoomProcing;
+    private javax.swing.JPanel jPanelRoomProcing1;
     private javax.swing.JPanel jPanelRooms;
     private javax.swing.JPanel jPanelScreen;
     private javax.swing.JPanel jPanelStaff;
@@ -853,7 +1118,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparatorLine;
+    private javax.swing.JSeparator jSeparatorLine10;
     private javax.swing.JSeparator jSeparatorLine3;
     private javax.swing.JSeparator jSeparatorLine4;
     private javax.swing.JSeparator jSeparatorLine5;
@@ -861,7 +1128,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparatorLine7;
     private javax.swing.JSeparator jSeparatorLine9;
     private javax.swing.JTable jTableEvent;
-    private javax.swing.JTable jTableIInventry;
+    private javax.swing.JTable jTableFoodMenu;
+    private javax.swing.JTable jTableInventry;
     private javax.swing.JTable jTableRooms;
     private java.awt.Label label100;
     private java.awt.Label labelActiveStaff;
@@ -873,6 +1141,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private java.awt.Label labelInventory;
     private java.awt.Label labelOf;
     private java.awt.Label labelPricing;
+    private java.awt.Label labelPricing1;
     private java.awt.Label labelRevenue;
     private java.awt.Label labelRoomCount;
     private java.awt.Label labelSpecialEvents;
