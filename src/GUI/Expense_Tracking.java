@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -14,6 +16,12 @@ import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -136,6 +144,48 @@ public class Expense_Tracking extends javax.swing.JFrame {
             e.printStackTrace();
         }
 }
+    
+//    public void BarChartExample(String title) {
+//
+//        // Create dataset
+//        CategoryDataset dataset = createDataset();
+//
+//        // Create chart
+//        JFreeChart chart = ChartFactory.createBarChart(
+//                "Bar Chart Example", // Chart title
+//                "Category", // X-Axis Label
+//                "Score", // Y-Axis Label
+//                dataset, // Dataset
+//                PlotOrientation.VERTICAL,
+//                true, true, false);
+//
+//        // Customize the chart
+//        customizeChart(chart);
+//
+//        // Add the chart to a panel
+//        ChartPanel chartPanel = new ChartPanel(chart);
+//        chartPanel.setPreferredSize(new Dimension(800, 600));
+//        setContentPane(chartPanel);
+//    }
+//
+//    private CategoryDataset createDataset() {
+//        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//
+//        dataset.addValue(80, "School A", "Math");
+//        dataset.addValue(50, "School A", "Science");
+//        dataset.addValue(70, "School A", "English");
+//
+//        dataset.addValue(60, "School B", "Math");
+//        dataset.addValue(40, "School B", "Science");
+//        dataset.addValue(90, "School B", "English");
+//
+//        return dataset;
+//    }
+//
+//    private void customizeChart(JFreeChart chart) {
+//        // Customize chart (optional)
+//        chart.getTitle().setPaint(Color.BLUE);
+//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -309,15 +359,16 @@ public class Expense_Tracking extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(67, 67, 67)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -354,7 +405,6 @@ public class Expense_Tracking extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
                         .addComponent(jButton7)
@@ -450,6 +500,7 @@ public class Expense_Tracking extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
