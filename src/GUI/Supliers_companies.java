@@ -806,55 +806,55 @@ public class Supliers_companies extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonInsert2ActionPerformed
 
     private void jButtonUpdate2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdate2ActionPerformed
+                                             
+
         int selectedRow = jTableSupliers.getSelectedRow();
 
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a row", "Warning", JOptionPane.WARNING_MESSAGE);
-            jTableSupliers.grabFocus();
-        } else {
-            // Assuming that the ID column is at index 0 of the table model
-            String name = jTextFieldUserName.getText().trim();
+        if (selectedRow == -1) {//get data
+            String id = jTextFieldUserId.getText();
+            String name = jTextFieldUserName.getText();
             String company = (String) jComboBox1.getSelectedItem();
-            String mobile = jTextFieldUserMobile1.getText().trim();
-            String address = jTextFieldAddress.getText().trim();  // Assuming you have an address field
+            String mobile = jTextFieldUserMobile1.getText();
 
+            String comp = String.valueOf(jComboBox1.getSelectedItem());
+            // Retrieve the role ID from the role map
+            company compid = companyMap.get(company);
             if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter the Company Name", "Warning", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter the  Name", "Warning", JOptionPane.ERROR_MESSAGE);
                 jTextFieldUserName.grabFocus();
-            } else if ("Select".equals(company)) {
-                JOptionPane.showMessageDialog(this, "Please select a Company", "Warning", JOptionPane.ERROR_MESSAGE);
+
+            } else if (company.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the company", "Warning", JOptionPane.ERROR_MESSAGE);
                 jComboBox1.grabFocus();
+
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the Contact Number", "Warning", JOptionPane.ERROR_MESSAGE);
                 jTextFieldUserMobile1.grabFocus();
+
             } else if (!mobile.matches("^\\+?[1-9]\\d{1,14}$")) {
                 JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
                 jTextFieldUserMobile1.requestFocus();
-            } else if (address.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter the Company Address", "Warning", JOptionPane.ERROR_MESSAGE);
-                jTextFieldAddress.grabFocus();
+
             } else {
 
+                int accountId = Integer.parseInt((String) jTableSupliers.getValueAt(selectedRow, 0));
+                int compint = compid.getCompany_id();
                 try {
-                    
-                    int accountId = Integer.parseInt((String) jTableSupliers.getValueAt(selectedRow, 0));
+                    // Insert 
+                    MYSQL.execute("UPDATE `supplier` SET `sname` = '" + name + "', `mobile` = '" + mobile + "', `company_id` = '" + compint + "' WHERE `supplier_id` = '" + id + "'");
 
-                    // Execute the update query
-                    MYSQL.execute("");
+                    // Update table & clear form
+                    loadSuppliers();
+                    resetSupplier();
 
-                    // Update the table and reset the form
-                    loadCorparates();
-                    resetForm();
+                    //  Message
+                    JOptionPane.showMessageDialog(this, "New Account updated", "Successful", JOptionPane.PLAIN_MESSAGE);
 
-                    // Show success message
-                    JOptionPane.showMessageDialog(this, "Update successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Update failed.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
-
     }//GEN-LAST:event_jButtonUpdate2ActionPerformed
 
     private void jTextFieldSearchSuplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchSuplierActionPerformed
