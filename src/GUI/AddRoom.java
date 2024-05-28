@@ -257,12 +257,14 @@ public class AddRoom extends javax.swing.JFrame {
 
                     RoomSelection.setPrices();
                     RoomSelection.loadTableData();
+                    RoomReserve.loadTableData();
                 } catch (Exception e) {
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "All rooms are Bookded , Thank You !", "Room Reserved", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException e) {
+            Logger.getLogger(AddRoom.class.getName()).log(Level.SEVERE, null, e);
         }
 
 

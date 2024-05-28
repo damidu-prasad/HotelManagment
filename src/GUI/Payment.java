@@ -610,9 +610,8 @@ public class Payment extends javax.swing.JFrame {
 
         Integer Due = 0;
         try {
-            MYSQL.execute("INSERT INTO reservation_payment (reservation_id,total_rooms,reservation_no,total_payment,payment_status,`status`,due_amount)"
-                    + " WHERE ((SELECT reservation_id FROM reservation WHERE reservation.reservation_no = '" + reservationNo + "'),"
-                    + "'" + RowCount + "','" + reservationNo + "','" + Total + "','" + PaymentMethodId + "','1','" + Due + "')");
+            MYSQL.execute("INSERT INTO reservation_payment (reservation_id,total_rooms,reservation_no,total_payment,payment_status,`status`,due_amount) WHERE "
+                    + "((SELECT reservation_id FROM reservation WHERE reservation.reservation_no = '" + reservationNo + "'),'" + RowCount + "','" + reservationNo + "','" + Total + "','" + PaymentMethodId + "','1','" + Due + "')");
         } catch (Exception e) {
             Logger.getLogger(Payment.class.getName()).log(Level.SEVERE, null, e);
         }

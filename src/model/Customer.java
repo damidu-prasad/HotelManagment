@@ -16,7 +16,7 @@ public class Customer {
     private static String Country = null;
     private static String Address = null;
     private static String Description = null;
-    private static String ReservationNo = "5877022464";
+    private static String ReservationNo = null;
 
     private static String ProfilePhoto = null;
     private static String NicFront = null;

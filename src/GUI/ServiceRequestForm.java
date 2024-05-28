@@ -51,7 +51,7 @@ public class ServiceRequestForm extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(83, 66, 54));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hp1)nnnn 2.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo.png"))); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
