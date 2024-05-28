@@ -4,11 +4,18 @@
  */
 package GUI;
 
-
+import static gui.UserDetails.roleMap;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
+import model.company;
+import model.role;
 
 /**
  *
@@ -16,14 +23,19 @@ import model.MYSQL;
  */
 public class Supliers_companies extends javax.swing.JFrame {
 
+    public static HashMap<String, company> companyMap = new HashMap();
+
     /**
      * Creates new form SupliersCompanies
      */
     public Supliers_companies() {
         initComponents();
+        loadSuppliers();
+        loadCompanies();
+        company();
     }
 
-   public void loadSuppliers() {
+    public void loadSuppliers() {
         try {
             // Search user table from database
             ResultSet resultSet = MYSQL.execute("SELECT * FROM `supplier`"
@@ -36,9 +48,9 @@ public class Supliers_companies extends javax.swing.JFrame {
             // Get data to table
             while (resultSet.next()) {
                 Vector<String> vector1 = new Vector<>();
-                
-                vector1.add(resultSet.getString("user_id"));
-                vector1.add(resultSet.getString("name"));
+
+                vector1.add(resultSet.getString("supplier_id"));
+                vector1.add(resultSet.getString("sname"));
                 vector1.add(resultSet.getString("company.name"));
                 vector1.add(resultSet.getString("mobile"));
                 model.addRow(vector1);
@@ -46,40 +58,82 @@ public class Supliers_companies extends javax.swing.JFrame {
 
             // Set model after adding all rows
             jTableSupliers.setModel(model);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-   public void loadCompanies() {
+
+    public void loadCompanies() {
         try {
             // Search user table from database
             ResultSet resultSet = MYSQL.execute("SELECT * FROM `company`");
 
             // Load data to table
-            DefaultTableModel model = (DefaultTableModel) jTableSupliers.getModel();
+            DefaultTableModel model = (DefaultTableModel) jTableCompany.getModel();
             model.setRowCount(0);
 
             // Get data to table
             while (resultSet.next()) {
                 Vector<String> vector1 = new Vector<>();
-                
-                vector1.add(resultSet.getString("user_id"));
+
+                vector1.add(resultSet.getString("company_id"));
                 vector1.add(resultSet.getString("name"));
-                vector1.add(resultSet.getString("company.name"));
                 vector1.add(resultSet.getString("mobile"));
+                vector1.add(resultSet.getString("adress"));
+
                 model.addRow(vector1);
             }
 
             // Set model after adding all rows
-            jTableSupliers.setModel(model);
-            
+            jTableCompany.setModel(model);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-   
+
+    private void company() {
+        try {
+            //search districts
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM `company`");
+
+            Vector<String> vectorcompany = new Vector<>();
+            vectorcompany.add("Select");
+
+            while (resultSet.next()) {
+                vectorcompany.add(resultSet.getString("name"));
+
+                company company = new company();
+                company.setCompany_id(resultSet.getInt("company_id"));
+                company.setName(resultSet.getString("name"));
+
+                companyMap.put(resultSet.getString("name"), company);
+            }
+
+            //set vector vector1 to district
+            DefaultComboBoxModel model1 = new DefaultComboBoxModel(vectorcompany);
+            jComboBox1.setModel(model1);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public void resetSupplier() {
+        jTextFieldUserName.setText("");
+        jTextFieldUserMobile1.setText("");
+        jComboBox1.setSelectedItem("Select");
+        jTextFieldUserId.setText("");
+    }
+
+    public void resetcompany() {
+        jTextFieldCompanyName.setText("");
+        jTextFieldCompanyMobile.setText("");
+        jTextFieldAddress.setText("");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -98,8 +152,6 @@ public class Supliers_companies extends javax.swing.JFrame {
         jTextFieldUserName = new javax.swing.JTextField();
         jLabelUserCompany = new javax.swing.JLabel();
         jLabelUserMobile = new javax.swing.JLabel();
-        jTextFieldUserMobile = new javax.swing.JTextField();
-        jComboBoxUserCompany = new javax.swing.JComboBox<>();
         jButtonInsert2 = new javax.swing.JButton();
         jButtonUpdate2 = new javax.swing.JButton();
         jButtonDelete2 = new javax.swing.JButton();
@@ -108,6 +160,8 @@ public class Supliers_companies extends javax.swing.JFrame {
         jTextFieldSearchSuplier = new javax.swing.JTextField();
         jButtonClearNic = new javax.swing.JButton();
         jLabelSearch = new javax.swing.JLabel();
+        jTextFieldUserMobile1 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jPanelCompany = new javax.swing.JPanel();
         jLabelCompanies = new javax.swing.JLabel();
         jLabelCompanyName = new javax.swing.JLabel();
@@ -149,13 +203,19 @@ public class Supliers_companies extends javax.swing.JFrame {
         jLabelUserId.setBackground(new java.awt.Color(221, 217, 214));
         jLabelUserId.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         jLabelUserId.setForeground(new java.awt.Color(83, 66, 54));
-        jLabelUserId.setText("NIC:");
+        jLabelUserId.setText("Id");
 
+        jTextFieldUserId.setEditable(false);
         jTextFieldUserId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         jTextFieldUserId.setForeground(new java.awt.Color(155, 117, 1));
         jTextFieldUserId.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214)));
         jTextFieldUserId.setDoubleBuffered(true);
         jTextFieldUserId.setPreferredSize(new java.awt.Dimension(92, 25));
+        jTextFieldUserId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldUserIdActionPerformed(evt);
+            }
+        });
 
         jLabelUserName.setBackground(new java.awt.Color(221, 217, 214));
         jLabelUserName.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
@@ -177,19 +237,6 @@ public class Supliers_companies extends javax.swing.JFrame {
         jLabelUserMobile.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         jLabelUserMobile.setForeground(new java.awt.Color(83, 66, 54));
         jLabelUserMobile.setText("Mobile:");
-
-        jTextFieldUserMobile.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jTextFieldUserMobile.setForeground(new java.awt.Color(155, 117, 1));
-        jTextFieldUserMobile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214)));
-        jTextFieldUserMobile.setDoubleBuffered(true);
-        jTextFieldUserMobile.setPreferredSize(new java.awt.Dimension(352, 25));
-
-        jComboBoxUserCompany.setEditable(true);
-        jComboBoxUserCompany.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jComboBoxUserCompany.setForeground(new java.awt.Color(155, 117, 1));
-        jComboBoxUserCompany.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxUserCompany.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214)));
-        jComboBoxUserCompany.setPreferredSize(new java.awt.Dimension(163, 30));
 
         jButtonInsert2.setBackground(new java.awt.Color(155, 117, 1));
         jButtonInsert2.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
@@ -276,6 +323,11 @@ public class Supliers_companies extends javax.swing.JFrame {
         jTableSupliers.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jTableSupliers.setSelectionForeground(new java.awt.Color(155, 117, 1));
         jTableSupliers.getTableHeader().setReorderingAllowed(false);
+        jTableSupliers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableSupliersMouseReleased(evt);
+            }
+        });
         jScrollPaneTableSupliers1.setViewportView(jTableSupliers);
 
         jTextFieldSearchSuplier.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
@@ -304,47 +356,65 @@ public class Supliers_companies extends javax.swing.JFrame {
         jLabelSearch.setBackground(new java.awt.Color(83, 66, 54));
         jLabelSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/search.png"))); // NOI18N
 
+        jTextFieldUserMobile1.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jTextFieldUserMobile1.setForeground(new java.awt.Color(155, 117, 1));
+        jTextFieldUserMobile1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214), new java.awt.Color(221, 217, 214)));
+        jTextFieldUserMobile1.setDoubleBuffered(true);
+        jTextFieldUserMobile1.setPreferredSize(new java.awt.Dimension(352, 25));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanelSuplierLayout = new javax.swing.GroupLayout(jPanelSuplier);
         jPanelSuplier.setLayout(jPanelSuplierLayout);
         jPanelSuplierLayout.setHorizontalGroup(
             jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSuplierLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPaneTableSupliers1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelSuplierLayout.createSequentialGroup()
-                        .addComponent(jLabelSupliers1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelSuplierLayout.createSequentialGroup()
-                        .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxUserCompany, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelUserCompany)
-                            .addComponent(jLabelUserId)
-                            .addComponent(jTextFieldUserId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelSuplierLayout.createSequentialGroup()
-                                .addComponent(jLabelUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                .addGap(53, 53, 53))
-                            .addComponent(jLabelUserMobile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                            .addComponent(jTextFieldUserMobile, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addGap(19, 19, 19)
+                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPaneTableSupliers1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                     .addGroup(jPanelSuplierLayout.createSequentialGroup()
                         .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanelSuplierLayout.createSequentialGroup()
-                                .addComponent(jLabelSearch)
-                                .addGap(0, 0, 0)
-                                .addComponent(jTextFieldSearchSuplier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanelSuplierLayout.createSequentialGroup()
-                                .addComponent(jButtonInsert2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(15, 15, 15)
-                                .addComponent(jButtonUpdate2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelSuplierLayout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelUserCompany)
+                                    .addComponent(jLabelUserId)
+                                    .addComponent(jTextFieldUserId, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonDelete2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanelSuplierLayout.createSequentialGroup()
-                                .addComponent(jButtonClearNic, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                                        .addComponent(jLabelUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                                        .addGap(53, 53, 53))
+                                    .addComponent(jLabelUserMobile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
+                            .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(jTextFieldUserMobile1, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))))
+                    .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                                .addComponent(jLabelSupliers1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSuplierLayout.createSequentialGroup()
+                                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                                        .addComponent(jLabelSearch)
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jTextFieldSearchSuplier, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                                        .addComponent(jButtonInsert2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(15, 15, 15)
+                                        .addComponent(jButtonUpdate2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonDelete2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanelSuplierLayout.createSequentialGroup()
+                                        .addComponent(jButtonClearNic, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addGap(22, 22, 22))
         );
         jPanelSuplierLayout.setVerticalGroup(
@@ -365,10 +435,10 @@ public class Supliers_companies extends javax.swing.JFrame {
                     .addComponent(jLabelUserCompany)
                     .addComponent(jLabelUserMobile))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldUserMobile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxUserCompany, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldUserMobile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
                 .addGroup(jPanelSuplierLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonInsert2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonUpdate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -379,7 +449,7 @@ public class Supliers_companies extends javax.swing.JFrame {
                     .addComponent(jTextFieldSearchSuplier, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelSearch, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneTableSupliers1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPaneTableSupliers1, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -488,14 +558,14 @@ public class Supliers_companies extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "Mobile", "Address"
+                "id", "Name", "Mobile", "Address"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -511,6 +581,11 @@ public class Supliers_companies extends javax.swing.JFrame {
         jTableCompany.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jTableCompany.setSelectionForeground(new java.awt.Color(155, 117, 1));
         jTableCompany.getTableHeader().setReorderingAllowed(false);
+        jTableCompany.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableCompanyMouseReleased(evt);
+            }
+        });
         jScrollPaneTableCompany.setViewportView(jTableCompany);
 
         jTextFieldSearchCompany.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
@@ -635,7 +710,41 @@ public class Supliers_companies extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonInsert1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsert1ActionPerformed
-        // TODO add your handling code here:
+        //get data
+        String name = jTextFieldCompanyName.getText();
+        String mobile = jTextFieldCompanyMobile.getText();
+        String address = jTextFieldAddress.getText();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the  Name", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldCompanyName.grabFocus();
+
+        } else if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Contact Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldCompanyMobile.grabFocus();
+
+        } else if (!mobile.matches("^\\+?[1-9]\\d{1,14}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldUserMobile1.requestFocus();
+
+        } else {
+
+            try {
+                // Insert 
+                MYSQL.execute("INSERT INTO `supplier` (, `name`, `mobile`, `address`) "
+                        + "VALUES ('" + name + "', '" + mobile + "','" + address + "')");
+
+                // Update table & clear form
+                loadCompanies();
+                resetcompany();
+
+                //  Message
+                JOptionPane.showMessageDialog(this, "New Account Created", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jButtonInsert1ActionPerformed
 
     private void jButtonUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdate1ActionPerformed
@@ -651,11 +760,101 @@ public class Supliers_companies extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDelete2ActionPerformed
 
     private void jButtonInsert2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsert2ActionPerformed
-        // TODO add your handling code here:
+        //get data
+        String id = jTextFieldUserId.getText();
+        String name = jTextFieldUserName.getText();
+        String company = (String) jComboBox1.getSelectedItem();
+        String mobile = jTextFieldUserMobile1.getText();
+
+        String comp = String.valueOf(jComboBox1.getSelectedItem());
+        // Retrieve the role ID from the role map
+        company compid = companyMap.get(company);
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the  Name", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldUserName.grabFocus();
+
+        } else if (company.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the company", "Warning", JOptionPane.ERROR_MESSAGE);
+            jComboBox1.grabFocus();
+
+        } else if (mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Contact Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldUserMobile1.grabFocus();
+
+        } else if (!mobile.matches("^\\+?[1-9]\\d{1,14}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
+            jTextFieldUserMobile1.requestFocus();
+
+        } else {
+            int compint = compid.getCompany_id();
+            try {
+                // Insert 
+                MYSQL.execute("INSERT INTO `supplier` ( `sname`, `mobile`, `company_id`) "
+                        + "VALUES ('" + name + "', '" + mobile + "', '" + mobile + "','" + compint + "')");
+
+                // Update table & clear form
+                loadSuppliers();
+                resetSupplier();
+
+                //  Message
+                JOptionPane.showMessageDialog(this, "New Account Created", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jButtonInsert2ActionPerformed
 
     private void jButtonUpdate2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdate2ActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTableSupliers.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTableSupliers.grabFocus();
+        } else {
+            // Assuming that the ID column is at index 0 of the table model
+            String name = jTextFieldUserName.getText().trim();
+            String company = (String) jComboBox1.getSelectedItem();
+            String mobile = jTextFieldUserMobile1.getText().trim();
+            String address = jTextFieldAddress.getText().trim();  // Assuming you have an address field
+
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Company Name", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldUserName.grabFocus();
+            } else if ("Select".equals(company)) {
+                JOptionPane.showMessageDialog(this, "Please select a Company", "Warning", JOptionPane.ERROR_MESSAGE);
+                jComboBox1.grabFocus();
+            } else if (mobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Contact Number", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldUserMobile1.grabFocus();
+            } else if (!mobile.matches("^\\+?[1-9]\\d{1,14}$")) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid Mobile Number", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldUserMobile1.requestFocus();
+            } else if (address.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Company Address", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextFieldAddress.grabFocus();
+            } else {
+
+                try {
+                    
+                    int accountId = Integer.parseInt((String) jTableSupliers.getValueAt(selectedRow, 0));
+
+                    // Execute the update query
+                    MYSQL.execute("");
+
+                    // Update the table and reset the form
+                    loadCorparates();
+                    resetForm();
+
+                    // Show success message
+                    JOptionPane.showMessageDialog(this, "Update successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Update failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+
     }//GEN-LAST:event_jButtonUpdate2ActionPerformed
 
     private void jTextFieldSearchSuplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSearchSuplierActionPerformed
@@ -679,6 +878,50 @@ public class Supliers_companies extends javax.swing.JFrame {
         userManagement.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_formWindowClosed
+
+    private void jTextFieldUserIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldUserIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldUserIdActionPerformed
+
+    private void jTableSupliersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSupliersMouseReleased
+        int[] selectedRows = jTableSupliers.getSelectedRows();
+
+        if (selectedRows.length == 1) {
+            int selectedRow = selectedRows[0];
+            String id = String.valueOf(jTableSupliers.getValueAt(selectedRow, 0));
+            String name = String.valueOf(jTableSupliers.getValueAt(selectedRow, 1));
+            String company = String.valueOf(jTableSupliers.getValueAt(selectedRow, 2));
+            String mobile = String.valueOf(jTableSupliers.getValueAt(selectedRow, 3));
+
+            // Set the values to the respective UI components
+            jTextFieldUserId.setText(id);
+            jTextFieldUserName.setText(name);
+            jComboBox1.setSelectedItem(company);
+            jTextFieldUserMobile1.setText(mobile);
+
+        } else {
+            // Handle the case when no row or more than one row is selected
+            JOptionPane.showMessageDialog(this, "Please select exactly one row", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jTableSupliersMouseReleased
+
+    private void jTableCompanyMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableCompanyMouseReleased
+        int[] selectedRows = jTableCompany.getSelectedRows();
+
+        if (selectedRows.length == 1) {
+            for (int selectedRow : selectedRows) {
+                String name = String.valueOf(jTableCompany.getValueAt(selectedRow, 1));
+                String mobile = String.valueOf(jTableCompany.getValueAt(selectedRow, 3));
+                String address = String.valueOf(jTableCompany.getValueAt(selectedRow, 3));
+
+                // Populate form fields
+                jTextFieldCompanyName.setText(name);
+                jTextFieldCompanyMobile.setText(mobile);
+                jTextFieldAddress.setText(address);
+
+            }
+        }
+    }//GEN-LAST:event_jTableCompanyMouseReleased
 
     /**
      * @param args the command line arguments
@@ -725,7 +968,7 @@ public class Supliers_companies extends javax.swing.JFrame {
     private javax.swing.JButton jButtonInsert2;
     private javax.swing.JButton jButtonUpdate1;
     private javax.swing.JButton jButtonUpdate2;
-    private javax.swing.JComboBox<String> jComboBoxUserCompany;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabelAddress;
     private javax.swing.JLabel jLabelCompanies;
     private javax.swing.JLabel jLabelCompanyMobile;
@@ -750,7 +993,7 @@ public class Supliers_companies extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldSearchCompany;
     private javax.swing.JTextField jTextFieldSearchSuplier;
     private javax.swing.JTextField jTextFieldUserId;
-    private javax.swing.JTextField jTextFieldUserMobile;
+    private javax.swing.JTextField jTextFieldUserMobile1;
     private javax.swing.JTextField jTextFieldUserName;
     // End of variables declaration//GEN-END:variables
 }
