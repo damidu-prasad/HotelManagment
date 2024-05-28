@@ -4,9 +4,12 @@
  */
 package GUI;
 
-import com.formdev.flatlaf.FlatLaf;
+
 import com.formdev.flatlaf.FlatLightLaf;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
@@ -22,28 +25,31 @@ public class Financial_Transaction extends javax.swing.JFrame {
      */
     public Financial_Transaction() {
         initComponents();
-        financialdataload();
+        fdataload();
     }
     
-    private void financialdataload() {
+    private void fdataload() {
 
         try {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-            ResultSet resultset = MYSQL.execute("SELECT * FROM `payroll` INNER JOIN");
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll` INNER JOIN "
+                    + "`user` ON  `user_payroll`.user_id = `user`.user_id  INNER JOIN "
+                    + "`month` ON `user_payroll`.month_id = `month`.month_id");
 
+//            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll`");
             while (resultset.next()) {
-                String month = resultset.getString("month");
-                String employee = resultset.getString("employee_id");
-                String hours = resultset.getString("workingHours");
-                String benifit = resultset.getString("benifit");
-                String salary = resultset.getString("salery");
-                String totalsalery = resultset.getString("totalsalery");
+                String month = resultset.getString("month.name");
+                String employee = resultset.getString("user.name");
+                //String hours = resultset.getString("workingHours");
+                String benifit = resultset.getString("benifits");
+                String salary = resultset.getString("salary");
+                String totalsalery = resultset.getString("total_salary");
 
                 Vector vector = new Vector();
                 vector.add(month);
                 vector.add(employee);
-                vector.add(hours);
+                //vector.add(hours);
                 vector.add(benifit);
                 vector.add(salary);
                 vector.add(totalsalery);
@@ -52,7 +58,9 @@ public class Financial_Transaction extends javax.swing.JFrame {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     /**
@@ -70,9 +78,7 @@ public class Financial_Transaction extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -89,9 +95,9 @@ public class Financial_Transaction extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hp1)nnnn 2.png"))); // NOI18N
 
-        jLabel2.setText("Accountant");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Accountant");
 
         jButton1.setText("Financial Transaction ");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -125,17 +131,6 @@ public class Financial_Transaction extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(83, 66, 54));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Budget Planning");
-        jButton4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         jButton5.setBackground(new java.awt.Color(83, 66, 54));
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Payroll Management");
@@ -144,18 +139,6 @@ public class Financial_Transaction extends javax.swing.JFrame {
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setBackground(new java.awt.Color(83, 66, 54));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("Log  Out");
-        jButton6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jButton6.setBorderPainted(false);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -172,9 +155,10 @@ public class Financial_Transaction extends javax.swing.JFrame {
             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,54 +173,48 @@ public class Financial_Transaction extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
-        jButton7.setText("SEARCH");
         jButton7.setBackground(new java.awt.Color(83, 66, 54));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("SEARCH");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("To");
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("To");
 
+        jTable1.setBackground(new java.awt.Color(199, 189, 177));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Date", "Description", "Amount", "Parties"
+                "Date", "Description", "Amount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setBackground(new java.awt.Color(199, 189, 177));
-        jTable1.setForeground(new java.awt.Color(199, 189, 177));
         jTable1.setSelectionForeground(new java.awt.Color(199, 189, 177));
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(0).setResizable(false);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -298,13 +276,6 @@ public class Financial_Transaction extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        Budget_planning bp = new Budget_planning();
-        bp.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         Payroll_Management pm = new Payroll_Management();
@@ -312,33 +283,27 @@ public class Financial_Transaction extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
        
         try {
+            LocalDate currentDate = LocalDate.now();
+            Date fdate = jDateChooser1.getDate();
+            
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-            ResultSet resultset = MYSQL.execute("SELECT * FROM `payroll` ");
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `order_payments` WHERE `order_date`= '"+currentDate+"' ");
 
             while (resultset.next()) {
-                String month = resultset.getString("month");
-                String employee = resultset.getString("employee_id");
-                String hours = resultset.getString("workingHours");
-                String benifit = resultset.getString("benifit");
-                String salary = resultset.getString("salery");
-                String totalsalery = resultset.getString("totalsalery");
+                String date = resultset.getString("order_date");
+                String description = resultset.getString("order_id");
+                String amount = resultset.getString("paid_amount");
+                
 
                 Vector vector = new Vector();
-                vector.add(month);
-                vector.add(employee);
-                vector.add(hours);
-                vector.add(benifit);
-                vector.add(salary);
-                vector.add(totalsalery);
+                vector.add(date);
+                vector.add(description);
+                vector.add(amount);
 
                 model.addRow(vector);
 
@@ -374,9 +339,7 @@ public class Financial_Transaction extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;

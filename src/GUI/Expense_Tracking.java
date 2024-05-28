@@ -5,7 +5,12 @@
 package GUI;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
 
@@ -20,7 +25,8 @@ public class Expense_Tracking extends javax.swing.JFrame {
      */
     public Expense_Tracking() {
         initComponents();
-        //Expencedataload();
+        Expencedataload();
+        loadlabel();
     }
 
     private void Expencedataload() {
@@ -28,20 +34,76 @@ public class Expense_Tracking extends javax.swing.JFrame {
         try {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
-            ResultSet resultset = MYSQL.execute("SELECT * FROM `payroll` INNER JOIN");
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll` INNER JOIN `user` ON `user_payroll`.`user_id`=`user`.`user_id` INNER JOIN `month` ON `user_payroll`.`month_id`=`month`.`month_id`");
 
             while (resultset.next()) {
-                String month = resultset.getString("month");
-                String employee = resultset.getString("employee_id");
-                String hours = resultset.getString("workingHours");
-                String benifit = resultset.getString("benifit");
-                String salary = resultset.getString("salery");
-                String totalsalery = resultset.getString("totalsalery");
+                String month = resultset.getString("month.name");
+                String description = resultset.getString("user_payroll_id");
+                String totalsalary = resultset.getString("total_salary");
+                String name = resultset.getString("user.name");
+
+                Vector vector = new Vector();
+                vector.add(description);
+                vector.add(month);
+                vector.add(totalsalary);
+                vector.add(name);
+                
+
+                model.addRow(vector);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            
+        }
+    }
+    
+    private void loadlabel(){
+        try {
+            LocalDate currentDate = LocalDate.now();
+        
+        // Extract the current month
+        Month currentMonth = currentDate.getMonth();
+        
+           // System.out.println(currentMonth);
+        
+            ResultSet resultset = MYSQL.execute("SELECT SUM(total_salary) AS total FROM `user_payroll` WHERE `month_id` = (SELECT `month_id` FROM `month` WHERE `name` = '"+currentMonth+"')");
+           
+               if (resultset.next()) {
+            
+            double totalSalary = resultset.getDouble("total");
+
+            
+            jLabel6.setText(String.valueOf(totalSalary));
+
+               }
+    }   catch (SQLException ex) {
+            Logger.getLogger(Expense_Tracking.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void payrolldataload() {
+
+        try {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll` INNER JOIN "
+                    + "`user` ON  `user_payroll`.user_id = `user`.user_id  INNER JOIN "
+                    + "`month` ON `user_payroll`.month_id = `month`.month_id");
+
+//            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll`");
+            while (resultset.next()) {
+                String month = resultset.getString("month.name");
+                String employee = resultset.getString("user.name");
+                //String hours = resultset.getString("workingHours");
+                String benifit = resultset.getString("benifits");
+                String salary = resultset.getString("salary");
+                String totalsalery = resultset.getString("total_salary");
 
                 Vector vector = new Vector();
                 vector.add(month);
                 vector.add(employee);
-                vector.add(hours);
+                //vector.add(hours);
                 vector.add(benifit);
                 vector.add(salary);
                 vector.add(totalsalery);
@@ -50,8 +112,9 @@ public class Expense_Tracking extends javax.swing.JFrame {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,9 +130,7 @@ public class Expense_Tracking extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -91,27 +152,27 @@ public class Expense_Tracking extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hp1)nnnn 2.png"))); // NOI18N
 
-        jLabel2.setText("Accountant");
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Accountant");
 
-        jButton1.setText("Financial Transaction ");
         jButton1.setBackground(new java.awt.Color(83, 66, 54));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Financial Transaction ");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Revenue Report");
         jButton2.setBackground(new java.awt.Color(83, 66, 54));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Revenue Report");
         jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -127,37 +188,14 @@ public class Expense_Tracking extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Budget Planning");
-        jButton4.setBackground(new java.awt.Color(83, 66, 54));
-        jButton4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("Payroll Management");
         jButton5.setBackground(new java.awt.Color(83, 66, 54));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Payroll Management");
         jButton5.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Log  Out");
-        jButton6.setBackground(new java.awt.Color(83, 66, 54));
-        jButton6.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jButton6.setBorderPainted(false);
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
             }
         });
 
@@ -174,9 +212,7 @@ public class Expense_Tracking extends javax.swing.JFrame {
             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,41 +227,36 @@ public class Expense_Tracking extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
 
-        jButton7.setText("SEARCH");
         jButton7.setBackground(new java.awt.Color(83, 66, 54));
         jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("SEARCH");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
             }
         });
 
-        jLabel3.setText("To");
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("To");
 
         jTable1.setBackground(new java.awt.Color(199, 189, 177));
-        jTable1.setForeground(new java.awt.Color(199, 189, 177));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Date", "Description", "Amount", "Parties"
+                "ID", "Date", "Amount", "Parties"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -243,19 +274,19 @@ public class Expense_Tracking extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(199, 189, 177));
 
-        jLabel4.setText("Today Revenue");
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel4.setText("Monthly Expense");
 
-        jLabel5.setText("RS.");
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(83, 66, 54));
+        jLabel5.setText("RS.");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(83, 66, 54));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("00.00");
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(83, 66, 54));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -364,23 +395,12 @@ public class Expense_Tracking extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-         Budget_planning bp = new Budget_planning();
-        bp.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         Payroll_Management pm = new Payroll_Management();
         pm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
@@ -453,9 +473,7 @@ public class Expense_Tracking extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;

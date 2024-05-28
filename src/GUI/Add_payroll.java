@@ -16,7 +16,6 @@ import model.MYSQL;
  */
 public class Add_payroll extends javax.swing.JFrame {
 
-    
     public Add_payroll() {
         initComponents();
         loadMonth();
@@ -41,6 +40,7 @@ public class Add_payroll extends javax.swing.JFrame {
             //JOptionPane.showMessageDialog(null, "Error loading months: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     private void loadUser() {
         Vector<String> vector = new Vector<>(); // Use generic type for better type safety
 
@@ -59,6 +59,7 @@ public class Add_payroll extends javax.swing.JFrame {
             //JOptionPane.showMessageDialog(null, "Error loading months: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,6 +98,11 @@ public class Add_payroll extends javax.swing.JFrame {
                 jTextField2ActionPerformed(evt);
             }
         });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField2KeyReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Add payroll Transaction Log");
@@ -122,6 +128,7 @@ public class Add_payroll extends javax.swing.JFrame {
 
         jTextField3.setBackground(new java.awt.Color(199, 189, 177));
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jTextField3.setEnabled(false);
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -228,50 +235,60 @@ public class Add_payroll extends javax.swing.JFrame {
         String user = (String) jComboBox2.getSelectedItem();
         String benefit = jTextField1.getText();
         String salery = jTextField2.getText();
-        String totalSalary = jTextField3.getText();
-        
-        if (jComboBox1.getSelectedIndex()==0){
-            JOptionPane.showMessageDialog(this, "Please Select Month","validation Error",JOptionPane.WARNING_MESSAGE);
-            
-            return;
-        }
-        if (jComboBox2.getSelectedIndex()==0){
-            JOptionPane.showMessageDialog(this, "Please Select User","validation Error",JOptionPane.WARNING_MESSAGE);
-            
-            return;
-        }
-        if (benefit.isEmpty()){
-            JOptionPane.showMessageDialog(this, "Please Enter Benifit","validation Error",JOptionPane.WARNING_MESSAGE);
-           
-            return;
-        }
-        if (salery.isEmpty()){
-            JOptionPane.showMessageDialog(this, "please Enter Salery","validation Error",JOptionPane.WARNING_MESSAGE);
-           
-            return;
-        }
-        if (totalSalary.isEmpty()){
-            JOptionPane.showMessageDialog(this, "please Enter Total Salery","validation Error",JOptionPane.WARNING_MESSAGE);
-            
-            return;
-        }
+        //String totalSalary = jTextField3.getText();
 
-         double benifit = Double.parseDouble(benefit);
-         double salery1 = Double.parseDouble(salery);
-         double salery2 = Double.parseDouble(totalSalary);
+        if (jComboBox1.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Please Select Month", "validation Error", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        if (jComboBox2.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Please Select User", "validation Error", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        if (benefit.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Benifit", "validation Error", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        if (salery.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "please Enter Salery", "validation Error", JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+        
+
+        double benifit = Double.parseDouble(benefit);
+        double salery1 = Double.parseDouble(salery);
+        double totalSalary = benifit + salery1;
+        
         try {
             MYSQL.execute("INSERT INTO `user_payroll`(`month_id`,`user_id`,`benifits`,`salary`,`total_salary`) "
-                    + "VALUES ( (SELECT  `month_id` FROM `month` WHERE month.name = '" +month+ "' ),"
-                            + "(SELECT  `user_id` FROM `user` WHERE user.name = '" +user+ "'"
-                                    + " ),'"+benefit+"','"+salery+"','"+totalSalary+"')");
-            
+                    + "VALUES ( (SELECT  `month_id` FROM `month` WHERE month.name = '" + month + "' ),"
+                    + "(SELECT  `user_id` FROM `user` WHERE user.name = '" + user + "'"
+                    + " ),'" + benefit + "','" + salery + "','" + totalSalary + "')");
+
             this.dispose();
             Payroll_Management pmanage = new Payroll_Management();
             pmanage.setVisible(true);
-            
+
         } catch (Exception e) {
         }
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyReleased
+        // TODO add your handling code here:
+        String benefit = jTextField1.getText();
+        String salery = jTextField2.getText();
+        
+        double benifit = Double.parseDouble(benefit);
+        double salery1 = Double.parseDouble(salery);
+        
+        double totalSalary = benifit + salery1;
+        
+        jTextField3.setText(String.valueOf(totalSalary));
+    }//GEN-LAST:event_jTextField2KeyReleased
 
     /**
      * @param args the command line arguments
