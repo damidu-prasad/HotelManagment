@@ -21,6 +21,13 @@ public class Check_In extends javax.swing.JFrame {
     public Check_In() {
         initComponents();
         loadUser();
+        loadTableData();
+        setPrices();
+    }
+    
+    public static void setPrices() {
+        jLabel32.setText(Customer.getOtherTotalPrice().toString());
+        jLabel36.setText(Customer.getTotalPrice().toString());
     }
 
     public static void loadUser() {
@@ -272,7 +279,7 @@ public class Check_In extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"1", "Single", "Luxery", "2024 May 24", "2024 May 26", "15000"}
+
             },
             new String [] {
                 "Room No", "Room Type", "Room Service", "Checking Date", "Checkout Date", "Price"

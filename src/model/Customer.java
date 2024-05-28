@@ -25,6 +25,8 @@ public class Customer {
     private static Integer otherTotalPrice = 0;
     private static Integer TotalPrice = 0;
 
+    private static Integer roomCount = 0;
+
     private static ArrayList<String[]> rooms = new ArrayList<String[]>();
 
     /**
@@ -236,6 +238,20 @@ public class Customer {
      */
     public static void setTotalPrice(Integer aTotalPrice) {
         TotalPrice = TotalPrice + aTotalPrice;
+    }
+
+    /**
+     * @return the roomCount
+     */
+    public static Integer getRoomCount() {
+        return roomCount;
+    }
+
+    /**
+     * @param aRoomCount the roomCount to set
+     */
+    public static void setRoomCount(Integer aRoomCount) {
+        roomCount = aRoomCount;
     }
 
 }
