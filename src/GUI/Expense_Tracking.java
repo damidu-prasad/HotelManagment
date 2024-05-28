@@ -11,6 +11,7 @@ import java.time.Month;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
 
@@ -27,8 +28,28 @@ public class Expense_Tracking extends javax.swing.JFrame {
         initComponents();
         Expencedataload();
         loadlabel();
+        loadMonth();
     }
 
+    
+    private void loadMonth() {
+        Vector<String> vector = new Vector<>(); // Use generic type for better type safety
+
+        try (ResultSet resultset = MYSQL.execute("SELECT `name` FROM `month`")) {
+            vector.add("Select month");
+            while (resultset.next()) {
+                String month = resultset.getString("name");
+                vector.add(month);
+            }
+
+            DefaultComboBoxModel<String> comboboxModel = new DefaultComboBoxModel<>(vector);
+            jComboBox1.setModel(comboboxModel);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            //JOptionPane.showMessageDialog(null, "Error loading months: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
     private void Expencedataload() {
 
         try {
@@ -133,7 +154,6 @@ public class Expense_Tracking extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jButton7 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -141,8 +161,7 @@ public class Expense_Tracking extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(816, 539));
@@ -243,9 +262,6 @@ public class Expense_Tracking extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("To");
-
         jTable1.setBackground(new java.awt.Color(199, 189, 177));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -328,6 +344,8 @@ public class Expense_Tracking extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -336,13 +354,9 @@ public class Expense_Tracking extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
                         .addComponent(jButton7)
                         .addGap(74, 74, 74))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -356,12 +370,9 @@ public class Expense_Tracking extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton7)
-                        .addComponent(jLabel3))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton7)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -405,31 +416,33 @@ public class Expense_Tracking extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
 
-        try {
+       try {
+           
+           String choosemonth = jComboBox1.getSelectedItem().toString();
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setNumRows(0);
 
-            ResultSet resultset = MYSQL.execute("SELECT * FROM `payroll` INNER JOIN");
+            ResultSet resultset = MYSQL.execute("SELECT * FROM `user_payroll` INNER JOIN `user` ON `user_payroll`.`user_id`=`user`.`user_id` INNER JOIN `month` ON `user_payroll`.`month_id`=`month`.`month_id`WHERE month.name = '" + choosemonth + "'");
 
             while (resultset.next()) {
-                String month = resultset.getString("month");
-                String employee = resultset.getString("employee_id");
-                String hours = resultset.getString("workingHours");
-                String benifit = resultset.getString("benifit");
-                String salary = resultset.getString("salery");
-                String totalsalery = resultset.getString("totalsalery");
+                String month = resultset.getString("month.name");
+                String description = resultset.getString("user_payroll_id");
+                String totalsalary = resultset.getString("total_salary");
+                String name = resultset.getString("user.name");
 
                 Vector vector = new Vector();
+                vector.add(description);
                 vector.add(month);
-                vector.add(employee);
-                vector.add(hours);
-                vector.add(benifit);
-                vector.add(salary);
-                vector.add(totalsalery);
+                vector.add(totalsalary);
+                vector.add(name);
+                
 
                 model.addRow(vector);
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -475,11 +488,9 @@ public class Expense_Tracking extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
