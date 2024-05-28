@@ -1,5 +1,10 @@
 package GUI;
 
+import java.sql.ResultSet;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import model.MYSQL;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -16,6 +21,38 @@ public class Inventory extends javax.swing.JFrame {
      */
     public Inventory() {
         initComponents();
+        loadinvenrty();
+    }
+    
+    private void loadinvenrty() {
+        try {
+            //search user table from database
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM inventory INNER JOIN `inventory_category` ON  `inventory`.`inventory_category_id` = `inventory_category`.`inventory_category_id` WHERE  `inventory`.`item_id` = `item`.`item_id`  ");
+
+            //load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableSupliers.getModel();
+            model.setRowCount(0);
+
+            
+//            `inventory`.`item_id` = `item`.`item_id`
+            //get data to table
+            while (resultSet.next()) {
+                Vector<String> vector1 = new Vector();
+
+           
+                vector1.add(resultSet.getString("inventory_category.inventory_name"));
+                vector1.add(resultSet.getString("Item Name:"));
+                vector1.add(resultSet.getString("Quantity:"));
+                vector1.add(resultSet.getString("description"));
+               
+
+                model.addRow(vector1);
+                jTableSupliers.setModel(model);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -44,7 +81,6 @@ public class Inventory extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabelUserId2 = new javax.swing.JLabel();
-        jSpinnerRoomNo = new javax.swing.JSpinner();
         jLabelUserId3 = new javax.swing.JLabel();
         jComboBoxRoomType1 = new javax.swing.JComboBox<>();
         jLabelUserId5 = new javax.swing.JLabel();
@@ -55,6 +91,7 @@ public class Inventory extends javax.swing.JFrame {
         jComboBoxRoomType2 = new javax.swing.JComboBox<>();
         jScrollPaneDescription = new javax.swing.JScrollPane();
         jTextAreaDescription = new javax.swing.JTextArea();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jComboBoxIrotyScearch = new javax.swing.JComboBox<>();
         jButtonClearNic1 = new javax.swing.JButton();
         jLabelSearch = new javax.swing.JLabel();
@@ -66,13 +103,15 @@ public class Inventory extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(83, 66, 54));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 500));
 
         jLabel1.setBackground(new java.awt.Color(83, 66, 54));
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/logo.png"))); // NOI18N
 
         jLabelRomStatus.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelRomStatus.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabelRomStatus.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelRomStatus.setForeground(new java.awt.Color(255, 255, 255));
         jLabelRomStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelRomStatus.setText("Room Status");
         jLabelRomStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -83,13 +122,15 @@ public class Inventory extends javax.swing.JFrame {
         });
 
         jLabelMaintanence.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelMaintanence.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabelMaintanence.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelMaintanence.setForeground(new java.awt.Color(255, 255, 255));
         jLabelMaintanence.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelMaintanence.setText("Maintenance Request");
         jLabelMaintanence.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelCleaning.setBackground(new java.awt.Color(83, 66, 54));
-        jLabelCleaning.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabelCleaning.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelCleaning.setForeground(new java.awt.Color(255, 255, 255));
         jLabelCleaning.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCleaning.setText("Cleaning Schedule");
         jLabelCleaning.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -101,6 +142,7 @@ public class Inventory extends javax.swing.JFrame {
 
         jLabelLogOut.setBackground(new java.awt.Color(83, 66, 54));
         jLabelLogOut.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelLogOut.setForeground(new java.awt.Color(255, 255, 255));
         jLabelLogOut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLogOut.setText("Log Out");
         jLabelLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -110,7 +152,7 @@ public class Inventory extends javax.swing.JFrame {
         jPanelCurrent.setPreferredSize(new java.awt.Dimension(199, 32));
 
         jLabelInventory.setBackground(new java.awt.Color(255, 255, 255));
-        jLabelInventory.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabelInventory.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         jLabelInventory.setForeground(new java.awt.Color(83, 66, 54));
         jLabelInventory.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelInventory.setText("Inventory Request");
@@ -138,7 +180,7 @@ public class Inventory extends javax.swing.JFrame {
             .addGroup(jPanelCurrentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelCurrentLayout.createSequentialGroup()
                     .addGap(3, 3, 3)
-                    .addComponent(jLabelInventory, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(jLabelInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -151,24 +193,28 @@ public class Inventory extends javax.swing.JFrame {
 
         jLabelId.setBackground(new java.awt.Color(83, 66, 54));
         jLabelId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelId.setForeground(new java.awt.Color(255, 255, 255));
         jLabelId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelId.setText("ID     : ");
         jLabelId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelUserName.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUserName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserName.setText("Shehara");
         jLabelUserName.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelUserId.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUserId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelUserId.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserId.setText("RS0001");
         jLabelUserId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelName.setBackground(new java.awt.Color(83, 66, 54));
         jLabelName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelName.setText("Name:");
         jLabelName.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -255,11 +301,6 @@ public class Inventory extends javax.swing.JFrame {
         jLabelUserId2.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
         jLabelUserId2.setForeground(new java.awt.Color(83, 66, 54));
         jLabelUserId2.setText("Item Name:");
-
-        jSpinnerRoomNo.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        jSpinnerRoomNo.setModel(new javax.swing.SpinnerNumberModel(100, 0, 100, 1));
-        jSpinnerRoomNo.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177), new java.awt.Color(199, 189, 177)));
-        jSpinnerRoomNo.setPreferredSize(new java.awt.Dimension(155, 30));
 
         jLabelUserId3.setBackground(new java.awt.Color(221, 217, 214));
         jLabelUserId3.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
@@ -362,6 +403,8 @@ public class Inventory extends javax.swing.JFrame {
         jTextAreaDescription.setPreferredSize(new java.awt.Dimension(2016, 60));
         jScrollPaneDescription.setViewportView(jTextAreaDescription);
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -369,18 +412,20 @@ public class Inventory extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabelUserId3)
-                        .addComponent(jComboBoxRoomType1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelUserId2)
-                        .addComponent(jSpinnerRoomNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelUserId4)
-                        .addComponent(jLabelUserId5)
-                        .addComponent(jButtonUpdate2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonInsert2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonDelete2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabelUserId3)
+                            .addComponent(jComboBoxRoomType1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabelUserId2)
+                            .addComponent(jLabelUserId4)
+                            .addComponent(jLabelUserId5)
+                            .addComponent(jButtonUpdate2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonInsert2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonDelete2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jComboBoxRoomType2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -390,18 +435,18 @@ public class Inventory extends javax.swing.JFrame {
                 .addComponent(jLabelUserId3)
                 .addGap(3, 3, 3)
                 .addComponent(jComboBoxRoomType1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(jLabelUserId2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addComponent(jComboBoxRoomType2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabelUserId4)
-                .addGap(3, 3, 3)
-                .addComponent(jSpinnerRoomNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(jLabelUserId5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                .addComponent(jScrollPaneDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addGap(53, 53, 53)
                 .addComponent(jButtonInsert2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -450,14 +495,14 @@ public class Inventory extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Catogary", "Item Name", "Quantity", "Price"
+                "category", "Item Name", "Quantity", "description"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -533,10 +578,15 @@ public class Inventory extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelRomStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRomStatusMouseClicked
-
+        Room_status room_status = new Room_status();
+        room_status.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabelRomStatusMouseClicked
 
     private void jLabelCleaningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCleaningMouseClicked
+        Cleaning_schedule cleaning_schedule = new Cleaning_schedule();
+        cleaning_schedule.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_jLabelCleaningMouseClicked
 
@@ -553,7 +603,11 @@ public class Inventory extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonUpdate2ActionPerformed
 
     private void jButtonInsert2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsert2ActionPerformed
-        // TODO add your handling code here:
+
+
+
+
+// TODO add your handling code here:
     }//GEN-LAST:event_jButtonInsert2ActionPerformed
 
     private void jComboBoxRoomType1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxRoomType1ActionPerformed
@@ -616,6 +670,7 @@ public class Inventory extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDelete2;
     private javax.swing.JButton jButtonInsert2;
     private javax.swing.JButton jButtonUpdate2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxIrotyScearch;
     private javax.swing.JComboBox<String> jComboBoxIrotyScearch1;
     private javax.swing.JComboBox<String> jComboBoxRoomType1;
@@ -643,7 +698,6 @@ public class Inventory extends javax.swing.JFrame {
     private javax.swing.JPanel jPaneluser;
     private javax.swing.JScrollPane jScrollPaneDescription;
     private javax.swing.JScrollPane jScrollPaneTableSupliers1;
-    private javax.swing.JSpinner jSpinnerRoomNo;
     private javax.swing.JTable jTableSupliers;
     private javax.swing.JTextArea jTextAreaDescription;
     // End of variables declaration//GEN-END:variables

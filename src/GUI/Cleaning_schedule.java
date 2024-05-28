@@ -6,15 +6,17 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author DELL
@@ -28,8 +30,7 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         initComponents();
         loadSchedule();
         loadstaff();
-        loadroomnumber();
-       
+//       
 
     }
 
@@ -46,7 +47,7 @@ public class Cleaning_schedule extends javax.swing.JFrame {
             while (resultSet.next()) {
                 Vector vector1 = new Vector();
 
-                vector1.add(resultSet.getString("date"));
+                vector1.add(resultSet.getString("id"));
                 vector1.add(resultSet.getString("room_id"));
                 vector1.add(resultSet.getString("role.name"));
                 vector1.add(resultSet.getString("note"));
@@ -61,15 +62,15 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         }
     }
 
-    public void loadstaff()  {
-        
-         try {
+    public void loadstaff() {
+
+        try {
 
             Vector vector = new Vector();//vector object
             ResultSet resultset = MYSQL.execute("SELECT `name` FROM `role` ");
 
             while (resultset.next()) {
-                 vector.add("SELECT ROLE");
+                vector.add("SELECT ROLE");
                 String name = resultset.getString("name");
                 //System.out.println(mobile); 
                 vector.add(name);
@@ -80,32 +81,9 @@ public class Cleaning_schedule extends javax.swing.JFrame {
 
         } catch (Exception e) {
         }
-        
+
     }
-    
-    public void loadroomnumber()  {
-        
-         try {
 
-            Vector vector = new Vector();//vector object
-            ResultSet resultset = MYSQL.execute("SELECT `room_id` FROM `room` ");
-
-            while (resultset.next()) {
-                
-                vector.add("SELECT ROOM NUMBER");
-                String room_id = resultset.getString("room_id");
-                //System.out.println(mobile); 
-                vector.add(room_id);
-            }
-           
-
-            DefaultComboBoxModel comboboxModel = new DefaultComboBoxModel(vector);
-            jComboBox1.setModel(comboboxModel);
-
-        } catch (Exception e) {
-        }
-        
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,7 +112,6 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         jScrollPaneTableSupliers1 = new javax.swing.JScrollPane();
         jTableSchedule = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabelUserId1 = new javax.swing.JLabel();
         jLabelUserId3 = new javax.swing.JLabel();
         jComboBoxStaff = new javax.swing.JComboBox<>();
         jLabelUserId5 = new javax.swing.JLabel();
@@ -144,8 +121,7 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         jLabelUserId4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaNotes = new javax.swing.JTextArea();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField1 = new javax.swing.JTextField();
         jComboBoxIrotyScearch = new javax.swing.JComboBox<>();
         jButtonClearNic1 = new javax.swing.JButton();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
@@ -197,6 +173,11 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         jLabelMaintanence.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelMaintanence.setText("Maintenance Request");
         jLabelMaintanence.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelMaintanence.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelMaintanenceMouseClicked(evt);
+            }
+        });
 
         jPanelCurrent.setBackground(new java.awt.Color(255, 255, 255));
         jPanelCurrent.setPreferredSize(new java.awt.Dimension(199, 32));
@@ -362,11 +343,11 @@ public class Cleaning_schedule extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Date", "Room number", "Assigne staff", "Notes"
+                "id", "Room number", "Assigne staff", "Notes"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -385,14 +366,14 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         jTableSchedule.setSelectionBackground(new java.awt.Color(255, 255, 255));
         jTableSchedule.setSelectionForeground(new java.awt.Color(155, 117, 1));
         jTableSchedule.getTableHeader().setReorderingAllowed(false);
+        jTableSchedule.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableScheduleMouseReleased(evt);
+            }
+        });
         jScrollPaneTableSupliers1.setViewportView(jTableSchedule);
 
         jPanel3.setBackground(new java.awt.Color(221, 217, 214));
-
-        jLabelUserId1.setBackground(new java.awt.Color(221, 217, 214));
-        jLabelUserId1.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
-        jLabelUserId1.setForeground(new java.awt.Color(83, 66, 54));
-        jLabelUserId1.setText("Date:");
 
         jLabelUserId3.setBackground(new java.awt.Color(221, 217, 214));
         jLabelUserId3.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
@@ -476,8 +457,6 @@ public class Cleaning_schedule extends javax.swing.JFrame {
         jTextAreaNotes.setRows(5);
         jScrollPane1.setViewportView(jTextAreaNotes);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -487,34 +466,28 @@ public class Cleaning_schedule extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelUserId4)
                     .addComponent(jLabelUserId5)
-                    .addComponent(jLabelUserId1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelUserId3)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jButtonDelete2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonUpdate2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonInsert2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jComboBoxStaff, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jLabelUserId3))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addComponent(jLabelUserId1)
-                .addGap(8, 8, 8)
-                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addComponent(jLabelUserId3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
                 .addComponent(jLabelUserId4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBoxStaff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBoxStaff, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
                 .addComponent(jLabelUserId5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -555,7 +528,7 @@ public class Cleaning_schedule extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -596,7 +569,9 @@ public class Cleaning_schedule extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelRomStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRomStatusMouseClicked
-
+        Room_status room_status = new Room_status();
+        room_status.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabelRomStatusMouseClicked
 
     private void jLabelCleaningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCleaningMouseClicked
@@ -612,73 +587,126 @@ public class Cleaning_schedule extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxStaffActionPerformed
 
     private void jButtonInsert2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInsert2ActionPerformed
-     
-        
-       Date  date1 =  jDateChooser1.getDate();
-      String roomnumber =jComboBox1.getSelectedItem().toString();
-      String role = jComboBoxStaff.getSelectedItem().toString();
-      String note = jTextAreaNotes.getText();
-      
-//        System.out.println(date1);
-//        
-//        PreparedStatement preparedStatement = connection.prepareStatement(date1);
-//        
-//        LocalDate localDate = LocalDate.of(date1); // Example date
-//            preparedStatement.setDate(1, java.sql.Date.valueOf(localDate));
-//            preparedStatement.setString(2, "hhhg");
-//            preparedStatement.setInt(3, 1);
 
-      
+//       Date  date1 =  jDateChooser1.getDate();
+        String roomnumber = jTextField1.getText();
+        String role = jComboBoxStaff.getSelectedItem().toString();
+        String note = jTextAreaNotes.getText();
+
         try {
-            MYSQL.execute("INSERT INTO `cleaning_scheadule` (`date`, `note`, `room_id`, `role_id`)VALUES ('"+date1+"','"+note+"', '"+roomnumber+"', (SELECT `role_id` FROM `role` WHERE `name` = '"+role+"')) ");
-        } catch (Exception e) {
-        }
-      
-      
-      
-      
-      
-      
-      
+            MYSQL.execute("INSERT INTO `cleaning_scheadule` (`note`, `room_id`, `role_id`)VALUES ('" + note + "', '" + roomnumber + "', (SELECT `role_id` FROM `role` WHERE `name` = '" + role + "')) ");
 
-//        try {
-//
-//            DefaultTableModel model = (DefaultTableModel) jTableSchedule.getModel();
-//            model.setRowCount(0);
-////ResultSet  resultset = MySQL1.search("SELECT * FROM user ORDER BY lname  ASC");
-//            ResultSet resultset = MYSQL.execute("SELECT * FROM cleaning_scheadule INNER JOIN `role` ON  `cleaning_scheadule`.`role_id` = `role`.`role_id`");
-//
-//            while (resultset.next()) {
-//                String dateString = resultset.getString("date");
-//                String roomString = resultset.getString("room_id");
-//                String roleString = resultset.getString("role.name");
-//                String noteString = resultset.getString("note");
-//
-//                Vector vector = new Vector(); //ROW
-//
-//                vector.add(dateString);
-//                vector.add(roomString);
-//                vector.add(roleString);
-//                vector.add(noteString);
-//
-//                model.addRow(vector);
-//            }
-//
-////DefaultComboBoxModel  ComboBoxModel =  new DefaultComboBoxModel(vector);
-////jComboBox1.setModel(ComboBoxModel);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//
-//        }
+            ResultSet resultSet = MYSQL.execute("SELECT * FROM cleaning_scheadule INNER JOIN `role` ON  `cleaning_scheadule`.`role_id` = `role`.`role_id`");
+
+            // Load data to table
+            DefaultTableModel model = (DefaultTableModel) jTableSchedule.getModel();
+            model.setRowCount(0);
+
+            // Get data to table
+            while (resultSet.next()) {
+                Vector vector1 = new Vector();
+
+                vector1.add(resultSet.getString("date"));
+                vector1.add(resultSet.getString("room_id"));
+                vector1.add(resultSet.getString("role.name"));
+                vector1.add(resultSet.getString("note"));
+                model.addRow(vector1);
+            }
+
+            // Set model after adding all rows
+            jTableSchedule.setModel(model);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        jTextAreaNotes.setText("");
+
 
     }//GEN-LAST:event_jButtonInsert2ActionPerformed
 
     private void jButtonUpdate2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUpdate2ActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = jTableSchedule.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a row", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTableSchedule.grabFocus();
+
+        } else {
+            //get data
+            String roomnumber = jTextField1.getText();
+            String role = jComboBoxStaff.getSelectedItem().toString();
+            String note = jTextAreaNotes.getText();
+
+            // dates
+            //get messages
+            if (roomnumber.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the roomnumber", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextField1.grabFocus();
+
+            } else if ("Select".equals(jComboBoxStaff.getSelectedItem())) {
+                JOptionPane.showMessageDialog(this, "Please select the staff", "Warning", JOptionPane.ERROR_MESSAGE);
+                jComboBoxStaff.grabFocus();
+
+}else if (note.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the note", "Warning", JOptionPane.ERROR_MESSAGE);
+                jTextAreaNotes.grabFocus();
+                try {
+                    int Id = Integer.parseInt((String) jTableSchedule.getValueAt(selectedRow, 0));
+                    // Execute the update query
+
+                    MYSQL.execute("UPDATE `cleaning_scheadule` SET "
+                            + "`note` = '" + note + "', "
+                            + "`room_id` = '" + roomnumber + "', "
+                            + "`role_id` = '" + role + "', "
+                          
+                            + "WHERE `campaign_data_id` = '" +Id + "'");
+
+                    // Update the table and reset the form
+                    loadSchedule();
+                   
+
+                    // Show success message
+                    JOptionPane.showMessageDialog(this, "Update successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Update failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
     }//GEN-LAST:event_jButtonUpdate2ActionPerformed
 
     private void jButtonDelete2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDelete2ActionPerformed
-        // TODO add your handling code here:
+        int[] selectedRows = jTableSchedule.getSelectedRows();
+
+        if (selectedRows.length == 0) {
+            // Message: No rows selected
+            JOptionPane.showMessageDialog(this, "Please select one or more rows to delete.", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTableSchedule.grabFocus();
+            return;
+        }
+
+        try {
+            for (int selectedRow : selectedRows) {
+                int accountId = Integer.parseInt((String) jTableSchedule.getValueAt(selectedRow, 0));
+
+                // Delete the book
+                MYSQL.execute("DELETE FROM `cleaning_scheadule` WHERE `id`='" + accountId + "'");
+            }
+
+            loadSchedule();
+            
+
+            jTableSchedule.setEnabled(true); // Unlock table
+            jButtonDelete2.setEnabled(true); // Unlock "insert" button
+
+            // Success message
+            JOptionPane.showMessageDialog(this, "Selected rows have been deleted.", "Successful", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }//GEN-LAST:event_jButtonDelete2ActionPerformed
 
     private void jComboBoxIrotyScearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIrotyScearchActionPerformed
@@ -692,6 +720,33 @@ public class Cleaning_schedule extends javax.swing.JFrame {
     private void jDatePicker2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePicker2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jDatePicker2ActionPerformed
+
+    private void jLabelMaintanenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMaintanenceMouseClicked
+
+        Maintenance_Request maintenance_Request = new Maintenance_Request();
+        maintenance_Request.setVisible(true);
+        this.dispose();
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabelMaintanenceMouseClicked
+
+    private void jTableScheduleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableScheduleMouseReleased
+        int[] selectedRows = jTableSchedule.getSelectedRows();
+
+        if (selectedRows.length == 1) {
+            for (int selectedRow : selectedRows) {
+
+                String number = String.valueOf(jTableSchedule.getValueAt(selectedRow, 1));
+                String staff = String.valueOf(jTableSchedule.getValueAt(selectedRow, 2));
+                String Notes = String.valueOf(jTableSchedule.getValueAt(selectedRow, 3));
+
+                jTextField1.setText(number);
+                jComboBoxStaff.setSelectedItem(staff);
+                jTextAreaNotes.setText(Notes);
+
+            }
+        }
+    }//GEN-LAST:event_jTableScheduleMouseReleased
 
     /**
      * @param args the command line arguments
@@ -733,10 +788,8 @@ public class Cleaning_schedule extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDelete2;
     private javax.swing.JButton jButtonInsert2;
     private javax.swing.JButton jButtonUpdate2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBoxIrotyScearch;
     private javax.swing.JComboBox<String> jComboBoxStaff;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCleaning;
@@ -749,7 +802,6 @@ public class Cleaning_schedule extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelSearch;
     private javax.swing.JLabel jLabelUseImg;
     private javax.swing.JLabel jLabelUserId;
-    private javax.swing.JLabel jLabelUserId1;
     private javax.swing.JLabel jLabelUserId3;
     private javax.swing.JLabel jLabelUserId4;
     private javax.swing.JLabel jLabelUserId5;
@@ -763,5 +815,6 @@ public class Cleaning_schedule extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPaneTableSupliers1;
     private javax.swing.JTable jTableSchedule;
     private javax.swing.JTextArea jTextAreaNotes;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -74,6 +74,7 @@ public class Room_status extends javax.swing.JFrame {
 
         jLabelLogOut.setBackground(new java.awt.Color(83, 66, 54));
         jLabelLogOut.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelLogOut.setForeground(new java.awt.Color(255, 255, 255));
         jLabelLogOut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLogOut.setText("Log Out");
         jLabelLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -81,9 +82,15 @@ public class Room_status extends javax.swing.JFrame {
 
         jLabelMaintanence.setBackground(new java.awt.Color(83, 66, 54));
         jLabelMaintanence.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelMaintanence.setForeground(new java.awt.Color(255, 255, 255));
         jLabelMaintanence.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelMaintanence.setText("Maintenance Request");
         jLabelMaintanence.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabelMaintanence.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelMaintanenceMouseClicked(evt);
+            }
+        });
 
         jPanelCurrent.setBackground(new java.awt.Color(255, 255, 255));
         jPanelCurrent.setPreferredSize(new java.awt.Dimension(199, 32));
@@ -115,6 +122,7 @@ public class Room_status extends javax.swing.JFrame {
 
         jLabelCleaning.setBackground(new java.awt.Color(83, 66, 54));
         jLabelCleaning.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelCleaning.setForeground(new java.awt.Color(255, 255, 255));
         jLabelCleaning.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCleaning.setText("Cleaning Schedule");
         jLabelCleaning.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -126,6 +134,7 @@ public class Room_status extends javax.swing.JFrame {
 
         jLabelInventory.setBackground(new java.awt.Color(83, 66, 54));
         jLabelInventory.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelInventory.setForeground(new java.awt.Color(255, 255, 255));
         jLabelInventory.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelInventory.setText("Inventory Request");
         jLabelInventory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -137,6 +146,7 @@ public class Room_status extends javax.swing.JFrame {
 
         jPaneluser.setBackground(new java.awt.Color(83, 66, 54));
         jPaneluser.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPaneluser.setForeground(new java.awt.Color(255, 255, 255));
         jPaneluser.setPreferredSize(new java.awt.Dimension(199, 72));
 
         jLabelUseImg.setBackground(new java.awt.Color(83, 66, 54));
@@ -144,24 +154,28 @@ public class Room_status extends javax.swing.JFrame {
 
         jLabelId.setBackground(new java.awt.Color(83, 66, 54));
         jLabelId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelId.setForeground(new java.awt.Color(255, 255, 255));
         jLabelId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelId.setText("ID     : ");
         jLabelId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelUserName.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUserName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserName.setText("Shehara");
         jLabelUserName.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelUserId.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUserId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelUserId.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserId.setText("RS0001");
         jLabelUserId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelName.setBackground(new java.awt.Color(83, 66, 54));
         jLabelName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelName.setText("Name:");
         jLabelName.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -512,7 +526,7 @@ public class Room_status extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap(54, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -525,12 +539,12 @@ public class Room_status extends javax.swing.JFrame {
                             .addComponent(jButtonClearNic1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPaneTableSupliers1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
 
-        setSize(new java.awt.Dimension(816, 539));
+        setSize(new java.awt.Dimension(816, 573));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -539,11 +553,16 @@ public class Room_status extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelRomStatusMouseClicked
 
     private void jLabelCleaningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCleaningMouseClicked
+        Cleaning_schedule cleaning_schedule = new Cleaning_schedule();
+        cleaning_schedule.setVisible(true);
+        this.dispose();
 
     }//GEN-LAST:event_jLabelCleaningMouseClicked
 
     private void jLabelInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelInventoryMouseClicked
-
+        Inventory inventory = new Inventory();
+        inventory.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabelInventoryMouseClicked
 
     private void jComboBoxIrotyScearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIrotyScearchActionPerformed
@@ -577,6 +596,14 @@ public class Room_status extends javax.swing.JFrame {
     private void jComboBoxIrotyScearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIrotyScearch2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxIrotyScearch2ActionPerformed
+
+    private void jLabelMaintanenceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelMaintanenceMouseClicked
+
+        Maintenance_Request maintenance_Request = new Maintenance_Request();
+        maintenance_Request.setVisible(true);
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabelMaintanenceMouseClicked
 
     /**
      * @param args the command line arguments

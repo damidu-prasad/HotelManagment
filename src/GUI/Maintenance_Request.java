@@ -83,24 +83,28 @@ public class Maintenance_Request extends javax.swing.JFrame {
 
         jLabelId.setBackground(new java.awt.Color(83, 66, 54));
         jLabelId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelId.setForeground(new java.awt.Color(255, 255, 255));
         jLabelId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelId.setText("ID     : ");
         jLabelId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelUserName.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUserName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserName.setText("Shehara");
         jLabelUserName.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelUserId.setBackground(new java.awt.Color(83, 66, 54));
         jLabelUserId.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelUserId.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserId.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelUserId.setText("RS0001");
         jLabelUserId.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabelName.setBackground(new java.awt.Color(83, 66, 54));
         jLabelName.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabelName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelName.setText("Name:");
         jLabelName.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -163,6 +167,7 @@ public class Maintenance_Request extends javax.swing.JFrame {
 
         jLabelLogOut.setBackground(new java.awt.Color(83, 66, 54));
         jLabelLogOut.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelLogOut.setForeground(new java.awt.Color(255, 255, 255));
         jLabelLogOut.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLogOut.setText("Log Out");
         jLabelLogOut.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -170,6 +175,7 @@ public class Maintenance_Request extends javax.swing.JFrame {
 
         jLabelRomStatus.setBackground(new java.awt.Color(83, 66, 54));
         jLabelRomStatus.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelRomStatus.setForeground(new java.awt.Color(255, 255, 255));
         jLabelRomStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelRomStatus.setText("Room Status");
         jLabelRomStatus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -181,8 +187,9 @@ public class Maintenance_Request extends javax.swing.JFrame {
 
         jLabelInventory.setBackground(new java.awt.Color(83, 66, 54));
         jLabelInventory.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelInventory.setForeground(new java.awt.Color(255, 255, 255));
         jLabelInventory.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelInventory.setText("nventory Request");
+        jLabelInventory.setText("Inventory Request");
         jLabelInventory.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelInventory.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -192,6 +199,7 @@ public class Maintenance_Request extends javax.swing.JFrame {
 
         jLabelCleaning.setBackground(new java.awt.Color(83, 66, 54));
         jLabelCleaning.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        jLabelCleaning.setForeground(new java.awt.Color(255, 255, 255));
         jLabelCleaning.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCleaning.setText("Cleaning Schedule");
         jLabelCleaning.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -530,15 +538,28 @@ public class Maintenance_Request extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabelRomStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelRomStatusMouseClicked
-       
+
+        Room_status room_status = new Room_status();
+        room_status.setVisible(true);
+        this.dispose();
+
     }//GEN-LAST:event_jLabelRomStatusMouseClicked
 
     private void jLabelInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelInventoryMouseClicked
-       
+
+        
+        Inventory inventory = new Inventory();
+        inventory.setVisible(true);
+        this.dispose();
+    
     }//GEN-LAST:event_jLabelInventoryMouseClicked
 
     private void jLabelCleaningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCleaningMouseClicked
-       
+
+        Cleaning_schedule cleaning_schedule = new Cleaning_schedule();
+        cleaning_schedule.setVisible(true);
+        this.dispose();
+        
     }//GEN-LAST:event_jLabelCleaningMouseClicked
 
     private void jComboBoxIrotyScearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxIrotyScearchActionPerformed
