@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\Thamoddya Rashmitha\Documents\NetBeansProjects\HotelManagmentth\dist\Hotel.jar</jar>
+  <outfile>C:\Users\Thamoddya Rashmitha\Documents\NetBeansProjects\HotelManagmentth\hotel.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>true</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\Thamoddya Rashmitha\Documents\NetBeansProjects\HotelManagmentth\logo-perl-.ico</icon>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>true</requiresJdk>
+    <requires64Bit>true</requires64Bit>
+    <minVersion>1.0.4</minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+</launch4jConfig>

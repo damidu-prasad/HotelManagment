@@ -342,6 +342,7 @@ public class Equipment extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
@@ -432,7 +433,7 @@ public class Equipment extends javax.swing.JFrame {
                     String qty = resultset.getString("qty");
                     String status = resultset.getString("status");
 
-                    //                System.out.println(sid);
+                    //System.out.println(sid);
                     //
                     Vector vector = new Vector();//Row
                     vector.add(inv_id);
