@@ -303,14 +303,14 @@ public class Special_Request extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-         Order_Taking ttaking = new Order_Taking();
+         Table_Resevation ttaking = new Table_Resevation();
         ttaking.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         Table_Resevation ordertaking = new Table_Resevation();
+         Order_Taking ordertaking = new Order_Taking();
        ordertaking.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -337,7 +337,7 @@ public class Special_Request extends javax.swing.JFrame {
         // TODO add your handling code here:
         String request = jTextArea1.getText();
         
-        if(request.isEmpty()){
+        if(request.isEmpty()){//chek empty textaria
             JOptionPane.showMessageDialog(this, "Please Enter Request ","validation Error",JOptionPane.WARNING_MESSAGE);
             return;
         }

@@ -353,14 +353,14 @@ public class Menu_Management extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Order_Taking ttaking = new Order_Taking();
+        Table_Resevation ttaking = new Table_Resevation();
         ttaking.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         Table_Resevation ordertaking = new Table_Resevation();
+       Order_Taking ordertaking = new Order_Taking();
        ordertaking.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed

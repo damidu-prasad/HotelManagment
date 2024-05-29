@@ -5,6 +5,7 @@
 package GUI;
 
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MYSQL;
@@ -388,14 +389,14 @@ public class Bil_Generation extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Order_Taking ttaking = new Order_Taking();
+        Table_Resevation ttaking = new Table_Resevation();
         ttaking.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         Table_Resevation ordertaking = new Table_Resevation();
+       Order_Taking ordertaking = new Order_Taking();
        ordertaking.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -419,7 +420,27 @@ public class Bil_Generation extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+//                HashMap<String, Object> parameters = new HashMap<>();
+//        parameters.put("Parameter1", jLabelDate.getText());
+//        parameters.put("Parameter2", jLabelStudentName1.getText()+" "+jLabelStudentName2.getText());
+//        parameters.put("Parameter3", jLabelMail.getText());
+//        parameters.put("Parameter4", jLabelMobile.getText());
+//        parameters.put("Parameter5", jComboBoxSubject.getSelectedItem());
+//        parameters.put("Parameter6", jLabelTeacherName1.getText()+" "+jLabelTeacherName2.getText());
+//        parameters.put("Parameter7", jLabelAmount.getText());
+
+//        try {
+//            //get invoice
+//            JREmptyDataSource datasource = new JREmptyDataSource();
+//            //print report
+//            JasperPrint report = JasperFillManager.fillReport("src/report/Invoice_adyapana_institute1.jasper", parameters, datasource);
+//            // close report
+//            JasperViewer.viewReport(report, false);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
